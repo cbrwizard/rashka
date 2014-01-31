@@ -19,7 +19,6 @@ GEM
       activesupport (= 4.0.2)
       arel (~> 4.0.0)
     activerecord-deprecated_finders (1.0.3)
-    activerecord-reset-pk-sequence (0.2.0)
     activesupport (4.0.2)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
@@ -37,15 +36,6 @@ GEM
     bullet (4.7.1)
       activesupport
       uniform_notifier (>= 1.4.0)
-    capistrano (2.15.5)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
-    capobvious (0.2.95)
-      capistrano
-      rvm-capistrano
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -58,13 +48,9 @@ GEM
     debug_inspector (0.0.2)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    exception_notification (4.0.1)
-      actionmailer (>= 3.0.4)
-      activesupport (>= 3.0.4)
     execjs (2.0.2)
     haml (4.0.5)
       tilt
-    highline (1.6.20)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
@@ -88,18 +74,9 @@ GEM
       skinny (>= 0.1.2)
       sqlite3-ruby
       thin
-    meta-tags (1.5.0)
-      actionpack
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.8.4)
-    net-scp (1.1.2)
-      net-ssh (>= 2.6.5)
-    net-sftp (2.1.2)
-      net-ssh (>= 2.6.5)
-    net-ssh (2.7.0)
-    net-ssh-gateway (1.2.0)
-      net-ssh (>= 2.6.5)
     pg (0.17.1)
     polyglot (0.3.3)
     rack (1.5.2)
@@ -126,8 +103,6 @@ GEM
     ref (1.0.5)
     russian (0.6.0)
       i18n (>= 0.5.0)
-    rvm-capistrano (1.5.1)
-      capistrano (~> 2.15.4)
     sass (3.2.14)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -140,8 +115,6 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (~> 1.3, >= 1.3.4)
-    sitemap_generator (4.3.1)
-      builder
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
@@ -183,24 +156,19 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-reset-pk-sequence
   better_errors
   binding_of_caller
   bullet
-  capobvious
   coffee-rails (~> 4.0.0)
-  exception_notification
   haml
   jbuilder (~> 1.2)
   jquery-rails
   mailcatcher
-  meta-tags
   pg
   rails (= 4.0.2)
   russian (~> 0.6.0)
   sass-rails (~> 4.0.0)
   sdoc
-  sitemap_generator
   therubyracer
   turbolinks
   uglifier (>= 1.3.0)

@@ -46,12 +46,12 @@ group :development do
 end
 
 group :production do
-  gem 'exception_notification'
-  gem 'activerecord-reset-pk-sequence'
+  #gem 'exception_notification'
+  #gem 'activerecord-reset-pk-sequence'
 end
 
-gem 'meta-tags', :require => 'meta_tags'
-gem 'sitemap_generator'
+#gem 'meta-tags', :require => 'meta_tags'
+#gem 'sitemap_generator'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -61,7 +61,7 @@ gem 'sitemap_generator'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
-gem 'capobvious'
+#gem 'capobvious'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
