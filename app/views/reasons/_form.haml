@@ -1,0 +1,16 @@
+= form_for(@reason) do |f|
+  - if @reason.errors.any?
+    #error_explanation
+      %h2
+        = p(@reason.errors.count, "ошибка", "ошибки", "ошибок")
+      %ul
+        - @reason.errors.full_messages.each do |msg|
+          %li= msg
+  .field
+    = f.label :text
+    = f.text_area :text
+  .field
+    = f.label :popularity
+    = f.number_field :popularity
+  .actions
+    = f.submit

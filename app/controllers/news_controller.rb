@@ -48,7 +48,7 @@ class NewsController < ApplicationController
     @one_news.destroy
 
     respond_to do |format|
-      format.html { redirect_to news_index_path, notice: 'Успешно удалил новость.' }
+      format.html { redirect_to index_admin_news_index_path, notice: 'Успешно удалил новость.' }
     end
   end
 

@@ -1,0 +1,12 @@
+%h1
+  Все причины:
+%div
+  -@reasons.each do |reason|
+    %p
+      Текст #{reason.text}
+    %p
+      Популярность #{reason.popularity}
+    =link_to "редактировать", edit_reason_path(reason.id)
+    =link_to "удалить", reason, confirm: 'Точно удалить? Восстановить никак', method: :delete
+
+=render 'menu'

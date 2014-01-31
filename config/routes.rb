@@ -15,6 +15,12 @@ Rashka::Application.routes.draw do
     end
   end
 
+  resources :reasons do
+    collection do
+      get 'index_admin'
+    end
+  end
+
   #match 'news/index' => 'news#index_admin', via: :get
 
   # Example of regular route:
