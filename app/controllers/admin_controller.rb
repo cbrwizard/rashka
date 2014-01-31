@@ -4,12 +4,9 @@ class AdminController < ApplicationController
 
   def index
     #главная админки
-    if is_admin?
-
-    else
+    unless is_admin?
       render "login_form"
     end
-
   end
 
   def login
