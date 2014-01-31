@@ -1,0 +1,7 @@
+%h1
+  Все новости:
+=@news.each do |news|
+  Заголовок #{news.title}
+  Текст #{news.text}
+  Ссылка #{news.url}
+
