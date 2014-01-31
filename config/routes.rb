@@ -1,13 +1,13 @@
 Rashka::Application.routes.draw do
 
-
+  post "admin/login"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   root 'pages#index'
 
-  match 'admin' => 'pages#admin', via: :get
+  match 'admin' => 'admin#index', via: :get
 
   resources :news
 

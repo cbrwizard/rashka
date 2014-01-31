@@ -4,9 +4,4 @@ class PagesController < ApplicationController
     #главная страница
 
   end
-
-  def admin
-    #админка
-
-  end
 end

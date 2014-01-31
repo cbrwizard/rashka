@@ -54,7 +54,7 @@ end
 #gem 'sitemap_generator'
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'bcrypt-ruby', :require => 'bcrypt'
 
 # Use unicorn as the app server
 # gem 'unicorn'
