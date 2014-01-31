@@ -1,8 +1,4 @@
-= @result
-= session[:admin].inspect
-=form_tag "admin/login" do
-  =label_tag "Логин"
-  =text_field_tag "login"
-  =label_tag "Пароль"
-  =text_field_tag "password"
-  =submit_tag "Вперёд"
+%h1
+  Админко!
+
+=link_to "Новости", news_index_path

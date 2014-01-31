@@ -1,7 +1,14 @@
 %h1
   Все новости:
-=@news.each do |news|
-  Заголовок #{news.title}
-  Текст #{news.text}
-  Ссылка #{news.url}
+%div
+  -@news.each do |news|
+    %p
+      Заголовок #{news.title}
+    %p
+      Текст #{news.text}
+    %p
+      Ссылка #{news.link}
+    =link_to "редактировать", edit_news_path(news.id)
+    =link_to "удалить", news, confirm: 'Точно удалить? Восстановить никак', method: :delete
 
+=render 'menu'

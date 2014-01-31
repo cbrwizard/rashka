@@ -1,2 +1,14 @@
-%h1 News#show
-%p Find me in app/views/news/show.html.erb
+%p
+  %b
+    Title:
+  =@one_news.title
+%p
+  %b
+    text:
+  =@one_news.text
+%p
+  %b
+    link:
+  =@one_news.link
+
+=render 'menu'

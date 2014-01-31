@@ -4,9 +4,9 @@ class AdminController < ApplicationController
   def index
     #главная админки
     if session[:admin].try(:[], :value)
-      @result = "yay"
+
     else
-      @result = "nay"
+      render "login_form"
     end
 
   end
@@ -19,7 +19,8 @@ class AdminController < ApplicationController
     setting = Setting.first
 
     try_hash = BCrypt::Engine.hash_secret(password, setting.password_salt)
-    if setting.password_hash == try_hash && login == setting.login
+
+    if setting.correct_admin?(login, try_hash)
       session[:admin] = {:value => true, :updated_at => Time.current}
     end
 
