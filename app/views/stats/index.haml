@@ -1,25 +1,33 @@
-%h1
-  Статистико!
-
-%div
-  %h2
-    Сколько людей нажало "валить":
-  =@stats.people_left
-%div
-  %h2
-    Сколько людей нажало "расшарить vk":
-  =@stats.shares_vk
-%div
-  %h2
-    Сколько людей нажало "расшарить twitter":
-  =@stats.shares_tw
-%div
-  %h2
-    Сколько людей нажало "расшарить facebook":
-  =@stats.shares_fb
-%div
-  %h2
-    Сколько людей нажало "расшарить g+":
-  =@stats.shares_gp
-
 =render 'menu'
+
+.container-fluid
+  .row
+    .col-md-10
+      %h1
+        Статистико!
+      .table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
+              %th
+                Нажатия по "валить"
+              %th
+                Нажатия по "VK"
+              %th
+                Нажатия по "TW"
+              %th
+                Нажатия по "FB"
+              %th
+                Нажатия по "G+"
+          %tbody
+            %tr
+              %td
+                =@stats.people_left
+              %td
+                =@stats.shares_vk
+              %td
+                =@stats.shares_tw
+              %td
+                =@stats.shares_fb
+              %td
+                =@stats.shares_gp

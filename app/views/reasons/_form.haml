@@ -6,11 +6,11 @@
       %ul
         - @reason.errors.full_messages.each do |msg|
           %li= msg
-  .field
-    = f.label :text
-    = f.text_area :text
-  .field
-    = f.label :popularity
-    = f.number_field :popularity
+  .form-group
+    = f.label :text, "Текст"
+    = f.text_area :text, {class: "form-control"}
+  .form-group
+    = f.label :popularity, "Популярность"
+    = f.number_field :popularity, {class: "form-control"}
   .actions
-    = f.submit
+    = f.submit "Бдыщ", {class: "btn btn-default"}

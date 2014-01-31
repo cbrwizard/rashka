@@ -1,8 +1,12 @@
-= @result
-= session[:admin].inspect
-=form_tag "admin/login" do
-  =label_tag "Логин"
-  =text_field_tag "login"
-  =label_tag "Пароль"
-  =text_field_tag "password"
-  =submit_tag "Вперёд"
+.container
+  .center-block.text-center
+    #login_form.col-md-4
+      =form_tag "admin/login" do
+        .form-group.text-left
+          =label_tag :login, "Логин"
+          =text_field_tag :login, "", {class: "form-control"}
+        .form-group.text-left
+          =label_tag :password, "Пароль"
+          =text_field_tag :password, "", {class: "form-control"}
+        .actions
+          =submit_tag "Бдыщ", {class: "btn btn-default"}

@@ -1,14 +1,34 @@
-%h1
-  Все новости:
-%div
-  -@news.each do |news|
-    %p
-      Заголовок #{news.title}
-    %p
-      Текст #{news.text}
-    %p
-      Ссылка #{news.link}
-    =link_to "редактировать", edit_news_path(news.id)
-    =link_to "удалить", news, confirm: 'Точно удалить? Восстановить никак', method: :delete
-
 =render 'menu'
+
+.container-fluid
+  .row
+    .col-md-10
+      %h1
+        Все новости:
+      .table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
+              %th
+                Заголовок
+              %th
+                Текст
+              %th
+                Ссылка
+              %th
+                редактировать
+              %th
+                удалить
+          -@news.each do |news|
+            %tbody
+              %tr
+                %td
+                  =news.title
+                %td
+                  =news.text
+                %td
+                  =news.link
+                %td
+                  =link_to "редактировать", edit_news_path(news.id)
+                %td
+                  =link_to "удалить", news, confirm: 'Точно удалить? Восстановить никак', method: :delete
