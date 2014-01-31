@@ -21,6 +21,8 @@ Rashka::Application.routes.draw do
     end
   end
 
+  match 'stats' => 'stats#index', via: :get
+
   #match 'news/index' => 'news#index_admin', via: :get
 
   # Example of regular route:

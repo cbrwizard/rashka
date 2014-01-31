@@ -1,0 +1,25 @@
+%h1
+  Статистико!
+
+%div
+  %h2
+    Сколько людей нажало "валить":
+  =@stats.people_left
+%div
+  %h2
+    Сколько людей нажало "расшарить vk":
+  =@stats.shares_vk
+%div
+  %h2
+    Сколько людей нажало "расшарить twitter":
+  =@stats.shares_tw
+%div
+  %h2
+    Сколько людей нажало "расшарить facebook":
+  =@stats.shares_fb
+%div
+  %h2
+    Сколько людей нажало "расшарить g+":
+  =@stats.shares_gp
+
+=render 'menu'
