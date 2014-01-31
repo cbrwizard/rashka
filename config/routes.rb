@@ -9,7 +9,13 @@ Rashka::Application.routes.draw do
 
   match 'admin' => 'admin#index', via: :get
 
-  resources :news
+  resources :news do
+    collection do
+      get 'index_admin'
+    end
+  end
+
+  #match 'news/index' => 'news#index_admin', via: :get
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

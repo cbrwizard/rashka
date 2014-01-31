@@ -1,5 +1,9 @@
 class NewsController < ApplicationController
-  def index
+  include Admin
+
+  before_action :allow_access?, on: [:index_admin, :show, :edit, :new, :create, :update, :destroy]
+
+  def index_admin
     @news = News.all
   end
 
@@ -47,7 +51,6 @@ class NewsController < ApplicationController
       format.html { redirect_to news_index_path, notice: 'Успешно удалил новость.' }
     end
   end
-
 
   private
 

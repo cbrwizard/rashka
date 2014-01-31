@@ -1,9 +1,10 @@
 class AdminController < ApplicationController
   require 'bcrypt'
+  include Admin
 
   def index
     #главная админки
-    if session[:admin].try(:[], :value)
+    if is_admin?
 
     else
       render "login_form"
