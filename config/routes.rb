@@ -5,9 +5,9 @@ Rashka::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'page#index'
+  root 'pages#index'
 
-  match 'admin' => 'page#admin', via: :get
+  match 'admin' => 'pages#admin', via: :get
 
   resources :news
 
