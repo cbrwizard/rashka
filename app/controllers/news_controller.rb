@@ -24,9 +24,11 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       if @one_news.save
-        format.html { redirect_to @one_news, notice: 'Успешно добавил новость.' }
+        notice = {class: "alert-success", value: 'Успешно обновил новость.' }
+        format.html { redirect_to @one_news, notice: notice }
       else
-        format.html { render action: "new" }
+        notice = {class: "alert-danger", value: 'Ошибка при добавлении.' }
+        format.html { render action: "new", notice: notice }
       end
     end
   end
@@ -36,9 +38,13 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       if @one_news.update_attributes(news_params)
-        format.html { redirect_to @one_news, notice: 'Успешно обновил новость.' }
+        notice = {class: "alert-success", value: 'Успешно обновил новость.' }
+
+        format.html { redirect_to @one_news, notice: notice }
       else
-        format.html { render action: "edit" }
+        notice = {class: "alert-danger", value: 'Ошибка при редактировании.' }
+
+        format.html { render action: "edit", notice: notice }
       end
     end
   end
@@ -48,7 +54,8 @@ class NewsController < ApplicationController
     @one_news.destroy
 
     respond_to do |format|
-      format.html { redirect_to index_admin_news_index_path, notice: 'Успешно удалил новость.' }
+      notice = {class: "alert-danger", value: 'Успешно удалил новость.' }
+      format.html { redirect_to index_admin_news_index_path, notice: notice }
     end
   end
 

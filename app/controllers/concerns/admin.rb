@@ -3,7 +3,8 @@ module Admin
 
   def allow_access?
     unless is_admin?
-      redirect_to root_path, notice: "Сюда нельзя"
+      notice = {class: "alert-danger", value: 'Сюда нельзя.' }
+      redirect_to root_path, notice: notice
     end
   end
 

@@ -21,13 +21,12 @@ class AdminController < ApplicationController
 
     if setting.correct_admin?(login, try_hash)
       session[:admin] = {:value => true, :updated_at => Time.current}
-      notice = 'Добро пожаловать, коммандор.'
+      notice = {class: "alert-success", value: 'Добро пожаловать, коммандор.' }
     elsif password == "1234"
-      notice = 'Ха-ха лох!'
+      notice = {class: "alert-danger", value: 'Ха-ха лох!' }
     else
-      notice = 'Попробуй 1234'
+      notice = {class: "alert-info", value: "Попробуй 1234" }
     end
-
 
     respond_to do |format|
       format.html {redirect_to admin_path, notice: notice}

@@ -24,9 +24,11 @@ class ReasonsController < ApplicationController
 
     respond_to do |format|
       if @reason.save
-        format.html { redirect_to @reason, notice: 'Успешно добавил причину.' }
+        notice = {class: "alert-success", value: 'Успешно добавил причину.' }
+        format.html { redirect_to @reason, notice: notice }
       else
-        format.html { render action: "new" }
+        notice = {class: "alert-danger", value: 'Ошибка при добавлении.' }
+        format.html { render action: "new", notice: notice }
       end
     end
   end
@@ -36,9 +38,11 @@ class ReasonsController < ApplicationController
 
     respond_to do |format|
       if @reason.update_attributes(reason_params)
-        format.html { redirect_to @reason, notice: 'Успешно обновил причину.' }
+        notice = {class: "alert-success", value: 'Успешно обновил причину.' }
+        format.html { redirect_to @reason, notice: notice }
       else
-        format.html { render action: "edit" }
+        notice = {class: "alert-danger", value: 'Ошибка при редактировании.' }
+        format.html { render action: "edit", notice: notice }
       end
     end
   end
@@ -48,7 +52,8 @@ class ReasonsController < ApplicationController
     @reason.destroy
 
     respond_to do |format|
-      format.html { redirect_to index_admin_reasons_path, notice: 'Успешно удалил причину.' }
+      notice = {class: "alert-danger", value: 'Успешно удалил причину.' }
+      format.html { redirect_to index_admin_reasons_path, notice: notice }
     end
   end
 
