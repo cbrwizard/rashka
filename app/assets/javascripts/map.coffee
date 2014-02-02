@@ -1,12 +1,13 @@
-map_global = exports ? this #для глобального обращения
+$ ->
+  map.init()
 
-map_global.map =
+map =
   #параметры карты
   map_dom: document.getElementById("map-canvas")
   map_options:
-    center: new google.maps.LatLng(-34.397, 150.644),
+    center: new google.maps.LatLng(55.751667, 37.617778),
     disableDefaultUI: true,
-    zoom: 9
+    zoom: 12
   nav_geolocation:(map_object) ->
     #центрование карты
     if navigator.geolocation
