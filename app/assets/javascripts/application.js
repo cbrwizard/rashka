@@ -16,5 +16,4 @@
 //= require bootstrap/transition
 //= require bootstrap/modal
 //= require bootstrap/dropdown
-//= require map
-//= require app
+//= require_tree .
