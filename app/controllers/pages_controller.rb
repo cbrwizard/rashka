@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   include AuthorHelper
+  include ModalHelper
 
   def index
     #главная страница
