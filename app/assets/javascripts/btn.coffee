@@ -11,8 +11,9 @@ evac_btn =
 
   init: ->
     #запуск слушателей
-    $(document).on "click", ->
+    $(evac_btn.dom_element).click ->
       evac_btn.share_mode_on()
+
 
 share_btn =
   #кнопка РАССКАЗАТЬ
