@@ -1,5 +1,6 @@
 class Reason < ActiveRecord::Base
   default_scope order(:id)
+  scope :view_info, -> {select(:text)}
 
   validates_presence_of :text, message: "нужно чем-то заполнить"
 

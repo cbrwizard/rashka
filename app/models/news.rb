@@ -1,5 +1,6 @@
 class News < ActiveRecord::Base
   default_scope order(:id)
+  scope :view_info, -> {select(:title, :text, :link)}
 
   validates_presence_of :title, :text, :link, message: "нужно чем-то заполнить"
 
