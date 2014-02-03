@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  include AuthorHelper
 
   def index
     #главная страница
