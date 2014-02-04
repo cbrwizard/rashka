@@ -19,6 +19,22 @@ map =
           icon: 'assets/logo.jpg'
           map: map_object
 
+        directionsService = new google.maps.DirectionsService()
+        directionsDisplay = new google.maps.DirectionsRenderer()
+        directionsDisplay.setMap(map_object)
+
+
+        end = new google.maps.LatLng(gon.places[0].lat, gon.places[0].lng)
+        request =
+          origin:initialLocation,
+          destination:end,
+          travelMode: google.maps.TravelMode.DRIVING
+
+        directionsService.route(request, (response, status) ->
+          if (status == google.maps.DirectionsStatus.OK)
+            directionsDisplay.setDirections(response)
+        )
+
 
   init: ->
     #запуск карты
