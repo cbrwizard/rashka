@@ -3,79 +3,92 @@ $ ->
 
 map =
   #параметры карты
-  map_dom: document.getElementById("map-canvas")
-  map_options:
+  dom: document.getElementById("map-canvas")
+  options:
     center: new google.maps.LatLng(55.751667, 37.617778),
     disableDefaultUI: true,
     zoom: 12
-  nav_geolocation:(map_object) ->
-    #центрование карты
+
+  get_current_location: ->
+    #центрование карты, пытается разместить окно по центру текущего местоположения
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition (position) ->
-        initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-        map_object.setCenter initialLocation
-        new google.maps.Marker
-          position: initialLocation
+        current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+        map.google_map.setCenter current_location
+
+        current_loc_marker_options =
+          position: current_location
           icon: 'assets/logo.jpg'
-          map: map_object
+          map: map.google_map
+        new google.maps.Marker current_loc_marker_options
 
-        directionsService = new google.maps.DirectionsService()
-        directionsDisplay = new google.maps.DirectionsRenderer()
-        directionsDisplay.setMap(map_object)
+        map.get_directions(current_location)
 
+  get_directions: (start_point) ->
+    #построение маршрута до ближайшего места, принимает объект карты и место начала
+    directionsService = new google.maps.DirectionsService()
+    directionsDisplay = new google.maps.DirectionsRenderer()
+    directionsDisplay.setMap(map.google_map)
 
-        end = new google.maps.LatLng(gon.places[0].lat, gon.places[0].lng)
-        request =
-          origin:initialLocation,
-          destination:end,
-          travelMode: google.maps.TravelMode.DRIVING
+    end_point = new google.maps.LatLng(places.objects[0].lat, places.objects[0].lng)
 
-        directionsService.route(request, (response, status) ->
-          if (status == google.maps.DirectionsStatus.OK)
-            directionsDisplay.setDirections(response)
-        )
+    direction_options =
+      origin: start_point,
+      destination: end_point,
+      travelMode: google.maps.TravelMode.DRIVING
 
+    directionsService.route(direction_options, (response, status) ->
+      #в случае успеха запроса выводи маршрут
+      if (status == google.maps.DirectionsStatus.OK)
+        directionsDisplay.setDirections(response)
+    )
 
   init: ->
-    #запуск карты
-    map_object = new google.maps.Map(@.map_dom, @.map_options)
-    @.nav_geolocation(map_object)
+    #запуск карты, центрование на текущем месте и отображение всех мест
+    map.google_map = new google.maps.Map(@.dom, @.options)
+    @.get_current_location()
 
-    iconBase = 'assets/places/'
-    icons =
-      1:
-        icon: iconBase + 'airplane.png'
-      2:
-        icon: iconBase + 'seaport.png'
-      3:
-        icon: iconBase + 'railway.png'
-      4:
-        icon: iconBase + 'border.png'
-      5:
-        icon: iconBase + 'car.png'
+    places.objects.forEach(places.render)
 
+places =
+  #параметры мест
+  objects: gon.places
+  types:
+    1:
+      icon: 'assets/places/airplane.png'
+    2:
+      icon: 'assets/places/seaport.png'
+    3:
+      icon: 'assets/places/railway.png'
+    4:
+      icon: 'assets/places/border.png'
+    5:
+      icon: 'assets/places/car.png'
 
-    outputItem = (item) ->
-      position = new google.maps.LatLng(item.lat, item.lng)
-      marker = new google.maps.Marker
-        position: position
-        map: map_object
-        icon: icons[item.type_id].icon
-      infobox = new InfoBox
-        boxStyle:
-          background: "#fff",
-          padding: "20px",
-          width: "280px",
-          fontSize: "18px"
-        closeBoxURL: ""
+  render:(place) ->
+    #отображение мест на карте, принимает json объект места
+    position = new google.maps.LatLng(place.lat, place.lng)
+    place_marker_options =
+      position: position
+      map: map.google_map
+      icon: places.types[place.type_id].icon
+    marker = new google.maps.Marker(place_marker_options)
 
-      google.maps.event.addListener marker, 'mouseover', ->
-        infobox.setContent(
-          "<b>" + item.type + ":</b> " + item.name
-        )
-        infobox.open(map_object, this)
+    place_infobox = new InfoBox(infobox_options)
+    infobox_content = "<b>" + place.type + ":</b> " + place.name
 
-      google.maps.event.addListener marker, 'mouseout', ->
-        infobox.close()
+    google.maps.event.addListener marker, 'mouseover', ->
+      place_infobox.setContent(infobox_content)
+      place_infobox.open(map.google_map, this)
 
-    gon.places.forEach outputItem
+    google.maps.event.addListener marker, 'mouseout', ->
+      place_infobox.close()
+
+infobox_options =
+  #параметры отображения окна инфы при ховере поместу
+  boxStyle:
+    background: "#fff",
+    padding: "20px",
+    width: "280px",
+    fontSize: "18px"
+  closeBoxURL: ""
