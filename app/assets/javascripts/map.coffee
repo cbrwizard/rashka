@@ -14,14 +14,20 @@ map =
       navigator.geolocation.getCurrentPosition (position) ->
         initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         map_object.setCenter initialLocation
-        marker = new google.maps.Marker({
+        new google.maps.Marker
           position: initialLocation
-          map: map_object,
-          title: 'Click to zoom'
-        })
+          map: map_object
+
 
   init: ->
     #запуск карты
     map_object = new google.maps.Map(@.map_dom, @.map_options)
     @.nav_geolocation(map_object)
-    console.log gon.places
+
+    outputItem = (item) ->
+      console.log item.lat
+      new google.maps.Marker
+        position: new google.maps.LatLng(item.lat, item.lng)
+        map: map_object
+
+    gon.places.forEach outputItem
