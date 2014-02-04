@@ -1,11 +1,12 @@
-%nav.navbar.navbad-default
-  .container-fluid
-    %ul.nav.navbar-nav
-      %li
-        =link_to "На сайт", root_path
-      %li
-        =link_to "Назад в админку", admin_path
-      %li
-        =link_to "Список новостей", index_admin_news_index_path
-      %li
-        =link_to "Новая новость", new_news_path
+-cache do
+  %nav.navbar.navbad-default
+    .container-fluid
+      %ul.nav.navbar-nav
+        %li
+          =link_to "На сайт", root_path
+        %li
+          =link_to "Назад в админку", admin_path
+        %li
+          =link_to "Список новостей", index_admin_news_index_path
+        %li
+          =link_to "Новая новость", new_news_path

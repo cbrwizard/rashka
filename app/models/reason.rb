@@ -1,6 +1,6 @@
 class Reason < ActiveRecord::Base
   default_scope order(:id)
-  scope :view_info, -> {select(:text)}
+  scope :view_info, -> {select(:text, :updated_at)}
 
   validates_presence_of :text, message: "нужно чем-то заполнить"
 

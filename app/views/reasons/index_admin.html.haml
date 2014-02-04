@@ -16,13 +16,14 @@
               %th
                 удалить
           -@reasons.each do |reason|
-            %tbody
-              %tr
-                %td
-                  =reason.text
-                %td
-                  =reason.popularity
-                %td
-                  =link_to "редактировать", edit_reason_path(reason.id)
-                %td
-                  =link_to "удалить", reason, confirm: 'Точно удалить? Восстановить никак', method: :delete
+            -cache reason do
+              %tbody
+                %tr
+                  %td
+                    =reason.text
+                  %td
+                    =reason.popularity
+                  %td
+                    =link_to "редактировать", edit_reason_path(reason.id)
+                  %td
+                    =link_to "удалить", reason, :data => {confirm: 'Точно удалить? Восстановить никак'}, method: :delete

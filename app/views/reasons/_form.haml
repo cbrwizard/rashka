@@ -1,17 +1,18 @@
 = form_for(@reason) do |f|
-  - if @reason.errors.any?
-    #error_explanation.alert.alert-danger
-      %h2
-        = @reason.errors.count
-        = Russian.p(@reason.errors.count, "ошибка", "ошибки", "ошибок")
-      %ul
-        - @reason.errors.full_messages.each do |msg|
-          %li= msg
-  .form-group
-    = f.label :text, "Текст"
-    = f.text_area :text, {class: "form-control"}
-  .form-group
-    = f.label :popularity, "Популярность"
-    = f.number_field :popularity, {class: "form-control"}
-  .actions
-    = f.submit "Бдыщ", {class: "btn btn-default"}
+  -cache @reason do
+    - if @reason.errors.any?
+      #error_explanation.alert.alert-danger
+        %h2
+          = @reason.errors.count
+          = Russian.p(@reason.errors.count, "ошибка", "ошибки", "ошибок")
+        %ul
+          - @reason.errors.full_messages.each do |msg|
+            %li= msg
+    .form-group
+      = f.label :text, "Текст"
+      = f.text_area :text, {class: "form-control"}
+    .form-group
+      = f.label :popularity, "Популярность"
+      = f.number_field :popularity, {class: "form-control"}
+    .actions
+      = f.submit "Бдыщ", {class: "btn btn-default"}

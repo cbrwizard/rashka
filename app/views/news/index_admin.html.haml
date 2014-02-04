@@ -20,15 +20,16 @@
               %th
                 удалить
           -@news.each do |news|
-            %tbody
-              %tr
-                %td
-                  =news.title
-                %td
-                  =news.text
-                %td
-                  =news.link
-                %td
-                  =link_to "редактировать", edit_news_path(news.id)
-                %td
-                  =link_to "удалить", news, confirm: 'Точно удалить? Восстановить никак', method: :delete
+            -cache news do
+              %tbody
+                %tr
+                  %td
+                    =news.title
+                  %td
+                    =news.text
+                  %td
+                    =news.link
+                  %td
+                    =link_to "редактировать", edit_news_path(news.id)
+                  %td
+                    =link_to "удалить", news, :data => {confirm: 'Точно удалить? Восстановить никак'}, method: :delete

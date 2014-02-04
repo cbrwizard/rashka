@@ -1,12 +1,13 @@
-.container
-  .center-block.text-center
-    #login_form.col-md-4
-      =form_tag "admin/login" do
-        .form-group.text-left
-          =label_tag :login, "Логин"
-          =text_field_tag :login, "", {class: "form-control"}
-        .form-group.text-left
-          =label_tag :password, "Пароль"
-          =password_field_tag :password, "", {class: "form-control"}
-        .actions
-          =submit_tag "Бдыщ", {class: "btn btn-default"}
+-cache do
+  .container
+    .center-block.text-center
+      #login_form.col-md-4
+        =form_tag "admin/login" do
+          .form-group.text-left
+            =label_tag :login, "Логин"
+            =text_field_tag :login, "", {class: "form-control"}
+          .form-group.text-left
+            =label_tag :password, "Пароль"
+            =password_field_tag :password, "", {class: "form-control"}
+          .actions
+            =submit_tag "Бдыщ", {class: "btn btn-default"}

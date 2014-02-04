@@ -45,6 +45,8 @@ group :development do
   gem "binding_of_caller"
   gem 'mailcatcher'
   gem "bullet"
+  gem 'meta_request'
+  gem 'rack-mini-profiler'
 end
 
 group :production do

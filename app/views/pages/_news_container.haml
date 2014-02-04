@@ -1,4 +1,5 @@
-#news_container
-  %h3
-    Последние новости
-  = render @news
+-cache @news do
+  #news_container
+    %h3
+      Последние новости
+    = render @news

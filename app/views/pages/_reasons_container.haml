@@ -1,4 +1,5 @@
-#reasons_container
-  %h3
-    Причины эвакуации
-  = render @reasons
+-cache @reasons do
+  #reasons_container
+    %h3
+      Причины эвакуации
+    = render @reasons
