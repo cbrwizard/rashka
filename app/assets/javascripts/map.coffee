@@ -24,3 +24,4 @@ map =
     #запуск карты
     map_object = new google.maps.Map(@.map_dom, @.map_options)
     @.nav_geolocation(map_object)
+    console.log gon.places

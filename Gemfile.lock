@@ -53,6 +53,9 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
+    gon (5.0.1)
+      actionpack (>= 2.3.0)
+      json
     haml (4.0.5)
       tilt
     hike (1.2.3)
@@ -177,6 +180,7 @@ DEPENDENCIES
   bootstrap-sass
   bullet
   coffee-rails (~> 4.0.0)
+  gon
   haml
   jbuilder (~> 1.2)
   jquery-rails
