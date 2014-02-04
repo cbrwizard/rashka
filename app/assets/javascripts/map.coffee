@@ -14,6 +14,11 @@ map =
       navigator.geolocation.getCurrentPosition (position) ->
         initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         map_object.setCenter initialLocation
+        marker = new google.maps.Marker({
+          position: initialLocation
+          map: map_object,
+          title: 'Click to zoom'
+        })
 
   init: ->
     #запуск карты
