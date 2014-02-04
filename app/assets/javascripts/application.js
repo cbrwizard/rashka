@@ -16,6 +16,7 @@
 //= require bootstrap/transition
 //= require bootstrap/modal
 //= require bootstrap/dropdown
+//= require infobox
 
 //= require turbolinks
 //= require_tree .

@@ -16,6 +16,7 @@ map =
         map_object.setCenter initialLocation
         new google.maps.Marker
           position: initialLocation
+          icon: 'assets/logo.jpg'
           map: map_object
 
 
@@ -44,15 +45,21 @@ map =
         position: position
         map: map_object
         icon: icons[item.type_id].icon
-      infowindow =  new google.maps.InfoWindow
-        content: ''
-        map: map_object
+      infobox = new InfoBox
+        boxStyle:
+          background: "#fff",
+          padding: "20px",
+          width: "280px",
+          fontSize: "18px"
+        closeBoxURL: ""
 
       google.maps.event.addListener marker, 'mouseover', ->
-        infowindow.setContent(item.type + ": " + item.name)
-        infowindow.open(map_object, marker)
+        infobox.setContent(
+          "<b>" + item.type + ":</b> " + item.name
+        )
+        infobox.open(map_object, this)
 
       google.maps.event.addListener marker, 'mouseout', ->
-        infowindow.close()
+        infobox.close()
 
     gon.places.forEach outputItem
