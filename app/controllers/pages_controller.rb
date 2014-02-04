@@ -24,6 +24,7 @@ class PagesController < ApplicationController
       place_object[:lat] = place.lat
       place_object[:lng] = place.lng
       place_object[:type] = place.type.name
+      place_object[:type_id] = place.type_id
 
       json_object << place_object
     end

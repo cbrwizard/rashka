@@ -24,10 +24,35 @@ map =
     map_object = new google.maps.Map(@.map_dom, @.map_options)
     @.nav_geolocation(map_object)
 
+    iconBase = 'assets/places/'
+    icons =
+      1:
+        icon: iconBase + 'airplane.png'
+      2:
+        icon: iconBase + 'seaport.png'
+      3:
+        icon: iconBase + 'railway.png'
+      4:
+        icon: iconBase + 'border.png'
+      5:
+        icon: iconBase + 'car.png'
+
+
     outputItem = (item) ->
-      console.log item.lat
-      new google.maps.Marker
-        position: new google.maps.LatLng(item.lat, item.lng)
+      position = new google.maps.LatLng(item.lat, item.lng)
+      marker = new google.maps.Marker
+        position: position
         map: map_object
+        icon: icons[item.type_id].icon
+      infowindow =  new google.maps.InfoWindow
+        content: ''
+        map: map_object
+
+      google.maps.event.addListener marker, 'mouseover', ->
+        infowindow.setContent(item.type + ": " + item.name)
+        infowindow.open(map_object, marker)
+
+      google.maps.event.addListener marker, 'mouseout', ->
+        infowindow.close()
 
     gon.places.forEach outputItem
