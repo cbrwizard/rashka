@@ -6,7 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
 Stat.create(people_left: 100500, shares_vk: 31624, shares_tw: 12352, shares_fb: 15434, shares_gp: 8657 )
 
 salt = BCrypt::Engine.generate_salt
@@ -28,8 +27,6 @@ Place.create([{name: "Пулково", type_id: 1, lat: 59.798933, lng: 30.27298
               {name: "Благовещенск-Хэйхэ", type_id: 4, lat: 50.238697, lng: 127.518175},
               {name: "Автовокзал г. Калининград", type_id: 5, lat: 54.693568, lng: 20.5018619},
               {name: "Автовокзал г. Белгород", type_id: 5, lat: 50.638799, lng: 36.571791}])
-
-
 
 Reason.create([{text: "Президент ест детей", popularity: 100500},{text: "Страной правят геи", popularity: 12312},
                {text: "Как только въезжаю в страну, тут же начинается понос", popularity: 45675},
