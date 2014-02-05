@@ -10,6 +10,7 @@ map =
     center: app.current_location,
     disableDefaultUI: true,
     zoom: 3
+    minZoom: 3
 
   show_places: ->
     #пытается разместить окно по центру текущего местоположения, а также отображает места
