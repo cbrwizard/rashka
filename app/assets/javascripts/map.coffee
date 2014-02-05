@@ -17,11 +17,7 @@ map =
       navigator.geolocation.getCurrentPosition (position) ->
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         map.google_map.setCenter current_location
-
-        console.log(map.current_location)
         map.current_location = current_location
-
-        console.log(map.current_location)
 
         current_loc_marker_options =
           position: current_location
@@ -44,7 +40,7 @@ map =
       suppressMarkers: true
     directions_renderer = new google.maps.DirectionsRenderer(directions_renderer_options)
 
-    end_point = new google.maps.LatLng(places.objects[0].lat, places.objects[0].lng)
+    end_point = new google.maps.LatLng(places.closest.lat, places.closest.lng)
 
     directions_service_options =
       origin: start_point
@@ -59,10 +55,8 @@ map =
     )
 
   init: ->
-    #запуск карты, центрование на текущем месте и отображение всех мест
+    #инициализация карты
     map.google_map = new google.maps.Map(@.dom, @.options)
-
-
 
 places =
   #параметры мест
@@ -80,7 +74,7 @@ places =
       icon: 'assets/places/car.png'
 
   render:(place) ->
-    #отображение мест на карте, принимает json объект места
+    #отображение места на карте, принимает json объект места
     position = new google.maps.LatLng(place.lat, place.lng)
     place_marker_options =
       position: position
@@ -89,7 +83,7 @@ places =
     marker = new google.maps.Marker(place_marker_options)
 
     place_infobox = new InfoBox(infobox_options)
-    infobox_content = "<b>" + place.type + ":</b> " + place.name + " расстояние: " + place.distance
+    infobox_content = "<p><b>" + place.type + ":</b> " + place.name + "</p><p><b>Расстояние:</b> " + place.distance.toFixed(1) + " км</p>"
 
     google.maps.event.addListener marker, 'mouseover', ->
       place_infobox.setContent(infobox_content)
@@ -104,6 +98,7 @@ places =
     x * Math.PI / 180
 
   get_distance:(place) ->
+    #добавляет значение расстояния от места до текущего положения, принимает json объект места
     cur_loc_lat = map.current_location.lat()
     cur_loc_lng = map.current_location.lng()
     earth_radius = 6371
@@ -115,6 +110,9 @@ places =
     a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(places.rad(cur_loc_lat)) * Math.cos(places.rad(cur_loc_lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2)
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     place.distance = earth_radius * c
+
+    if places.closest == undefined || places.closest.distance > place.distance
+      places.closest = place
 
 
 infobox_options =
