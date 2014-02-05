@@ -1,7 +1,6 @@
 $ ->
   map.init()
   map.show_places()
-  map.color_countries()
 
 map =
   #параметры карты
@@ -30,34 +29,6 @@ map =
         app.places.objects.forEach(places.render)
 
         #TODO: сделать так, чтобы места появлялись на карте даже в случае отсутствия текущей геолокации
-
-  color_countries: ->
-    #окрашивает страны
-
-    field_name = 'geometry'
-    table_id = '1uL8KJV0bMb7A8-SkrIe0ko2DMtSypHX52DatEE4'
-
-    layer = new google.maps.FusionTablesLayer({
-      suppressInfoWindows: true,
-      query: {
-        select: field_name,
-        from: table_id
-      },
-      styles: [{
-        polygonOptions: {
-          fillColor: '#00FF00',
-          fillOpacity: 0.3
-        }
-      }, {
-        where: "Name = 'Russia'",
-        polygonOptions: {
-          fillColor: '#B10909'
-        }
-      }]
-    })
-
-    layer.setMap app.google_map
-
 
 
   init: ->
