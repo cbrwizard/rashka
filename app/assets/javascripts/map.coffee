@@ -28,15 +28,16 @@ map =
         app.places.objects.forEach(places.get_distance)
         app.places.objects.forEach(places.render)
 
-
         #TODO: сделать так, чтобы места появлялись на карте даже в случае отсутствия текущей геолокации
+
   color_countries: ->
     #окрашивает страны
 
-    field_name = 'kml_4326'
+    field_name = 'geometry'
     table_id = '1uL8KJV0bMb7A8-SkrIe0ko2DMtSypHX52DatEE4'
 
     layer = new google.maps.FusionTablesLayer({
+      suppressInfoWindows: true,
       query: {
         select: field_name,
         from: table_id
@@ -54,8 +55,8 @@ map =
       }]
     })
 
-#    layer = new google.maps.FusionTablesLayer(table_id, FT_Options)
     layer.setMap app.google_map
+
 
 
   init: ->
