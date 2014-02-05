@@ -1,66 +1,41 @@
 $ ->
   map.init()
-  map.get_current_location()
+  map.show_places()
 
 map =
   #параметры карты
-  dom: document.getElementById("map-canvas")
-  current_location: new google.maps.LatLng(55.751667, 37.617778)
+  dom: document.getElementById("map-canvas")      
   options:
-    center: @current_location,
+    center: app.current_location,
     disableDefaultUI: true,
     zoom: 12
 
-  get_current_location: ->
-    #центрование карты, пытается разместить окно по центру текущего местоположения
+  show_places: ->
+    #пытается разместить окно по центру текущего местоположения, а также отображает места
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition (position) ->
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-        map.google_map.setCenter current_location
-        map.current_location = current_location
+        app.google_map.setCenter current_location
+        app.current_location = current_location
 
         current_loc_marker_options =
           position: current_location
           icon: 'assets/logo.jpg'
-          map: map.google_map
+          map: app.google_map
         new google.maps.Marker current_loc_marker_options
 
-        places.objects.forEach(places.get_distance)
-        places.objects.forEach(places.render)
-
-        map.get_directions(map.current_location)
+        app.places.objects.forEach(places.get_distance)
+        app.places.objects.forEach(places.render)
 
 
         #TODO: сделать так, чтобы места появлялись на карте даже в случае отсутствия текущей геолокации
 
-  get_directions: (start_point) ->
-    #построение маршрута до ближайшего места, принимает объект карты и место начала
-    directions_renderer_options =
-      map: map.google_map
-      suppressMarkers: true
-    directions_renderer = new google.maps.DirectionsRenderer(directions_renderer_options)
-
-    end_point = new google.maps.LatLng(places.closest.lat, places.closest.lng)
-
-    directions_service_options =
-      origin: start_point
-      destination: end_point
-      travelMode: google.maps.TravelMode.DRIVING
-    directions_service = new google.maps.DirectionsService()
-
-    directions_service.route(directions_service_options, (response, status) ->
-      #в случае успеха запроса выводи маршрут
-      if (status == google.maps.DirectionsStatus.OK)
-        directions_renderer.setDirections(response)
-    )
-
   init: ->
     #инициализация карты
-    map.google_map = new google.maps.Map(@.dom, @.options)
+    app.google_map = new google.maps.Map(@.dom, @.options)
 
 places =
   #параметры мест
-  objects: gon.places
   types:
     1:
       icon: 'assets/places/airplane.png'
@@ -78,7 +53,7 @@ places =
     position = new google.maps.LatLng(place.lat, place.lng)
     place_marker_options =
       position: position
-      map: map.google_map
+      map: app.google_map
       icon: places.types[place.type_id].icon
     marker = new google.maps.Marker(place_marker_options)
 
@@ -87,7 +62,7 @@ places =
 
     google.maps.event.addListener marker, 'mouseover', ->
       place_infobox.setContent(infobox_content)
-      place_infobox.open(map.google_map, this)
+      place_infobox.open(app.google_map, this)
 
     google.maps.event.addListener marker, 'mouseout', ->
       place_infobox.close()
@@ -99,8 +74,8 @@ places =
 
   get_distance:(place) ->
     #добавляет значение расстояния от места до текущего положения, принимает json объект места
-    cur_loc_lat = map.current_location.lat()
-    cur_loc_lng = map.current_location.lng()
+    cur_loc_lat = app.current_location.lat()
+    cur_loc_lng = app.current_location.lng()
     earth_radius = 6371
     place_lat = place.lat
     place_lng = place.lng
@@ -111,8 +86,8 @@ places =
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     place.distance = earth_radius * c
 
-    if places.closest == undefined || places.closest.distance > place.distance
-      places.closest = place
+    if app.places.closest == undefined || app.places.closest.distance > place.distance
+      app.places.closest = place
 
 
 infobox_options =
