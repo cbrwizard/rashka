@@ -57,14 +57,16 @@ places =
       map: app.google_map
       icon: places.types[place.type_id].icon
     marker = new google.maps.Marker(place_marker_options)
+    place.marker = marker
 
-    place_infobox = new InfoBox(infobox_options)
+    place_infobox = new InfoBox(app.infobox_options)
     infobox_content = "
       <p><b>#{place.type} :</b> #{place.name} </p>
       <p><b>Расстояние:</b> #{place.distance.toFixed(1)} км</p>"
 
     google.maps.event.addListener marker, 'mouseover', ->
       place_infobox.setContent(infobox_content)
+      console.log this
       place_infobox.open(app.google_map, this)
 
     google.maps.event.addListener marker, 'mouseout', ->
@@ -91,13 +93,3 @@ places =
 
     if app.places.closest == undefined || app.places.closest.distance > place.distance
       app.places.closest = place
-
-
-infobox_options =
-  #параметры отображения окна инфы при ховере поместу
-  boxStyle:
-    background: "#fff",
-    padding: "20px",
-    width: "280px",
-    fontSize: "18px"
-  closeBoxURL: ""

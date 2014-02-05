@@ -12,8 +12,7 @@ evac_btn =
   init: ->
     #запуск слушателей
     $(evac_btn.dom_element).click ->
-      closest_place = new google.maps.LatLng(app.places.closest.lat, app.places.closest.lng)
-      get_directions(app.current_location, closest_place)
+      get_directions(app.current_location, app.places.closest)
       evac_btn.share_mode_on()
 
 
@@ -21,12 +20,14 @@ share_btn =
   #кнопка РАССКАЗАТЬ
   dom_element: $("#share_btn")
 
-get_directions = (start_point, end_point) ->
+get_directions = (start_point, end_place) ->
   #построение маршрута до ближайшего места, принимает место начала и конца
   directions_renderer_options =
     map: app.google_map
     suppressMarkers: true
   directions_renderer = new google.maps.DirectionsRenderer(directions_renderer_options)
+
+  end_point = new google.maps.LatLng(end_place.lat, end_place.lng)
 
   directions_service_options =
     origin: start_point
@@ -40,3 +41,11 @@ get_directions = (start_point, end_point) ->
       directions_renderer.setDirections(response)
       console.log("Вам надо всего-то #{response.routes[0].legs[0].duration.text} ехать на машине и вы свалите из этой замечательной страны!")
   )
+
+  place_infobox = new InfoBox(app.infobox_options)
+  infobox_content = "
+    <p><b>#{end_place.type} :</b> #{end_place.name} </p>
+    <p><b>Расстояние:</b> #{end_place.distance.toFixed(1)} км</p>"
+
+  place_infobox.setContent(infobox_content)
+  place_infobox.open(app.google_map, end_place.marker)

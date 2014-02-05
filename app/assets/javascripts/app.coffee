@@ -7,3 +7,11 @@ global.app =
     objects:
       gon.places
     closest: undefined
+  infobox_options:
+    #параметры отображения окна инфы при ховере поместу
+    boxStyle:
+      background: "#fff",
+      padding: "20px",
+      width: "280px",
+      fontSize: "18px"
+    closeBoxURL: ""
