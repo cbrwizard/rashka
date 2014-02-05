@@ -15,3 +15,4 @@ global.app =
       width: "280px",
       fontSize: "18px"
     closeBoxURL: ""
+  bounds: new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999))

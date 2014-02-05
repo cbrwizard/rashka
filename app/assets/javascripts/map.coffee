@@ -1,15 +1,21 @@
 $ ->
   map.init()
   map.show_places()
+  new google.maps.Marker
+    position: new google.maps.LatLng(48.597, 20.203)
+    map: app.google_map
+
+
 
 map =
   #параметры карты
-  dom: document.getElementById("map-canvas")      
+  dom: document.getElementById("map-canvas")
+  lastValidCenter: app.current_location
   options:
     center: app.current_location,
     disableDefaultUI: true,
-    zoom: 3
-    minZoom: 3
+    zoom: 13
+    minZoom: 4
 
   show_places: ->
     #пытается разместить окно по центру текущего местоположения, а также отображает места
@@ -28,8 +34,14 @@ map =
         app.places.objects.forEach(places.get_distance)
         app.places.objects.forEach(places.render)
 
+        google.maps.event.addListener app.google_map, "center_changed", ->
+          map.checkBounds()
+
         #TODO: сделать так, чтобы места появлялись на карте даже в случае отсутствия текущей геолокации
 
+  checkBounds: ->
+    map.lastValidCenter = app.google_map.getCenter() if app.bounds.contains(app.google_map.getCenter())
+    app.google_map.panTo map.lastValidCenter
 
   init: ->
     #инициализация карты
@@ -59,6 +71,8 @@ places =
     marker = new google.maps.Marker(place_marker_options)
     place.marker = marker
 
+    app.google_map.fitBounds(app.bounds)
+
     place_infobox = new InfoBox(app.infobox_options)
     infobox_content = "
       <p><b>#{place.type} :</b> #{place.name} </p>
@@ -66,7 +80,6 @@ places =
 
     google.maps.event.addListener marker, 'mouseover', ->
       place_infobox.setContent(infobox_content)
-      console.log this
       place_infobox.open(app.google_map, this)
 
     google.maps.event.addListener marker, 'mouseout', ->
