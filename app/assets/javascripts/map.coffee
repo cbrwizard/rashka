@@ -32,15 +32,29 @@ map =
         #TODO: сделать так, чтобы места появлялись на карте даже в случае отсутствия текущей геолокации
   color_countries: ->
     #окрашивает страны
-    CountryName = "Russia"
 
-    table_id = 420419
+    field_name = 'kml_4326'
+    table_id = '1uL8KJV0bMb7A8-SkrIe0ko2DMtSypHX52DatEE4'
 
-    FT_Query = "SELECT 'kml_4326' FROM #{table_id} WHERE 'name_0' = '#{CountryName}';"
-    FT_Options =
-      query: FT_Query
+    layer = new google.maps.FusionTablesLayer({
+      query: {
+        select: field_name,
+        from: table_id
+      },
+      styles: [{
+        polygonOptions: {
+          fillColor: '#00FF00',
+          fillOpacity: 0.3
+        }
+      }, {
+        where: "Name = 'Russia'",
+        polygonOptions: {
+          fillColor: '#B10909'
+        }
+      }]
+    })
 
-    layer = new google.maps.FusionTablesLayer(table_id, FT_Options)
+#    layer = new google.maps.FusionTablesLayer(table_id, FT_Options)
     layer.setMap app.google_map
 
 
