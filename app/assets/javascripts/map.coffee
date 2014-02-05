@@ -1,6 +1,7 @@
 $ ->
   map.init()
   map.show_places()
+  map.color_countries()
 
 map =
   #параметры карты
@@ -8,7 +9,7 @@ map =
   options:
     center: app.current_location,
     disableDefaultUI: true,
-    zoom: 12
+    zoom: 3
 
   show_places: ->
     #пытается разместить окно по центру текущего местоположения, а также отображает места
@@ -29,6 +30,19 @@ map =
 
 
         #TODO: сделать так, чтобы места появлялись на карте даже в случае отсутствия текущей геолокации
+  color_countries: ->
+    #окрашивает страны
+    CountryName = "Russia"
+
+    table_id = 420419
+
+    FT_Query = "SELECT 'kml_4326' FROM #{table_id} WHERE 'name_0' = '#{CountryName}';"
+    FT_Options =
+      query: FT_Query
+
+    layer = new google.maps.FusionTablesLayer(table_id, FT_Options)
+    layer.setMap app.google_map
+
 
   init: ->
     #инициализация карты
@@ -58,7 +72,9 @@ places =
     marker = new google.maps.Marker(place_marker_options)
 
     place_infobox = new InfoBox(infobox_options)
-    infobox_content = "<p><b>" + place.type + ":</b> " + place.name + "</p><p><b>Расстояние:</b> " + place.distance.toFixed(1) + " км</p>"
+    infobox_content = "
+      <p><b>#{place.type} :</b> #{place.name} </p>
+      <p><b>Расстояние:</b> #{place.distance.toFixed(1)} км</p>"
 
     google.maps.event.addListener marker, 'mouseover', ->
       place_infobox.setContent(infobox_content)
