@@ -1,1 +1,3 @@
-$("#reason_field").val("<%= @reason %>");
+var reason_field = $("#reason_field");
+reason_field.val("<%= @reason %>");
+reason_field.trigger("change");

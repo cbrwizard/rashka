@@ -14,8 +14,9 @@ evac_btn =
       type: "POST"
       dataType: "json"
       success: (reason_text) ->
-        console.log "yeahhhhhh"
         $("#reason_field").val(reason_text)
+        $("#reason_field").trigger("change")
+        console.log "yeahhhhhh"
       error: ->
         console.log "nooooo"
 

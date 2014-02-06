@@ -14,6 +14,14 @@ $ ->
     url = share_button.attr("href")
     social_window(url)
 
+  $("#reason_field").change ->
+    title = "Симулятор эвакуации из Рашки"
+    text = "Я решил валить из рашки, потому что"
+    reason = $(this).val()
+    vk_like_button = $(".vk_like_button")
+    vk_href = vk_like_button.attr("href")
+    vk_like_button.attr("href", vk_href + "&title=#{title}&description=#{text} #{reason}")
+
 
 social_window = (url) ->
   #функция для открытия окна шеринга, принимает адрес
