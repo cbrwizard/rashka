@@ -16,3 +16,5 @@ global.app =
       fontSize: "18px"
     closeBoxURL: ""
   bounds: new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999))
+  social_title: "Симулятор эвакуации из Рашки"
+  social_text: "Я решил валить из рашки, потому что"
