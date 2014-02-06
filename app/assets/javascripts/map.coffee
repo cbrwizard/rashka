@@ -5,8 +5,6 @@ $ ->
     position: new google.maps.LatLng(48.597, 20.203)
     map: app.google_map
 
-
-
 map =
   #параметры карты
   dom: document.getElementById("map-canvas")
@@ -70,8 +68,6 @@ places =
       icon: places.types[place.type_id].icon
     marker = new google.maps.Marker(place_marker_options)
     place.marker = marker
-
-    app.google_map.fitBounds(app.bounds)
 
     place_infobox = new InfoBox(app.infobox_options)
     infobox_content = "

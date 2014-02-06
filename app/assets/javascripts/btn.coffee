@@ -9,11 +9,22 @@ evac_btn =
     @.dom_element.addClass("hidden")
     share_btn.dom_element.removeClass("hidden")
 
+  evac_stat_increase: ->
+    $.ajax "../stats/evacuate",
+      type: "POST"
+      dataType: "json"
+      success: ->
+        console.log "yeahhhhhh"
+      error: ->
+        console.log "nooooo"
+
   init: ->
     #запуск слушателей
     $(evac_btn.dom_element).click ->
       get_directions(app.current_location, app.places.closest)
       evac_btn.share_mode_on()
+      evac_btn.evac_stat_increase()
+
 
 
 share_btn =

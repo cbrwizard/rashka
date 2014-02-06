@@ -22,6 +22,7 @@ Rashka::Application.routes.draw do
   end
 
   match 'stats' => 'stats#index', via: :get
+  match 'stats/evacuate' => 'stats#evacuate', via: :post
 
   #match 'news/index' => 'news#index_admin', via: :get
 
