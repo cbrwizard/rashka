@@ -18,6 +18,7 @@ Rashka::Application.routes.draw do
   resources :reasons do
     collection do
       get 'index_admin'
+      get 'get_random'
     end
   end
 

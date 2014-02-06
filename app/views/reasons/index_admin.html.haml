@@ -14,6 +14,8 @@
               %th
                 Популярность
               %th
+                Обновлено
+              %th
                 удалить
           -@reasons.each do |reason|
             -cache reason do
@@ -23,6 +25,8 @@
                     =reason.text
                   %td
                     =reason.popularity
+                  %td
+                    =reason.updated_at
                   %td
                     =link_to "редактировать", edit_reason_path(reason.id)
                   %td

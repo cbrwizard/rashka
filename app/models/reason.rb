@@ -1,6 +1,7 @@
 class Reason < ActiveRecord::Base
-  default_scope order(:id)
+  default_scope order(updated_at: :desc)
   scope :view_info, -> {select(:text, :updated_at)}
+  scope :random, -> {unscoped.order("RANDOM()").first}
 
   validates_presence_of :text, message: "нужно чем-то заполнить"
 

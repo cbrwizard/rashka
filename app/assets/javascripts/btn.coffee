@@ -28,6 +28,7 @@ evac_btn =
 
 get_directions = (start_point, end_place) ->
   #построение маршрута до ближайшего места, принимает место начала и конца
+  #TODO: оптимизировать и рефакторить этот метод
   directions_renderer_options =
     map: app.google_map
     suppressMarkers: true

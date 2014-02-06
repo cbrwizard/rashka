@@ -16,6 +16,8 @@
               %th
                 Ссылка
               %th
+                Обновлено
+              %th
                 редактировать
               %th
                 удалить
@@ -29,6 +31,8 @@
                     =news.text
                   %td
                     =news.link
+                  %td
+                    =news.updated_at
                   %td
                     =link_to "редактировать", edit_news_path(news.id)
                   %td

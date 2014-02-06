@@ -3,6 +3,15 @@ class ReasonsController < ApplicationController
 
   before_action :allow_access?, on: [:index_admin, :show, :edit, :new, :create, :update, :destroy]
 
+  def get_random
+    @reason = Reason.random.text
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.js { render :layout => false }
+    end
+  end
+
   def index_admin
     @reasons = Reason.all
   end
