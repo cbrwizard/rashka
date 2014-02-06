@@ -1,13 +1,12 @@
 class ReasonsController < ApplicationController
   include Admin
 
-  before_action :allow_access?, on: [:index_admin, :show, :edit, :new, :create, :update, :destroy]
+  before_action :allow_access?, only: [:index_admin, :show, :edit, :new, :create, :update, :destroy]
 
   def get_random
     @reason = Reason.random.text
 
     respond_to do |format|
-      format.html { redirect_to root_path }
       format.js { render :layout => false }
     end
   end
