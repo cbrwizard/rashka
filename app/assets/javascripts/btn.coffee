@@ -7,7 +7,7 @@ evac_btn =
   share_mode_on: ->
     #скрывает кнопку валить и показывает кнопку рассказать
     @.dom_element.addClass("hidden")
-    share_btn.dom_element.removeClass("hidden")
+    $("#share_btn").removeClass("hidden")
 
   evac_stat_increase: ->
     $.ajax "../stats/evacuate",
@@ -25,11 +25,6 @@ evac_btn =
       evac_btn.share_mode_on()
       evac_btn.evac_stat_increase()
 
-
-
-share_btn =
-  #кнопка РАССКАЗАТЬ
-  dom_element: $("#share_btn")
 
 get_directions = (start_point, end_place) ->
   #построение маршрута до ближайшего места, принимает место начала и конца
