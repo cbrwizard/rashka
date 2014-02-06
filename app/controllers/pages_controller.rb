@@ -10,8 +10,6 @@ class PagesController < ApplicationController
     @news = News.view_info
     @reasons = Reason.view_info
 
-    @last_reason_text = Reason.last.text
-
     gon.places = get_places_info
   end
 

@@ -13,8 +13,9 @@ evac_btn =
     $.ajax "../stats/evacuate",
       type: "POST"
       dataType: "json"
-      success: ->
+      success: (reason_text) ->
         console.log "yeahhhhhh"
+        $("#reason_field").val(reason_text)
       error: ->
         console.log "nooooo"
 

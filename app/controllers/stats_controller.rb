@@ -7,9 +7,10 @@ class StatsController < ApplicationController
 
   def evacuate
     @stats.increase_people_left
+    reason = Reason.random.text
 
     respond_to do |format|
-      format.json { render :json => @stats.people_left }
+      format.json { render :json => reason.to_json }
     end
   end
 
