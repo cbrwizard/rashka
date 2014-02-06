@@ -20,7 +20,18 @@ $ ->
     reason = $(this).val()
     vk_like_button = $(".vk_like_button")
     vk_href = vk_like_button.attr("href")
-    vk_like_button.attr("href", vk_href + "&title=#{title}&description=#{text} #{reason}")
+    correct_vk_href = vk_href.slice( 0, vk_href.indexOf('&title') )
+    tw_like_button = $(".tw_like_button")
+    tw_href = tw_like_button.attr("href")
+    correct_tw_href = tw_href.slice( 0, tw_href.indexOf('&text') )
+#    console.log "vk_href #{vk_href}"
+#    console.log "correct_vk_href #{correct_vk_href}"
+#    console.log "vk_like_button #{vk_like_button.attr("href")}"
+#    console.log "tw_href #{tw_href}"
+#    console.log "correct_tw_href #{correct_tw_href}"
+#    console.log "tw_like_button #{tw_like_button.attr("href")}"
+    vk_like_button.attr("href", correct_vk_href + "&title=#{title}&description=#{text} #{reason}")
+    tw_like_button.attr("href", correct_tw_href + "&text=#{text} #{reason}")
 
 
 social_window = (url) ->
