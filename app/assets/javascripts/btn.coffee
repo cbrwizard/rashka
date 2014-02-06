@@ -27,30 +27,23 @@ evac_btn =
       evac_btn.share_mode_on()
       evac_btn.evac_stat_increase()
 
-
 get_directions = (start_point, end_place) ->
   #построение маршрута до ближайшего места, принимает место начала и конца
-  #TODO: оптимизировать и рефакторить этот метод
-  directions_renderer_options =
-    map: app.google_map
-    suppressMarkers: true
-  directions_renderer = new google.maps.DirectionsRenderer(directions_renderer_options)
 
   end_point = new google.maps.LatLng(end_place.lat, end_place.lng)
 
-  directions_service_options =
-    origin: start_point
-    destination: end_point
-    travelMode: google.maps.TravelMode.DRIVING
-  directions_service = new google.maps.DirectionsService()
+  directions_service =new google.maps.DirectionsService()
+  directions_service_options = get_directions_service_options(start_point, end_point)
 
   directions_service.route(directions_service_options, (response, status) ->
     #в случае успеха запроса выводит маршрут
     if (status == google.maps.DirectionsStatus.OK)
-      directions_renderer.setDirections(response)
-      console.log("Вам надо всего-то #{response.routes[0].legs[0].duration.text} ехать на машине и вы свалите из этой замечательной страны!")
+      show_directions(response)
+      create_end_place_infobox(end_place)
   )
 
+create_end_place_infobox = (end_place) ->
+  #отображение инфобокса у ближайшего места
   place_infobox = new InfoBox(app.infobox_options)
   infobox_content = "
     <p><b>#{end_place.type} :</b> #{end_place.name} </p>
@@ -58,3 +51,24 @@ get_directions = (start_point, end_place) ->
 
   place_infobox.setContent(infobox_content)
   place_infobox.open(app.google_map, end_place.marker)
+
+get_directions_renderer = () ->
+  #создает рендерер для маршрута
+  directions_renderer_options =
+    map: app.google_map
+    suppressMarkers: true
+  new google.maps.DirectionsRenderer(directions_renderer_options)
+
+get_directions_service_options = (start_point, end_point) ->
+  #настройки отображения маршрута
+  origin: start_point
+  destination: end_point
+  travelMode: google.maps.TravelMode.DRIVING
+
+show_directions = (response) ->
+  #отображение маршрута
+  directions_renderer = get_directions_renderer()
+  directions_renderer.setDirections(response)
+  console.log("Вам надо всего-то #{response.routes[0].legs[0].duration.text} ехать на машине и вы свалите из этой замечательной страны!")
+
+

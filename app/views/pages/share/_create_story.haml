@@ -5,5 +5,4 @@
     =text_area_tag "reason","", {id: "reason_field", class: "form-control"}
 
     #get_random_container.text-center
-      %button.btn.btn-info
-        =link_to "Подсказать причину", get_random_reasons_path, { :remote => true}
+      =link_to "Подсказать причину", get_random_reasons_path, {:class => "btn btn-info", :remote => true}

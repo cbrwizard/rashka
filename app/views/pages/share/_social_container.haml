@@ -1,5 +1,5 @@
--#-cache do
-#social_container.text-center
-  =social_btn("vk_like_button", "Нравится", "http://vkontakte.ru/share.php?url=", "vk_post")
-  =link_to "Лайк", "#", {:class => "btn btn-lg share_button fb_like_button", :href => "", :target => "_blank", :data => {:method => "fb_post"}}
-  =social_btn("tw_like_button", "Ретвит", "https://twitter.com/intent/tweet?source=webclient&url=", "tw_post")
+-cache do
+  #social_container.text-center
+    =social_btn("vk_like_button", "Нравится", "http://vkontakte.ru/share.php?url=", "vk_post")
+    =link_to "Лайк", "#", {:class => "btn btn-lg share_button fb_like_button", :href => "", :target => "_blank", :data => {:method => "fb_post"}}
+    =social_btn("tw_like_button", "Ретвит", "https://twitter.com/intent/tweet?source=webclient&url=", "tw_post")

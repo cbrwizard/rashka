@@ -22,12 +22,7 @@ map =
         current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
         app.google_map.setCenter current_location
         app.current_location = current_location
-
-        current_loc_marker_options =
-          position: current_location
-          icon: 'assets/logo.jpg'
-          map: app.google_map
-        new google.maps.Marker current_loc_marker_options
+        map.put_marker_on_current()
 
         app.places.objects.forEach(places.get_distance)
         app.places.objects.forEach(places.render)
@@ -36,6 +31,14 @@ map =
           map.checkBounds()
 
         #TODO: сделать так, чтобы места появлялись на карте даже в случае отсутствия текущей геолокации
+
+  put_marker_on_current: ->
+    #добавляет маркер к текущему месту
+    current_loc_marker_options =
+      position: app.current_location
+      icon: 'assets/logo.jpg'
+      map: app.google_map
+    new google.maps.Marker current_loc_marker_options
 
   checkBounds: ->
     map.lastValidCenter = app.google_map.getCenter() if app.bounds.contains(app.google_map.getCenter())
