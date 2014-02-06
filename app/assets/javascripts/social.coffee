@@ -3,9 +3,12 @@ $ ->
     #при нажатии по соц кнопке открывай окошко соц сети
     share_button = $(@)
     method = share_button.attr("data-method")
+    reason = $("#reason_field").val()
     $.ajax "../stats/#{method}",
       type: "POST"
       dataType: "json"
+      data:
+        reason: reason
       success: ->
         console.log "yeahhhhhh"
       error: ->
@@ -15,7 +18,7 @@ $ ->
         method: 'feed'
         link: 'brainlook.org'
         caption: app.social_title
-        description: "#{app.social_text} #{$("#reason_field").val()}"
+        description: "#{app.social_text} #{reason}"
       }, (response)->);
     else
       url = share_button.attr("href")

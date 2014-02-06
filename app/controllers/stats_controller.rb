@@ -1,5 +1,6 @@
 class StatsController < ApplicationController
-  before_filter :get_stat
+  before_action :get_stat
+  before_action :update_reason, only: [:vk_post, :tw_post, :fb_post]
 
   def index
 
@@ -42,5 +43,12 @@ class StatsController < ApplicationController
 
   def get_stat
     @stats = Stat.first
+  end
+
+  def update_reason
+    reason_text = params[:reason]
+    downcase_text = reason_text.mb_chars.downcase.to_s
+    reason = Reason.find_downcase(downcase_text)
+    reason.present? ? reason.first.increase_popularity : Reason.create(text: reason_text)
   end
 end
