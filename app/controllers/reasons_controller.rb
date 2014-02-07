@@ -36,7 +36,7 @@ class ReasonsController < ApplicationController
         format.html { redirect_to @reason, notice: notice }
       else
         notice = {class: "alert-danger", value: 'Ошибка при добавлении.' }
-        format.html { render action: "new", notice: notice }
+        format.html { redirect_to index_admin_reasons_path, notice: notice }
       end
     end
   end

@@ -10,6 +10,9 @@ $gp_color: #dc4b37
   margin: 10px 10px 0 0
   color: #fff
   border-radius: 3px
+  &.error_share
+    opacity: 0.4
+    cursor: default
   &:before
     position: absolute
     left: 13px
@@ -28,36 +31,29 @@ $gp_color: #dc4b37
       left: 8px
       top: 10px
       background-position: -48px 0px
-    &:hover
-      background: lighten($vk_color, 10%)
-    &:active
-      background: darken($vk_color, 10%)
+    &.ok_share
+      &:hover
+        background: lighten($vk_color, 10%)
+      &:active
+        background: darken($vk_color, 10%)
 
   &.fb_like_button
     background: $fb_color
     &:before
       background-position: -75px 0px
       left: 9px
-    &:hover
-      background: lighten($fb_color, 10%)
-    &:active
-      background: darken($fb_color, 10%)
+    &.ok_share
+      &:hover
+        background: lighten($fb_color, 10%)
+      &:active
+        background: darken($fb_color, 10%)
 
   &.tw_like_button
     background: $tw_color
     &:before
       background-position: -24px 0px
-    &:hover
-      background: lighten($tw_color, 10%)
-    &:active
-      background: darken($tw_color, 10%)
-
-  &.gp_like_button
-    background: $gp_color
-    &:before
-      left: 17px
-      background-position: 0px 0px
-    &:hover
-      background: lighten($gp_color, 10%)
-    &:active
-      background: darken($gp_color, 10%)
+    &.ok_share
+      &:hover
+        background: lighten($tw_color, 10%)
+      &:active
+        background: darken($tw_color, 10%)
