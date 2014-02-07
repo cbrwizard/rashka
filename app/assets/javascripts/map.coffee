@@ -1,9 +1,7 @@
 $ ->
   map.init()
-  map.show_places()
-  new google.maps.Marker
-    position: new google.maps.LatLng(48.597, 20.203)
-    map: app.google_map
+  map.get_current_location()
+  #TODO: сначала ставить маркер на кремль и расставлять места относительно него. Затем если чел разрешает местоположение, убрать маркер оттуда и добавить его на текущее. Также обновить расстояние у каждого места
 
 map =
   #параметры карты
@@ -16,21 +14,37 @@ map =
     minZoom: 4
 
   show_places: ->
+    app.places.objects.forEach(places.get_distance)
+    app.places.objects.forEach(places.render)
+
+    google.maps.event.addListener app.google_map, "center_changed", ->
+      map.checkBounds()
+
+  set_current_location: (location) ->
+    app.google_map.setCenter location
+    app.current_location = location
+    map.put_marker_on_current()
+    app.got_location = true
+
+  nav_geo_success: (position) ->
+    current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+    map.set_current_location(current_location)
+    map.show_places()
+
+  nav_geo_error: ->
+    alert "Unable to retrieve your location"
+
+  get_current_location: ->
     #пытается разместить окно по центру текущего местоположения, а также отображает места
     if navigator.geolocation
-      navigator.geolocation.getCurrentPosition (position) ->
-        current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
-        app.google_map.setCenter current_location
-        app.current_location = current_location
-        map.put_marker_on_current()
+      navigator.geolocation.getCurrentPosition(map.nav_geo_success, map.nav_geo_error)
 
-        app.places.objects.forEach(places.get_distance)
-        app.places.objects.forEach(places.render)
+      setTimeout (->  #для мозиллы на убунте, ибо там не получается отловить ошибку геолокации
+        unless app.got_location == true
+          map.show_places()
+          map.put_marker_on_current()
+      ), 3000
 
-        google.maps.event.addListener app.google_map, "center_changed", ->
-          map.checkBounds()
-
-        #TODO: сделать так, чтобы места появлялись на карте даже в случае отсутствия текущей геолокации
 
   put_marker_on_current: ->
     #добавляет маркер к текущему месту
@@ -38,7 +52,7 @@ map =
       position: app.current_location
       icon: 'assets/logo.jpg'
       map: app.google_map
-    new google.maps.Marker current_loc_marker_options
+    app.current_marker = new google.maps.Marker current_loc_marker_options
 
   checkBounds: ->
     map.lastValidCenter = app.google_map.getCenter() if app.bounds.contains(app.google_map.getCenter())

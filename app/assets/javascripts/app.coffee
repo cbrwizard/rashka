@@ -3,6 +3,11 @@ global.app =
   #общие параметры приложения
   current_location: new google.maps.LatLng(55.751667, 37.617778)
   google_map: undefined
+  bounds: new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999))
+  social_title: "Симулятор эвакуации из Рашки"
+  social_text: "Я решил валить из рашки, потому что"
+  got_location: false
+  current_marker: undefined
   places:
     objects:
       gon.places
@@ -15,6 +20,3 @@ global.app =
       width: "280px",
       fontSize: "18px"
     closeBoxURL: ""
-  bounds: new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999))
-  social_title: "Симулятор эвакуации из Рашки"
-  social_text: "Я решил валить из рашки, потому что"
