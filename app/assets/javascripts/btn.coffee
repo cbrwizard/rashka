@@ -69,6 +69,7 @@ show_directions = (response) ->
   #отображение маршрута
   directions_renderer = get_directions_renderer()
   directions_renderer.setDirections(response)
+  app.directions_renderer = directions_renderer
   console.log("Вам надо всего-то #{response.routes[0].legs[0].duration.text} ехать на машине и вы свалите из этой замечательной страны!")
 
 

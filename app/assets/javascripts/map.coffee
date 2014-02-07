@@ -1,7 +1,8 @@
 $ ->
   map.init()
+  map.put_marker_on_current()
+  map.show_places()
   map.get_current_location()
-  #TODO: сначала ставить маркер на кремль и расставлять места относительно него. Затем если чел разрешает местоположение, убрать маркер оттуда и добавить его на текущее. Также обновить расстояние у каждого места
 
 map =
   #параметры карты
@@ -24,27 +25,22 @@ map =
     app.google_map.setCenter location
     app.current_location = location
     map.put_marker_on_current()
-    app.got_location = true
 
   nav_geo_success: (position) ->
+    app.current_marker.setMap(null)
+    unless app.directions_renderer == undefined
+      app.directions_renderer.setMap(null)
     current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
     map.set_current_location(current_location)
-    map.show_places()
+    map.reset_markers()
 
   nav_geo_error: ->
-    alert "Unable to retrieve your location"
+    console.log "Unable to retrieve your location"
 
   get_current_location: ->
     #пытается разместить окно по центру текущего местоположения, а также отображает места
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition(map.nav_geo_success, map.nav_geo_error)
-
-      setTimeout (->  #для мозиллы на убунте, ибо там не получается отловить ошибку геолокации
-        unless app.got_location == true
-          map.show_places()
-          map.put_marker_on_current()
-      ), 3000
-
 
   put_marker_on_current: ->
     #добавляет маркер к текущему месту
@@ -53,6 +49,11 @@ map =
       icon: 'assets/logo.jpg'
       map: app.google_map
     app.current_marker = new google.maps.Marker current_loc_marker_options
+
+  reset_markers: ->
+    #обновляет маркеры для подготовки к новому текущему местоположению
+    app.places.objects.forEach(places.get_distance)
+    app.places.objects.forEach(places.update_infobox)
 
   checkBounds: ->
     map.lastValidCenter = app.google_map.getCenter() if app.bounds.contains(app.google_map.getCenter())
@@ -84,20 +85,22 @@ places =
       map: app.google_map
       icon: places.types[place.type_id].icon
     marker = new google.maps.Marker(place_marker_options)
-    place.marker = marker
 
-    place_infobox = new InfoBox(app.infobox_options)
+    place.infobox = new InfoBox(app.infobox_options)
+    places.update_infobox(place)
+
+    google.maps.event.addListener marker, 'mouseover', ->
+      place.infobox.open(app.google_map, this)
+
+    google.maps.event.addListener marker, 'mouseout', ->
+      place.infobox.close()
+
+  update_infobox: (place) ->
+    #устанавливает контент у инфобокса места
     infobox_content = "
       <p><b>#{place.type} :</b> #{place.name} </p>
       <p><b>Расстояние:</b> #{place.distance.toFixed(1)} км</p>"
-
-    google.maps.event.addListener marker, 'mouseover', ->
-      place_infobox.setContent(infobox_content)
-      place_infobox.open(app.google_map, this)
-
-    google.maps.event.addListener marker, 'mouseout', ->
-      place_infobox.close()
-
+    place.infobox.setContent(infobox_content)
 
   rad:(x) ->
     #перевод в радианы
