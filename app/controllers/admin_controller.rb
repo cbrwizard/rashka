@@ -1,6 +1,7 @@
 class AdminController < ApplicationController
   require 'bcrypt'
   include Admin
+  layout 'admin'
 
   def index
     #главная админки

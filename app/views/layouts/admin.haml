@@ -1,0 +1,15 @@
+!!!
+%html
+  %head
+    %meta{charset: "utf-8"}/
+    %meta{content: "width=device-width, initial-scale=1, user-scalable=no", name: "viewport"}/
+    %title Rashka
+    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+    = csrf_meta_tags
+    = include_gon
+  %body
+    /[if lt IE 9]
+      %script{src: "http://html5shiv.googlecode.com/svn/trunk/html5.js"}
+
+    = render :partial => 'notifications/notice'
+    = yield

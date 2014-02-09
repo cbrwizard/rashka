@@ -1,7 +1,9 @@
 class ReasonsController < ApplicationController
   include Admin
 
-  before_action :allow_access?, only: [:index_admin, :show, :edit, :new, :create, :update, :destroy]
+  before_action :allow_access?, only: [:index, :show, :edit, :new, :create, :update, :destroy]
+
+  layout 'admin', except: [:get_random]
 
   def get_random
     @reason = Reason.random.text

@@ -1,7 +1,9 @@
 class NewsController < ApplicationController
   include Admin
 
-  before_action :allow_access?, on: [:index_admin, :show, :edit, :new, :create, :update, :destroy]
+  before_action :allow_access?, only: [:index, :show, :edit, :new, :create, :update, :destroy]
+
+  layout 'admin'
 
   def index
     @news = News.all
