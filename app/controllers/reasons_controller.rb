@@ -11,7 +11,7 @@ class ReasonsController < ApplicationController
     end
   end
 
-  def index_admin
+  def index
     @reasons = Reason.all
   end
 

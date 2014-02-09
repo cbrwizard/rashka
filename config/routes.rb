@@ -9,15 +9,10 @@ Rashka::Application.routes.draw do
 
   match 'admin' => 'admin#index', via: :get
 
-  resources :news do
-    collection do
-      get 'index_admin'
-    end
-  end
+  resources :news
 
   resources :reasons do
     collection do
-      get 'index_admin'
       get 'get_random'
     end
   end

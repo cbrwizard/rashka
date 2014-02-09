@@ -30,6 +30,7 @@ map =
     app.current_marker.setMap(null)
     unless app.directions_renderer == undefined
       app.directions_renderer.setMap(null)
+      #TODO: ресетить кнопку валить, раз уж мы на всякий стираем маршрут
     current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
     map.set_current_location(current_location)
     map.reset_markers()
@@ -40,7 +41,7 @@ map =
   get_current_location: ->
     #пытается разместить окно по центру текущего местоположения, а также отображает места
     if navigator.geolocation
-      navigator.geolocation.getCurrentPosition(map.nav_geo_success, map.nav_geo_error)
+      navigator.geolocation.getCurrentPosition(map.nav_geo_success, map.nav_geo_error, { enableHighAccuracy:true })
 
   put_marker_on_current: ->
     #добавляет маркер к текущему месту

@@ -3,7 +3,7 @@ class NewsController < ApplicationController
 
   before_action :allow_access?, on: [:index_admin, :show, :edit, :new, :create, :update, :destroy]
 
-  def index_admin
+  def index
     @news = News.all
   end
 
