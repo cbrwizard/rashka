@@ -52,6 +52,11 @@ group :development do
   gem 'rack-mini-profiler'
 end
 
+group :development, :test do
+  gem 'rspec-rails'
+  gem "mocha"
+end
+
 group :production do
   #gem 'exception_notification'
   #gem 'activerecord-reset-pk-sequence'

@@ -30,7 +30,7 @@ class NewsController < ApplicationController
         format.html { redirect_to @one_news, notice: notice }
       else
         notice = {class: "alert-danger", value: 'Ошибка при добавлении.' }
-        format.html { render action: "new", notice: notice }
+        format.html { render :new, notice: notice }
       end
     end
   end
@@ -46,7 +46,7 @@ class NewsController < ApplicationController
       else
         notice = {class: "alert-danger", value: 'Ошибка при редактировании.' }
 
-        format.html { render action: "edit", notice: notice }
+        format.html { render :edit, notice: notice }
       end
     end
   end
@@ -57,7 +57,7 @@ class NewsController < ApplicationController
 
     respond_to do |format|
       notice = {class: "alert-danger", value: 'Успешно удалил новость.' }
-      format.html { redirect_to index_admin_news_index_path, notice: notice }
+      format.html { redirect_to news_index_path, notice: notice }
     end
   end
 

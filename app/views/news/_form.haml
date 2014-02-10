@@ -1,21 +1,20 @@
 = form_for(@one_news) do |f|
-  -cache @one_news do
-    - if @one_news.errors.any?
-      #error_explanation.alert.alert-danger
-        %h2
-          = @one_news.errors.count
-          = Russian.p(@one_news.errors.count, "ошибка", "ошибки", "ошибок")
-        %ul
-          - @one_news.errors.full_messages.each do |msg|
-            %li= msg
-    .form-group
-      = f.label :title, "Заголовок"
-      = f.text_field :title, {class: "form-control"}
-    .form-group
-      = f.label :text, "Текст"
-      = f.text_area :text, {class: "form-control"}
-    .form-group
-      = f.label :link, "Ссылка"
-      = f.text_field :link, {class: "form-control"}
-    .actions
-      = f.submit "Бдыщ", {class: "btn btn-default"}
+  - if @one_news.errors.any?
+    #error_explanation.alert.alert-danger
+      %h2
+        = @one_news.errors.count
+        = Russian.p(@one_news.errors.count, "ошибка", "ошибки", "ошибок")
+      %ul
+        - @one_news.errors.full_messages.each do |msg|
+          %li= msg
+  .form-group
+    = f.label :title, "Заголовок"
+    = f.text_field :title, {class: "form-control"}
+  .form-group
+    = f.label :text, "Текст"
+    = f.text_area :text, {class: "form-control"}
+  .form-group
+    = f.label :link, "Ссылка"
+    = f.text_field :link, {class: "form-control"}
+  .actions
+    = f.submit "Бдыщ", {class: "btn btn-default"}

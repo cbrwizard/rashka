@@ -38,7 +38,7 @@ class ReasonsController < ApplicationController
         format.html { redirect_to @reason, notice: notice }
       else
         notice = {class: "alert-danger", value: 'Ошибка при добавлении.' }
-        format.html { redirect_to index_admin_reasons_path, notice: notice }
+        format.html { render :new, notice: notice }
       end
     end
   end
@@ -52,7 +52,7 @@ class ReasonsController < ApplicationController
         format.html { redirect_to @reason, notice: notice }
       else
         notice = {class: "alert-danger", value: 'Ошибка при редактировании.' }
-        format.html { render action: "edit", notice: notice }
+        format.html { render :edit, notice: notice }
       end
     end
   end
@@ -63,7 +63,7 @@ class ReasonsController < ApplicationController
 
     respond_to do |format|
       notice = {class: "alert-danger", value: 'Успешно удалил причину.' }
-      format.html { redirect_to index_admin_reasons_path, notice: notice }
+      format.html { redirect_to reasons_path, notice: notice }
     end
   end
 
