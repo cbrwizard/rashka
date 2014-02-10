@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20140204090546) do
 
   create_table "reasons", force: true do |t|
     t.string   "text",                   null: false
-    t.integer  "popularity", default: 0
+    t.integer  "popularity", default: 1
     t.datetime "created_at"
     t.datetime "updated_at"
   end

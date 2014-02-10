@@ -4,14 +4,14 @@ class Reason < ActiveRecord::Base
   scope :random, -> {unscoped.order("RANDOM()").first}
   scope :find_downcase, -> (downcase_text) {where('lower(text) like ?', "%#{downcase_text}%")}
 
-  validates_uniqueness_of :text, :message => "такая причина уже есть"
+  validates :text, :uniqueness => {:case_sensitive => false, :message => "такая причина уже есть"}
 
   validates_length_of :text, :minimum => 2, :maximum => 81, :message => "должен быть длиной от 2 до 81 символа"
 
-  def try_to_save(text)
-    downcase_text = text.mb_chars.downcase.to_s
+  def try_to_save
+    downcase_text = self.text.mb_chars.downcase.to_s
     reason = Reason.find_downcase(downcase_text)
-    reason ? reason.first.increase_popularity : Reason.create(text: text)
+    reason.present? ? reason.first.increase_popularity : self.save
   end
 
   def increase_popularity

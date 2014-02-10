@@ -49,8 +49,7 @@ class StatsController < ApplicationController
 
   def update_reason
     reason_text = params[:reason]
-    downcase_text = reason_text.mb_chars.downcase.to_s
-    reason = Reason.find_downcase(downcase_text)
-    reason.present? ? reason.first.increase_popularity : Reason.create(text: reason_text)
+    reason = Reason.new(text: reason_text)
+    reason.try_to_save
   end
 end
