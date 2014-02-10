@@ -5,10 +5,10 @@ def parse_airports
   "
 
   air_file.each do |airport|
-    type_id = 1.to_s
-    name = airport["Name"]
-    latitude = airport["Latitude"]
-    longitude = airport["Longitude"]
+    type_id = airport["type_id"].to_s
+    name = airport["name"]
+    latitude = airport["lat"]
+    longitude = airport["lng"]
 
     start_string = "{ name: "
     name_string = "'#{name}'"
