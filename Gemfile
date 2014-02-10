@@ -55,6 +55,8 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem "mocha"
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 group :production do
