@@ -6,7 +6,7 @@ class NewsController < ApplicationController
   layout 'admin'
 
   def index
-    @news = News.all
+    @news = News.paginate(:page => params[:page], :per_page => 10)
   end
 
   def show

@@ -14,7 +14,7 @@ class ReasonsController < ApplicationController
   end
 
   def index
-    @reasons = Reason.all
+    @reasons = Reason.paginate(:page => params[:page], :per_page => 10)
   end
 
   def show

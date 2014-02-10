@@ -31,3 +31,6 @@
                     =link_to "редактировать", edit_reason_path(reason.id)
                   %td
                     =link_to "удалить", reason, :data => {confirm: 'Точно удалить? Восстановить никак'}, method: :delete
+
+
+      = will_paginate @reasons

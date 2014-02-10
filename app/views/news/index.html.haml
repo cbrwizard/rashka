@@ -37,3 +37,5 @@
                     =link_to "редактировать", edit_news_path(news.id)
                   %td
                     =link_to "удалить", news, :data => {confirm: 'Точно удалить? Восстановить никак'}, method: :delete
+
+      = will_paginate @news
