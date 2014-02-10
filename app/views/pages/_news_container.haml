@@ -1,5 +1,6 @@
 -cache @news do
-  #news_container.hidden-xs
+  %section#news_container.hidden-xs
     %h3
       Последние новости
-    = render @news
+    #news_pagination
+      = render :partial => 'pages/news_pagination'

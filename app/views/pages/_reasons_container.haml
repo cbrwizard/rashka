@@ -1,5 +1,6 @@
 -cache @reasons do
-  #reasons_container.hidden-xs
+  %section#reasons_container.hidden-xs
     %h3
       Причины эвакуации
-    = render @reasons
+    #reasons_pagination
+      = render :partial => 'pages/reasons_pagination'

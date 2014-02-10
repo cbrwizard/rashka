@@ -3,14 +3,24 @@ class PagesController < ApplicationController
   include ModalHelper
   include SocialHelper
 
-  respond_to :json
-
   def index
     #главная страница
-    @news = News.view_info
-    @reasons = Reason.view_info
+    @news = News.view_info.paginate(:page => params[:news_page], :per_page => 10)
+    @reasons = Reason.view_info.paginate(:page => params[:reasons_page], :per_page => 10)
 
-    gon.places = get_places_info
+    if params[:news_page].present?
+      render_file = 'pages/pagination/news'
+    elsif params[:reasons_page].present?
+      render_file = 'pages/pagination/reasons'
+    else
+      gon.places = get_places_info
+      render_file = "лолка штоли"
+    end
+
+    respond_to do |format|
+      format.html
+      format.js { render render_file }
+    end
   end
 
   def get_places_info
