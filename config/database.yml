@@ -13,9 +13,6 @@
 #
 # Configure Using Gemfile
 # gem 'pg'
-#
-#
-#
 development:
   adapter: postgresql
   database: rashka_dev

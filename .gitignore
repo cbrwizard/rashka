@@ -20,3 +20,4 @@
 *.idea
 .idea/workspace.xml
 /config/database.yml
+config/database.yml
