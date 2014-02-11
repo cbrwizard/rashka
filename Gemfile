@@ -50,6 +50,8 @@ group :development do
   gem "bullet"
   gem 'meta_request'
   gem 'rack-mini-profiler'
+  gem 'capistrano'
+  gem 'capobvious'
 end
 
 group :development, :test do
@@ -71,11 +73,7 @@ end
 gem 'bcrypt-ruby', :require => 'bcrypt'
 
 # Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-#gem 'capobvious'
+gem 'unicorn'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
