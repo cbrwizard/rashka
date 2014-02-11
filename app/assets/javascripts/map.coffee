@@ -16,18 +16,18 @@ map =
     minZoom: 4
 
   show_places: ->
+    #получает расстояние до каждой точки и рисует их на карте
     app.places.objects.forEach(places.get_distance)
     app.places.objects.forEach(places.render)
 
-    google.maps.event.addListener app.google_map, "center_changed", ->
-      map.checkBounds()
-
   set_current_location: (location) ->
+    #ставит маркер на текущее место
     app.google_map.setCenter location
     app.current_location = location
     map.put_marker_on_current()
 
   nav_geo_success: (position) ->
+    #в случае успеха определения местоположения юзера, обнови карту
     app.current_marker.setMap(null)
     unless app.directions_renderer == undefined
       app.directions_renderer.setMap(null)
@@ -37,6 +37,7 @@ map =
     map.reset_markers()
 
   nav_geo_error: ->
+    #в случае ошибки получения гео локации
     console.log "Unable to retrieve your location"
 
   get_current_location: ->
@@ -58,10 +59,12 @@ map =
     app.places.objects.forEach(places.update_infobox)
 
   checkBounds: ->
+    #проверяет, вышел ли пользователь за пределы границ карты
     map.lastValidCenter = app.google_map.getCenter() if app.bounds.contains(app.google_map.getCenter())
     app.google_map.panTo map.lastValidCenter
 
   cluster_markers: ->
+    #группирует маркеры вместе в один, если они рядом
     markerCluster_styles = [{
       url: 'http://localhost:3000/assets/logo.jpg',
       height: 35,
@@ -73,6 +76,9 @@ map =
   init: ->
     #инициализация карты
     app.google_map = new google.maps.Map(@.dom, @.options)
+
+    google.maps.event.addListener app.google_map, "center_changed", ->
+      map.checkBounds()
 
 places =
   #параметры мест
