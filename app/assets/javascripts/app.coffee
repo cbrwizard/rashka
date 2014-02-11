@@ -8,6 +8,7 @@ global.app =
   social_text: "Я решил валить из рашки, потому что"
   current_marker: undefined
   directions_renderer: undefined
+  markers: []
   places:
     objects:
       gon.places

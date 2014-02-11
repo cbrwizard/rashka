@@ -17,6 +17,7 @@
 //= require bootstrap/modal
 //= require bootstrap/dropdown
 //= require infobox
+//= require markerclusterer
 
 //= require turbolinks
 //= require_tree .

@@ -2,6 +2,7 @@ $ ->
   map.init()
   map.put_marker_on_current()
   map.show_places()
+  map.cluster_markers()
   map.get_current_location()
 
 map =
@@ -60,6 +61,15 @@ map =
     map.lastValidCenter = app.google_map.getCenter() if app.bounds.contains(app.google_map.getCenter())
     app.google_map.panTo map.lastValidCenter
 
+  cluster_markers: ->
+    markerCluster_styles = [{
+      url: 'http://localhost:3000/assets/logo.jpg',
+      height: 35,
+      width: 35,
+      textSize: 1
+    }]
+    new MarkerClusterer(app.google_map, app.markers, {styles: markerCluster_styles})
+
   init: ->
     #инициализация карты
     app.google_map = new google.maps.Map(@.dom, @.options)
@@ -86,6 +96,7 @@ places =
       map: app.google_map
       icon: places.types[place.type_id].icon
     marker = new google.maps.Marker(place_marker_options)
+    app.markers.push(marker)
 
     place.infobox = new InfoBox(app.infobox_options)
     places.update_infobox(place)
