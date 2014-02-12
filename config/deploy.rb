@@ -5,7 +5,7 @@ set :scm,             :git
 set :repository,      "git@github.com:cbrwizard/rashka.git"
 set :branch,          "origin/master"
 set :migrate_target,  :current
-set :ssh_options,     { :forward_agent => true }
+set :ssh_options,     { :forward_agent => true, :keys => ["~/.ssh/deployer"] }
 set :rails_env,       "production"
 set :deploy_to,       "/home/deployer/apps/rashka"
 set :normalize_asset_timestamps, false
@@ -14,9 +14,10 @@ set :user,            "deployer"
 set :group,           "staff"
 set :use_sudo,        false
 
-role :web,    "54.229.179.125"
-role :app,    "54.229.179.125"
-role :db,     "54.229.179.125", :primary => true
+
+role :web,    "ec2-54-229-179-125.eu-west-1.compute.amazonaws.com"
+role :app,    "ec2-54-229-179-125.eu-west-1.compute.amazonaws.com"
+role :db,     "ec2-54-229-179-125.eu-west-1.compute.amazonaws.com", :primary => true
 
 set(:latest_release)  { fetch(:current_path) }
 set(:release_path)    { fetch(:current_path) }
@@ -28,11 +29,11 @@ set(:previous_revision) { capture("cd #{current_path}; git rev-parse --short HEA
 
 default_environment["RAILS_ENV"] = 'production'
 
-# Use our ruby-1.9.2-p290@my_site gemset
-default_environment["PATH"]         = "--"
-default_environment["GEM_HOME"]     = "--"
-default_environment["GEM_PATH"]     = "--"
-default_environment["RUBY_VERSION"] = "ruby-2.1.0"
+## Use our ruby-1.9.2-p290@my_site gemset
+#default_environment["PATH"]         = "--"
+#default_environment["GEM_HOME"]     = "--"
+#default_environment["GEM_PATH"]     = "--"
+#default_environment["RUBY_VERSION"] = "ruby-2.1.0"
 
 default_run_options[:shell] = 'bash'
 
