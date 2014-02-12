@@ -5,7 +5,7 @@ set :scm,             :git
 set :repository,      "git@github.com:cbrwizard/rashka.git"
 set :branch,          "origin/master"
 set :migrate_target,  :current
-set :ssh_options,     { :forward_agent => true, :keys => ["~/.ssh/deployer"] }
+set :ssh_options,     { :forward_agent => true, :keys => ["~/security/cbrwizard-key-pair.pem"] }
 set :rails_env,       "production"
 set :deploy_to,       "/home/ubuntu/apps/rashka"
 set :normalize_asset_timestamps, false
