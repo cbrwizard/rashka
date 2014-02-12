@@ -259,6 +259,7 @@ DEPENDENCIES
   rails (= 4.0.2)
   rspec-rails
   russian (~> 0.6.0)
+  rvm-capistrano
   sass-rails (~> 4.0.0)
   sdoc
   selenium-webdriver

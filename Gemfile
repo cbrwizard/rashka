@@ -51,6 +51,7 @@ group :development do
   gem 'meta_request'
   gem 'rack-mini-profiler'
   gem 'capistrano'
+  gem 'rvm-capistrano'
   gem 'capobvious'
 end
 
