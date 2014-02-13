@@ -74,7 +74,7 @@ end
 gem 'bcrypt-ruby', :require => 'bcrypt'
 
 # Use unicorn as the app server
-gem 'unicorn'
+#gem 'unicorn'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

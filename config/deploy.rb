@@ -95,20 +95,24 @@ namespace :deploy do
     end
   end
 
-  desc "Zero-downtime restart of Unicorn"
-  task :restart, :except => { :no_release => true } do
-    run "kill -s USR2 `cat /tmp/unicorn.rashka.pid`"
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 
-  desc "Start unicorn"
-  task :start, :except => { :no_release => true } do
-    run "cd #{current_path} ; bundle exec unicorn_rails -c config/unicorn.rb -D"
-  end
-
-  desc "Stop unicorn"
-  task :stop, :except => { :no_release => true } do
-    run "kill -s QUIT `cat /tmp/unicorn.rashka.pid`"
-  end
+  #desc "Zero-downtime restart of Unicorn"
+  #task :restart, :except => { :no_release => true } do
+  #  run "kill -s USR2 `cat /tmp/unicorn.rashka.pid`"
+  #end
+  #
+  #desc "Start unicorn"
+  #task :start, :except => { :no_release => true } do
+  #  run "cd #{current_path} ; bundle exec unicorn_rails -c config/unicorn.rb -D"
+  #end
+  #
+  #desc "Stop unicorn"
+  #task :stop, :except => { :no_release => true } do
+  #  run "kill -s QUIT `cat /tmp/unicorn.rashka.pid`"
+  #end
 
   namespace :rollback do
     desc "Moves the repo back to the previous version of HEAD"
