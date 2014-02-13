@@ -6,14 +6,13 @@ set :scm,             :git
 set :repository,      "git@github.com:cbrwizard/rashka.git"
 set :branch,          "origin/master"
 set :migrate_target,  :current
-set :ssh_options,     { :forward_agent => true, :keys => ["~/security/cbrwizard-key-pair.pem"] }
+set :ssh_options,     { :keys => ["~/security/cbrwizard-key-pair.pem"] }
 set :rails_env,       "production"
 set :deploy_to,       "/home/ubuntu/apps/rashka"
 set :normalize_asset_timestamps, false
 
 set :user,            "ubuntu"
 set :use_sudo,        false
-
 
 role :web,    "54.229.179.125"
 role :app,    "54.229.179.125"
@@ -28,22 +27,10 @@ set(:latest_revision)   { capture("cd #{current_path}; git rev-parse --short HEA
 set(:previous_revision) { capture("cd #{current_path}; git rev-parse --short HEAD@{1}").strip }
 
 default_environment["RAILS_ENV"] = 'production'
-
-## Use our ruby-1.9.2-p290@rashka gemset
-#default_environment["PATH"]         = "--"
-#default_environment["GEM_HOME"]     = "--"
-#default_environment["GEM_PATH"]     = "--"
-#default_environment["RUBY_VERSION"] = "ruby-2.1.0"
-
-default_run_options[:shell] = 'bash'
-
+set :default_shell, '/bin/bash -l'
+#чтобы правильно задавались переменные убунту
 
 set :rvm_ruby_string, :local              # use the same ruby as used locally for deployment
-set :rvm_autolibs_flag, "read-only"       # more info: rvm help autolibs
-
-#before 'deploy:setup', 'rvm:install_rvm'  # install/update RVM
-#before 'deploy:setup', 'rvm:install_ruby' # install Ruby and create gemset, OR:
-
 
 namespace :deploy do
   desc "Deploy your application"
