@@ -25,7 +25,7 @@ if env == "production"
   working_directory "/home/ubuntu/apps/rashka/current"
 
   # feel free to point this anywhere accessible on the filesystem
-  user 'ubuntu', 'web'
+  user 'deployer', 'staff'
   shared_path = "/home/ubuntu/apps/rashka/shared"
 
   stderr_path "#{shared_path}/log/unicorn.stderr.log"

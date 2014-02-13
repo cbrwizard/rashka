@@ -1,5 +1,6 @@
 # config/deploy.rb
 require "bundler/capistrano"
+require "rvm/capistrano"
 
 set :scm,             :git
 set :repository,      "git@github.com:cbrwizard/rashka.git"
@@ -11,13 +12,12 @@ set :deploy_to,       "/home/ubuntu/apps/rashka"
 set :normalize_asset_timestamps, false
 
 set :user,            "ubuntu"
-set :group,           "web"
 set :use_sudo,        false
 
 
-role :web,    "ec2-54-229-179-125.eu-west-1.compute.amazonaws.com"
-role :app,    "ec2-54-229-179-125.eu-west-1.compute.amazonaws.com"
-role :db,     "ec2-54-229-179-125.eu-west-1.compute.amazonaws.com", :primary => true
+role :web,    "54.229.179.125"
+role :app,    "54.229.179.125"
+role :db,     "54.229.179.125", :primary => true
 
 set(:latest_release)  { fetch(:current_path) }
 set(:release_path)    { fetch(:current_path) }
@@ -29,13 +29,21 @@ set(:previous_revision) { capture("cd #{current_path}; git rev-parse --short HEA
 
 default_environment["RAILS_ENV"] = 'production'
 
-## Use our ruby-1.9.2-p290@my_site gemset
+## Use our ruby-1.9.2-p290@rashka gemset
 #default_environment["PATH"]         = "--"
 #default_environment["GEM_HOME"]     = "--"
 #default_environment["GEM_PATH"]     = "--"
 #default_environment["RUBY_VERSION"] = "ruby-2.1.0"
 
 default_run_options[:shell] = 'bash'
+
+
+set :rvm_ruby_string, :local              # use the same ruby as used locally for deployment
+set :rvm_autolibs_flag, "read-only"       # more info: rvm help autolibs
+
+#before 'deploy:setup', 'rvm:install_rvm'  # install/update RVM
+#before 'deploy:setup', 'rvm:install_ruby' # install Ruby and create gemset, OR:
+
 
 namespace :deploy do
   desc "Deploy your application"
@@ -102,7 +110,7 @@ namespace :deploy do
 
   desc "Zero-downtime restart of Unicorn"
   task :restart, :except => { :no_release => true } do
-    run "kill -s USR2 `cat /tmp/unicorn.my_site.pid`"
+    run "kill -s USR2 `cat /tmp/unicorn.rashka.pid`"
   end
 
   desc "Start unicorn"
@@ -112,7 +120,7 @@ namespace :deploy do
 
   desc "Stop unicorn"
   task :stop, :except => { :no_release => true } do
-    run "kill -s QUIT `cat /tmp/unicorn.my_site.pid`"
+    run "kill -s QUIT `cat /tmp/unicorn.rashka.pid`"
   end
 
   namespace :rollback do
