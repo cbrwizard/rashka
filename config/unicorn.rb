@@ -8,7 +8,6 @@ worker_processes 4
 
 # listen on both a Unix domain socket and a TCP port,
 # we use a shorter backlog for quicker failover when busy
-listen "/tmp/rashka.socket", :backlog => 64
 
 # Preload our app for more speed
 preload_app true
@@ -16,21 +15,22 @@ preload_app true
 # nuke workers after 30 seconds instead of 60 seconds (the default)
 timeout 30
 
-pid "/tmp/unicorn.rashka.pid"
+shared_path = "/home/ubuntu/apps/rashka/shared"
 
-# Production specific settings
-if env == "production"
-  # Help ensure your application will always spawn in the symlinked
-  # "current" directory that Capistrano sets up.
-  working_directory "/home/ubuntu/apps/rashka/current"
+listen "#{shared_path}/tmp/rashka.socket", :backlog => 64
+listen 8080, :tcp_nopush => true
 
-  # feel free to point this anywhere accessible on the filesystem
-  user 'deployer', 'staff'
-  shared_path = "/home/ubuntu/apps/rashka/shared"
+pid "#{shared_path}/tmp/unicorn.rashka.pid"
 
-  stderr_path "#{shared_path}/log/unicorn.stderr.log"
-  stdout_path "#{shared_path}/log/unicorn.stdout.log"
-end
+# Help ensure your application will always spawn in the symlinked
+# "current" directory that Capistrano sets up.
+working_directory "/home/ubuntu/apps/rashka/current"
+
+# feel free to point this anywhere accessible on the filesystem
+user 'deployer', 'staff'
+
+stderr_path "#{shared_path}/log/unicorn.stderr.log"
+stdout_path "#{shared_path}/log/unicorn.stdout.log"
 
 before_fork do |server, worker|
   # the following is highly recomended for Rails + "preload_app true"
@@ -41,7 +41,7 @@ before_fork do |server, worker|
 
   # Before forking, kill the master process that belongs to the .oldbin PID.
   # This enables 0 downtime deploys.
-  old_pid = "/tmp/unicorn.rashka.pid.oldbin"
+  old_pid = "#{shared_path}/tmp/unicorn.rashka.pid.oldbin"
   if File.exists?(old_pid) && server.pid != old_pid
     begin
       Process.kill("QUIT", File.read(old_pid).to_i)
