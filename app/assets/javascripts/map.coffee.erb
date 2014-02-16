@@ -49,7 +49,7 @@ map =
     #добавляет маркер к текущему месту
     current_loc_marker_options =
       position: app.current_location
-      icon: "<%= image_path('current.jpg') %>"
+      icon: "<%= asset_path('current.jpg') %>"
       map: app.google_map
     app.current_marker = new google.maps.Marker current_loc_marker_options
 
@@ -66,7 +66,7 @@ map =
   cluster_markers: ->
     #группирует маркеры вместе в один, если они рядом
     markerCluster_styles = [{
-      url: "<%= image_path('current.jpg') %>",
+      url: "<%= asset_path('current.jpg') %>",
       height: 35,
       width: 35,
       textSize: 1
@@ -84,15 +84,15 @@ places =
   #параметры мест
   types:
     1:
-      icon: "<%= image_path('places/airplane.png') %>"
+      icon: "<%= asset_path('places/airplane.png') %>"
     2:
-      icon: "<%= image_path('places/seaport.png') %>"
+      icon: "<%= asset_path('places/seaport.png') %>"
     3:
-      icon: "<%= image_path('places/railway.png') %>"
+      icon: "<%= asset_path('places/railway.png') %>"
     4:
-      icon: "<%= image_path('places/border.png') %>"
+      icon: "<%= asset_path('places/border.png') %>"
     5:
-      icon: "<%= image_path('places/car.png') %>"
+      icon: "<%= asset_path('places/car.png') %>"
 
   render:(place) ->
     #отображение места на карте, принимает json объект места
