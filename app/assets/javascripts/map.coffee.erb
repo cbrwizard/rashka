@@ -84,15 +84,15 @@ places =
   #параметры мест
   types:
     1:
-      icon: 'assets/places/airplane.png'
+      icon: "<%= image_path('places/airplane.png') %>"
     2:
-      icon: 'assets/places/seaport.png'
+      icon: "<%= image_path('places/seaport.png') %>"
     3:
-      icon: 'assets/places/railway.png'
+      icon: "<%= image_path('places/railway.png') %>"
     4:
-      icon: 'assets/places/border.png'
+      icon: "<%= image_path('places/border.png') %>"
     5:
-      icon: 'assets/places/car.png'
+      icon: "<%= image_path('places/car.png') %>"
 
   render:(place) ->
     #отображение места на карте, принимает json объект места
