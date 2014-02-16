@@ -49,7 +49,7 @@ map =
     #добавляет маркер к текущему месту
     current_loc_marker_options =
       position: app.current_location
-      icon: 'assets/logo.jpg'
+      icon: "<%= image_path('current.jpg') %>"
       map: app.google_map
     app.current_marker = new google.maps.Marker current_loc_marker_options
 
