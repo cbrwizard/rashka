@@ -18,7 +18,7 @@ $ ->
         shortened_reason = reason.substr(0, 80)
         FB.ui({
           method: 'feed'
-          link: 'brainlook.org'
+          link: 'valiizrashki.ru'
           caption: app.social_title
           description: "#{app.social_text} #{shortened_reason}"
         }, (response)->);
