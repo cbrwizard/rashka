@@ -4,7 +4,7 @@ module SocialHelper
     #во вьюхе pages/share/social_container создает кнопки соц сетей, принимает класс кнопки, надпись в кнопке, начало соц ссылки, а также название метода для увеличения статистики
 
     #TODO: убрать stat_method и объединить его с btn_class
-    href = href_start + WEBSITE_ADDRESS
+    href = href_start + "http://valiizrashki.ru/"
 
     content_tag(:a, :class => "btn btn-lg share_button ok_share #{btn_class}", "href" => href, "target" => "_blank", :data => {:method => stat_method}) do
       text
