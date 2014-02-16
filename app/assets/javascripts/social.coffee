@@ -51,6 +51,7 @@ change_tw_link = (reason) ->
   tw_href = tw_like_button.attr("href")
   correct_tw_href = tw_href.slice( 0, tw_href.indexOf('&text') )
   tw_like_button.attr("href", correct_tw_href + "&text=#{app.social_text} #{reason}")
+  #TODO: перенести социальный текст в этот файл
 
 count_reason_text = (textarea) ->
   text = textarea.val()

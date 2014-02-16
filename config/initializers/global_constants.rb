@@ -1,2 +1,2 @@
 #для соц сетей и тд
-WEBSITE_ADDRESS = "http://brainlook.org/"
+WEBSITE_ADDRESS = "http://valiizrashki.ru/"
