@@ -63,9 +63,11 @@ group :development, :test do
 end
 
 group :production do
-  #gem 'exception_notification'
-  #gem 'activerecord-reset-pk-sequence'
+  gem 'exception_notification'
+  gem 'activerecord-reset-pk-sequence'
 end
+
+gem "figaro"
 
 #gem 'meta-tags', :require => 'meta_tags'
 #gem 'sitemap_generator'

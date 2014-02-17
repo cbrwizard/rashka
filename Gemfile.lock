@@ -19,6 +19,7 @@ GEM
       activesupport (= 4.0.2)
       arel (~> 4.0.0)
     activerecord-deprecated_finders (1.0.3)
+    activerecord-reset-pk-sequence (0.2.0)
     activesupport (4.0.2)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
@@ -70,8 +71,14 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     eventmachine (1.0.3)
+    exception_notification (4.0.1)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
     execjs (2.0.2)
     ffi (1.9.3)
+    figaro (0.7.0)
+      bundler (~> 1.0)
+      rails (>= 3, < 5)
     gon (5.0.1)
       actionpack (>= 2.3.0)
       json
@@ -231,6 +238,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-reset-pk-sequence
   bcrypt-ruby
   better_errors
   binding_of_caller
@@ -240,6 +248,8 @@ DEPENDENCIES
   capobvious
   capybara
   coffee-rails (~> 4.0.0)
+  exception_notification
+  figaro
   gon
   haml
   jbuilder (~> 1.2)

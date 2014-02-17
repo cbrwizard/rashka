@@ -77,4 +77,21 @@ Rashka::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'valiizrashki.ru',
+    user_name:            ENV["GMAIL_USERNAME"],
+    password:             ENV["GMAIL_PASSWORD"],
+    authentication:       'plain',
+    enable_starttls_auto: true  }
+
+  config.middleware.use ExceptionNotification::Rack,
+    :email => {
+      :email_prefix => "Rashka error",
+      :sender_address => ENV["GMAIL_USERNAME"],
+      :exception_recipients => ENV["GMAIL_USERNAME"]
+    }
 end
