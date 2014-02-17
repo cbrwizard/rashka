@@ -1,3 +1,4 @@
+#Админские методы причин
 class ReasonsController < ApplicationController
   include Admin
 

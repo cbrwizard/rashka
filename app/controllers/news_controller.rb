@@ -1,3 +1,4 @@
+#Админские методы новостей
 class NewsController < ApplicationController
   include Admin
 

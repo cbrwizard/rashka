@@ -3,6 +3,7 @@
 class Setting < ActiveRecord::Base
   #attr_accessor :password
 
+
   # Проверяет, правильные ли данные введены в админку
   # @note Вызывается при логине на админку
   # @example Reason.try_to_save

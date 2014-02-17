@@ -1,6 +1,8 @@
 # Причины
 # @example #<Reason id: 2, text: "Страной правят геи", popularity: 12313, created_at: "2014-02-15 11:03:31", updated_at: "2014-02-17 07:32:35">
 class Reason < ActiveRecord::Base
+  include Paginated
+
   default_scope -> {order(updated_at: :desc)}
   scope :view_info, -> {select(:text, :updated_at)}
   scope :random, -> {unscoped.order("RANDOM()").first}
@@ -20,6 +22,7 @@ class Reason < ActiveRecord::Base
     reason = Reason.find_downcase(downcase_text)
     reason.present? ? reason.first.increase_popularity : self.save
   end
+
 
   # Увеличивает статистику популярности у причины
   # @note Вызывается при нажатии по соц кнопке

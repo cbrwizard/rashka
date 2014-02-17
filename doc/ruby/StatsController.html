@@ -103,7 +103,18 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Методы статистики</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -121,7 +132,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#evacuate-instance_method" title="#evacuate (instance method)">- (Object) <strong>evacuate</strong> </a>
+      <a href="#evacuate-instance_method" title="#evacuate (instance method)">- (String) <strong>evacuate</strong> </a>
     
 
     
@@ -135,7 +146,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Обрабатывает нажатие по ВАЛИТЬ.</p>
+</div></span>
   
 </li>
 
@@ -157,7 +170,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Обрабатывает нажатие по соц кнопке ФБ.</p>
+</div></span>
   
 </li>
 
@@ -179,7 +194,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Передает в переменную единственную запись статистики.</p>
+</div></span>
   
 </li>
 
@@ -201,7 +218,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Отображение инфы о статистике.</p>
+</div></span>
   
 </li>
 
@@ -223,7 +242,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Обрабатывает нажатие по соц кнопке ТВ.</p>
+</div></span>
   
 </li>
 
@@ -245,7 +266,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Пытается сохранить причину, указанную в посте.</p>
+</div></span>
   
 </li>
 
@@ -267,7 +290,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Обрабатывает нажатие по соц кнопке ВК.</p>
+</div></span>
   
 </li>
 
@@ -291,29 +316,84 @@
       <div class="method_details first">
   <h3 class="signature first" id="evacuate-instance_method">
   
-    - (<tt>Object</tt>) <strong>evacuate</strong> 
+    - (<tt>String</tt>) <strong>evacuate</strong> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>POST stats/evacuate через AJAX</p>
+</div>
+  </div>
+
+
+<p>Обрабатывает нажатие по ВАЛИТЬ. Увеличивает статистику и готовит случайную
+причину для формы “рассказать друзьям”</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>$.ajax &quot;../stats/evacuate&quot;,
+  type: &quot;POST&quot;
+  dataType: &quot;json&quot;</code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>текст причины</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Stat.html" title="Stat (class)">Stat</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-11
-12
-13
-14
-15
-16
-17
-18</pre>
+25
+26
+27
+28
+29
+30
+31
+32</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 25</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evacuate'>evacuate</span>
   <span class='ivar'>@stats</span><span class='period'>.</span><span class='id identifier rubyid_increase_people_left'>increase_people_left</span>
@@ -337,22 +417,76 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>POST stats/evacuate через AJAX</p>
+</div>
+  </div>
+
+
+<p>Обрабатывает нажатие по соц кнопке ФБ. Увеличивает статистику, также
+пытается сохранить причину, указанную в посте $.ajax “../stats/fb_post”,</p>
+
+<pre class="code ruby"><code class="ruby">type: &quot;POST&quot;
+dataType: &quot;json&quot;
+data:
+  reason: reason</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>reason</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Текст отправленной в пост причины</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Stat.html" title="Stat (class)">Stat</a></span></li>
+    
+      <li><span class='object_link'><a href="Reason.html#try_to_save-instance_method" title="Reason#try_to_save (method)">Reason#try_to_save</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-28
-29
-30
-31
-32
-33
-34</pre>
+70
+71
+72
+73
+74
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 70</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_fb_post'>fb_post</span>
   <span class='ivar'>@stats</span><span class='period'>.</span><span class='id identifier rubyid_increase_shares_fb'>increase_shares_fb</span>
@@ -375,18 +509,29 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Передает в переменную единственную запись статистики</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-46
-47
-48</pre>
+104
+105
+106</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 104</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_get_stat'>get_stat</span>
   <span class='ivar'>@stats</span> <span class='op'>=</span> <span class='const'>Stat</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
@@ -405,18 +550,37 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>GET /stats</p>
+</div>
+  </div>
+
+
+<p>Отображение инфы о статистике</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-7
-8
-9</pre>
+11
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 11</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_index'>index</span>
 
@@ -435,22 +599,76 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>POST stats/evacuate через AJAX</p>
+</div>
+  </div>
+
+
+<p>Обрабатывает нажатие по соц кнопке ТВ. Увеличивает статистику, также
+пытается сохранить причину, указанную в посте $.ajax “../stats/tw_post”,</p>
+
+<pre class="code ruby"><code class="ruby">type: &quot;POST&quot;
+dataType: &quot;json&quot;
+data:
+  reason: reason</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>reason</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Текст отправленной в пост причины</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Stat.html" title="Stat (class)">Stat</a></span></li>
+    
+      <li><span class='object_link'><a href="Reason.html#try_to_save-instance_method" title="Reason#try_to_save (method)">Reason#try_to_save</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-36
-37
-38
-39
-40
-41
-42</pre>
+92
+93
+94
+95
+96
+97
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 36</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 92</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_tw_post'>tw_post</span>
   <span class='ivar'>@stats</span><span class='period'>.</span><span class='id identifier rubyid_increase_shares_tw'>increase_shares_tw</span>
@@ -473,20 +691,68 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>Из метода соц сети</p>
+</div>
+  </div>
+
+
+<p>Пытается сохранить причину, указанную в посте</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>reason</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Текст отправленной в пост причины</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Stat.html" title="Stat (class)">Stat</a></span></li>
+    
+      <li><span class='object_link'><a href="Reason.html#try_to_save-instance_method" title="Reason#try_to_save (method)">Reason#try_to_save</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-50
-51
-52
-53
-54</pre>
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_update_reason'>update_reason</span>
   <span class='id identifier rubyid_reason_text'>reason_text</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:reason</span><span class='rbracket'>]</span>
@@ -507,22 +773,76 @@
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>POST stats/evacuate через AJAX</p>
+</div>
+  </div>
+
+
+<p>Обрабатывает нажатие по соц кнопке ВК. Увеличивает статистику, также
+пытается сохранить причину, указанную в посте $.ajax “../stats/vk_post”,</p>
+
+<pre class="code ruby"><code class="ruby">type: &quot;POST&quot;
+dataType: &quot;json&quot;
+data:
+  reason: reason</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>reason</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Текст отправленной в пост причины</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="Stat.html" title="Stat (class)">Stat</a></span></li>
+    
+      <li><span class='object_link'><a href="Reason.html#try_to_save-instance_method" title="Reason#try_to_save (method)">Reason#try_to_save</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-20
-21
-22
-23
-24
-25
-26</pre>
+48
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'app/controllers/stats_controller.rb', line 48</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vk_post'>vk_post</span>
   <span class='ivar'>@stats</span><span class='period'>.</span><span class='id identifier rubyid_increase_shares_vk'>increase_shares_vk</span>
@@ -541,7 +861,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Feb 17 22:39:31 2014 by
+  Generated on Tue Feb 18 02:23:42 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

@@ -1,20 +1,25 @@
+#Методы страниц для пользователей
 class PagesController < ApplicationController
   include AuthorHelper
   include ModalHelper
   include SocialHelper
 
+  # Главная страница. Готовит новости, причины и места к отображению.
+  # @note GET /
+  # @note Также вызывается в случае пагинации. Тогда выдает либо пагинацию новостей, либо пагинацию причин.
+  # @param news_page [Integer] опциональный номер страницы пагинации новостей
+  # @param reasons_page [Integer] опциональный номер страницы пагинации причин
+  # @see Reason
+  # @see News
+  # @see Paginated
+  # @see Place
   def index
-    #главная страница
-    @news = News.view_info.paginate(:page => params[:news_page], :per_page => 10)
-    @reasons = Reason.view_info.paginate(:page => params[:reasons_page], :per_page => 10)
-
     if params[:news_page].present?
-      render_file = 'pages/pagination/news'
+      render_file = paginate_news
     elsif params[:reasons_page].present?
-      render_file = 'pages/pagination/reasons'
+      render_file = paginate_reasons
     else
-      gon.places = get_places_info
-      render_file = "лолка штоли"
+      render_file = initial_index
     end
 
     respond_to do |format|
@@ -23,19 +28,76 @@ class PagesController < ApplicationController
     end
   end
 
-  def get_places_info
-    #возвращает инфу о местах в формате json
-    json_object = []
-    Place.includes(:type).each do |place|
-      place_object = {}
-      place_object[:name] = place.name
-      place_object[:lat] = place.lat
-      place_object[:lng] = place.lng
-      place_object[:type] = place.type.name
-      place_object[:type_id] = place.type_id
 
-      json_object << place_object
+  # Пагинация для новостей
+  # @note GET /
+  # @note Вызывается в index с помощью AJAX при скролле до низа блока новостей
+  # @example
+  #  $.ajax
+  #    type: 'GET'
+  #    url: next.attr('href')
+  #    dataType: 'script'
+  # @param news_page [Integer] номер страницы пагинации новостей
+  # @return [String] ссылка на файл для рендера новостей
+  # @see News
+  # @see Paginated
+  def paginate_news
+    @news = News.view_info.paginated(params[:news_page])
+    'pages/pagination/news'
+  end
+
+
+  # Пагинация для причин
+  # @note GET /
+  # @note Вызывается в index с помощью AJAX при скролле до низа блока причин
+  # @example
+  #  $.ajax
+  #    type: 'GET'
+  #    url: next.attr('href')
+  #    dataType: 'script'
+  # @param reasons_page [Integer] номер страницы пагинации причин
+  # @return [String] ссылка на файл для рендера причин
+  # @see Reason
+  # @see Paginated
+  def paginate_reasons
+    @reasons = Reason.view_info.paginated(params[:reasons_page])
+    'pages/pagination/reasons'
+  end
+
+
+  # Отображение первоначальных данных на главной: мест, причин и новостей
+  # @note GET /
+  # @note Вызывается в index когда нет никакой пагинации
+  # @return [String] очень важный текст
+  # @see Place
+  # @see News
+  # @see Reason
+  # @see Paginated
+  def initial_index
+    gon.places = get_places_info
+    @news = News.view_info.paginated(1)
+    @reasons = Reason.view_info.paginated(1)
+    "лолка штоли"
+  end
+
+
+  # Переносит данные мест в переменную gon для её использования картой
+  # @note Вызывается в index когда нет никакой пагинации
+  # @return [Hash] объект с инфой о каждом месте
+  # @see Place
+  # @see PlaceType
+  def get_places_info
+    hashes_array = []
+    Place.includes(:type).each do |place|
+      place_hash = {}
+      place_hash[:name] = place.name
+      place_hash[:lat] = place.lat
+      place_hash[:lng] = place.lng
+      place_hash[:type] = place.type.name
+      place_hash[:type_id] = place.type_id
+
+      hashes_array << place_hash
     end
-    json_object
+    hashes_array
   end
 end

@@ -1,18 +1,28 @@
+# Админка
 class AdminController < ApplicationController
   require 'bcrypt'
   include Admin
   layout 'admin'
 
+  # Главная админки. Если админ, то отображает админку, иначе - рендерит форму логина
+  # @note GET /admin
+  # @see Admin
   def index
-    #главная админки
+
     #session.delete(:admin)
     unless is_admin?
       render "login_form"
     end
   end
 
+
+  # Аутентификация админа. Сверяет параметры с данными из бд и пытается войти в сессию, после чего перенаправляет на админку
+  # @param login [String] логин
+  # @param password [String] пароль
+  # @note POST /admin/login
+  # @see Setting
+  # @see Admin
   def login
-    #POST принимает логин и пароль для входа в админки, сверяет с хэшем в базе и пытается войти в сессию
 
     login = params[:login]
     password = params[:password]

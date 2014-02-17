@@ -11,6 +11,7 @@ class Stat < ActiveRecord::Base
     self.update(people_left: self.people_left + 1)
   end
 
+
   # Увеличивает статистику нажавших по соц сети вк
   # @note Включается при нажатии по кнопке соц сети вк
   # @example Stat.first.increase_shares_vk
@@ -20,6 +21,7 @@ class Stat < ActiveRecord::Base
     self.update(shares_vk: self.shares_vk + 1)
   end
 
+
   # Увеличивает статистику нажавших по соц сети тв
   # @note Включается при нажатии по кнопке соц сети тв
   # @example Stat.first.increase_shares_tw
@@ -28,6 +30,7 @@ class Stat < ActiveRecord::Base
   def increase_shares_tw
     self.update(shares_tw: self.shares_tw + 1)
   end
+
 
   # Увеличивает статистику нажавших по соц сети фб
   # @note Включается при нажатии по кнопке соц сети фб
