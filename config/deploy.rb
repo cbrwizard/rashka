@@ -91,7 +91,7 @@ namespace :deploy do
       ln -sf #{shared_path}/database.yml #{latest_release}/config/database.yml
     CMD
 
-    run "ln -nfs #{shared_path}/config/application.yml #{latest_release}/config/application.yml"
+    run_locally "scp ~/rashka/config/application.yml ubuntu@54.229.179.125:#{latest_release}/config"
 
     if fetch(:normalize_asset_timestamps, true)
       stamp = Time.now.utc.strftime("%Y%m%d%H%M.%S")
