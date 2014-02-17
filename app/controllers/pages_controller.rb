@@ -16,7 +16,6 @@ class PagesController < ApplicationController
       gon.places = get_places_info
       render_file = "лолка штоли"
     end
-    asd
 
     respond_to do |format|
       format.html
