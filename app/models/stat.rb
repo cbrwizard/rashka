@@ -1,5 +1,10 @@
 class Stat < ActiveRecord::Base
 
+  # Увеличивает статистику эвакуировавшихся пользователей
+  # @note Включается при нажатии по кнопке ВАЛИТЬ
+  #
+  # @param format [Symbol] the format type, `:text` or `:html`
+  # @return [String] the object converted into the expected format.
   def increase_people_left
     self.update(people_left: self.people_left + 1)
   end

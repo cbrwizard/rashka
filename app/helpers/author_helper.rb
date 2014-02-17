@@ -1,8 +1,14 @@
 module AuthorHelper
 
+  # Отображает данные о создателе
+  # @example На вьюхе about/authors_container
+  #
+  # @param image [String] ссылка на изображение
+  # @param name [String] имя человека
+  # @param link [String] ссылка на сайт чела
+  # @param text [String] описание
+  # @return [HTML] блок для вьюхи
   def author (image, name, link, text)
-    #во вьюхе pages/about/authors_container отображение автора в блоке, принимает ссылку на изображение, имя, ссылку на сайт и описание
-
     content_tag(:div, :class => "author col-md-4 col-xs-12") do
       content_tag(:div, :class => "image_container") do
         image_tag image

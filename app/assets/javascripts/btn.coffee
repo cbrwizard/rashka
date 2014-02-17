@@ -1,6 +1,12 @@
 $ ->
   evac_btn.init()
 
+# Feed the animal
+#
+# @param [World.Food] food the food to eat
+# @param [Object] options the feeding options
+# @option options [String] time the time to feed
+#
 evac_btn =
   #кнопка ВАЛИТЬ
   dom_element: $("#evac_btn")

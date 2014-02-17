@@ -40,7 +40,7 @@ gem 'jbuilder', '~> 1.2'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', :require => false
+  gem 'yard'
 end
 
 group :development do
@@ -69,7 +69,7 @@ end
 
 gem "figaro"
 
-#gem 'meta-tags', :require => 'meta_tags'
+gem 'meta-tags', :require => 'meta_tags'
 #gem 'sitemap_generator'
 
 # Use ActiveModel has_secure_password
