@@ -1,7 +1,14 @@
+# Хелпер отображения модульных окошек
 module ModalHelper
 
+  # Отображает данные о создателе
+  # @note На вьюхе pages/modals
+  # @example modal("about_modal") {render :partial => 'pages/about/about_modal'}
+  #
+  # @param id [String] html id контейнера окошка
+  # @param block [HTML] содержимое модульного окошка
+  # @return [HTML] блок для вьюхи
   def modal (id, &block)
-    #во вьюхе pages/modals создает модульные окошки, принимает id окошка, заголовок и блок вьюхи
 
     content = capture(&block)
 
