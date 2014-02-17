@@ -88,7 +88,18 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Хелпер отображения модульных окошек</p>
 
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 
 
 
@@ -151,7 +162,7 @@
   <div class="note notetag">
     <strong>Note:</strong>
     <div class='inline'>
-<p>На вьюхе about/authors_container</p>
+<p>На вьюхе pages/modals</p>
 </div>
   </div>
 
@@ -168,9 +179,8 @@
     
       
         <p class="example_title"><div class='inline'>
-<p>author(“authors/fyodor.jpg”, “Фёдор Иванищев”, “<a
-href="http://vk.com/cbrwizard">vk.com/cbrwizard</a>”, “Разработка и
-борода”)</p>
+<p>modal(“about_modal”) :partial =&gt;
+&#39;pages/about/about_modal&#39;</p>
 </div></p>
       
       <pre class="example code"><code></code></pre>
@@ -181,7 +191,7 @@ href="http://vk.com/cbrwizard">vk.com/cbrwizard</a>”, “Разработка 
   
     <li>
       
-        <span class='name'>image</span>
+        <span class='name'>id</span>
       
       
         <span class='type'>(<tt>String</tt>)</span>
@@ -190,55 +200,23 @@ href="http://vk.com/cbrwizard">vk.com/cbrwizard</a>”, “Разработка 
       
         &mdash;
         <div class='inline'>
-<p>ссылка на изображение</p>
+<p>html id контейнера окошка</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>name</span>
+        <span class='name'>block</span>
       
       
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>имя человека</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>link</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
+        <span class='type'>(<tt>HTML</tt>)</span>
       
       
       
         &mdash;
         <div class='inline'>
-<p>ссылка на сайт чела</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>text</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>описание</p>
+<p>содержимое модульного окошка</p>
 </div>
       
     </li>
@@ -270,6 +248,7 @@ href="http://vk.com/cbrwizard">vk.com/cbrwizard</a>”, “Разработка 
       <pre class="lines">
 
 
+11
 12
 13
 14
@@ -280,16 +259,13 @@ href="http://vk.com/cbrwizard">vk.com/cbrwizard</a>”, “Разработка 
 19
 20
 21
-22
-23
-24</pre>
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/helpers/modal_helper.rb', line 12</span>
+      <pre class="code"><span class="info file"># File 'app/helpers/modal_helper.rb', line 11</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_modal'>modal</span> <span class='lparen'>(</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
-  <span class='comment'>#во вьюхе pages/modals создает модульные окошки, принимает id окошка, заголовок и блок вьюхи
-</span>
+
   <span class='id identifier rubyid_content'>content</span> <span class='op'>=</span> <span class='id identifier rubyid_capture'>capture</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
 
   <span class='id identifier rubyid_content_tag'>content_tag</span><span class='lparen'>(</span><span class='symbol'>:div</span><span class='comma'>,</span> <span class='symbol'>:id</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>modal</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>aria-hidden</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>true</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>aria-labelledby</span><span class='tstring_end'>&quot;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>myModalLabel</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>role:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>dialog</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>tabindex:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-1</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
@@ -310,7 +286,7 @@ href="http://vk.com/cbrwizard">vk.com/cbrwizard</a>”, “Разработка 
 </div>
 
     <div id="footer">
-  Generated on Mon Feb 17 21:35:31 2014 by
+  Generated on Mon Feb 17 22:39:30 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

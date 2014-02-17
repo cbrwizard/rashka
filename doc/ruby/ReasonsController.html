@@ -254,6 +254,28 @@
 </li>
 
       
+        <li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#reason_params-instance_method" title="#reason_params (instance method)">- (Object) <strong>reason_params</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
         <li class="public ">
   <span class="summary_signature">
     
@@ -547,6 +569,36 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="reason_params-instance_method">
+  
+    - (<tt>Object</tt>) <strong>reason_params</strong>  <span class="extras">(private)</span>
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/controllers/reasons_controller.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_reason_params'>reason_params</span>
+  <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_require'>require</span><span class='lparen'>(</span><span class='symbol'>:reason</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_permit'>permit</span><span class='lparen'>(</span><span class='symbol'>:text</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="show-instance_method">
   
     - (<tt>Object</tt>) <strong>show</strong> 
@@ -631,7 +683,7 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Feb 17 21:35:31 2014 by
+  Generated on Mon Feb 17 22:39:31 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

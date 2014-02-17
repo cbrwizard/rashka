@@ -1,3 +1,5 @@
+# Новости
+# @example #<News id: 12, title: "Пыщь пыщь ололо", text: "Всё плохо", link: "http://brandonhilkert.com/", created_at: "2014-02-16 19:51:09", updated_at: "2014-02-16 19:51:09">
 class News < ActiveRecord::Base
   default_scope -> { order(updated_at: :desc) }
   scope :view_info, -> {select(:title, :text, :link, :updated_at)}
