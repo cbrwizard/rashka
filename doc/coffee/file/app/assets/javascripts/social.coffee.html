@@ -39,95 +39,153 @@
           <td>app&#47;assets&#47;javascripts</td>
         </tr>
       </table>
-      <h2>Method Summary</h2>
-      <ul class='summary'>
-  <li>
-    <span class='signature'>
-      <a href='#change_vk_link-'>
-        ~
-(void)
-<b>change_vk_link</b><span>(reason)</span>
-      </a>
-    </span>
-    <span class='desc'>
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#change_tw_link-'>
-        ~
-(void)
-<b>change_tw_link</b><span>(reason)</span>
-      </a>
-    </span>
-    <span class='desc'>
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#count_reason_text-'>
-        ~
-(void)
-<b>count_reason_text</b><span>(textarea)</span>
-      </a>
-    </span>
-    <span class='desc'>
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#social_window-'>
-        ~
-(void)
-<b>social_window</b><span>(url)</span>
-      </a>
-    </span>
-    <span class='desc'>
-    </span>
-  </li>
-</ul>
-      <h2>Method Details</h2>
-      <div class='methods'>
-  <div class='method_details'>
-    <p class='signature' id='change_vk_link-'>
-      ~
-(void)
-<b>change_vk_link</b><span>(reason)</span>
-      <br>
-    </p>
-    
-  </div>
-  <div class='method_details'>
-    <p class='signature' id='change_tw_link-'>
-      ~
-(void)
-<b>change_tw_link</b><span>(reason)</span>
-      <br>
-    </p>
-    
-  </div>
-  <div class='method_details'>
-    <p class='signature' id='count_reason_text-'>
-      ~
-(void)
-<b>count_reason_text</b><span>(textarea)</span>
-      <br>
-    </p>
-    
-  </div>
-  <div class='method_details'>
-    <p class='signature' id='social_window-'>
-      ~
-(void)
-<b>social_window</b><span>(url)</span>
-      <br>
-    </p>
-    
-  </div>
+      <h2>Variables Summary</h2>
+      <dl class='constants'>
+  <dt id='social-variable'>
+    social
+    =
+  </dt>
+  <dd>
+    <pre><code class='coffeescript'>{
+  title: &quot;Симулятор эвакуации из Рашки&quot;,
+  text: &quot;Я решил валить из рашки, потому что&quot;,
+
+  &#47;*
+  Меняет текст вк кнопки
+  @param reason [String] текст причины
+   *&#47;
+  change_vk_link: function(reason) {
+    var correct_vk_href, vk_href, vk_like_button;
+    vk_like_button = $(&quot;.vk_like_button&quot;);
+    vk_href = vk_like_button.attr(&quot;href&quot;);
+    correct_vk_href = vk_href.slice(0, vk_href.indexOf(&#39;&amp;title&#39;));
+    return vk_like_button.attr(&quot;href&quot;, correct_vk_href + (&quot;&amp;title=&quot; + social.title + &quot;&amp;description=&quot; + social.text + &quot; &quot; + reason));
+  },
+
+  &#47;*
+  Меняет текст тв кнопки
+  @param reason [String] текст причины
+   *&#47;
+  change_tw_link: function(reason) {
+    var correct_tw_href, tw_href, tw_like_button;
+    tw_like_button = $(&quot;.tw_like_button&quot;);
+    tw_href = tw_like_button.attr(&quot;href&quot;);
+    correct_tw_href = tw_href.slice(0, tw_href.indexOf(&#39;&amp;text&#39;));
+    return tw_like_button.attr(&quot;href&quot;, correct_tw_href + (&quot;&amp;text=&quot; + social.text + &quot; &quot; + reason));
+  },
+
+  &#47;*
+  Считает количество символов у поля ввода и отображает, удовлетворяет ли длина требованиям
+  @param textarea [jQuery DOM] поле ввода причины
+   *&#47;
+  count_reason_text: function(textarea) {
+    var counter, letters_left, max_length, share_buttons, text;
+    text = textarea.val();
+    counter = $(&quot;#reason_text_counter&quot;);
+    share_buttons = $(&quot;.share_button&quot;);
+    max_length = 80;
+    letters_left = max_length - text.length;
+    counter.html(letters_left);
+    if (letters_left &lt; 0) {
+      counter.addClass(&quot;text-danger&quot;).removeClass(&quot;text-warning&quot;);
+      return share_buttons.addClass(&quot;error_share&quot;).removeClass(&quot;ok_share&quot;);
+    } else if (letters_left &lt; 6) {
+      share_buttons.removeClass(&quot;error_share&quot;).addClass(&quot;ok_share&quot;);
+      return counter.addClass(&quot;text-warning&quot;).removeClass(&quot;text-danger&quot;);
+    } else {
+      share_buttons.removeClass(&quot;error_share&quot;).addClass(&quot;ok_share&quot;);
+      return counter.removeClass(&quot;text-danger text-warning&quot;);
+    }
+  },
+
+  &#47;*
+  Переносит текст из поля причины в кнопки соц сетей
+  @param textarea [jQuery DOM] поле ввода причины
+   *&#47;
+  update_social_buttons: function(textarea) {
+    var reason, shortened_reason;
+    reason = textarea.val();
+    shortened_reason = reason.substr(0, 80);
+    social.change_vk_link(shortened_reason);
+    social.change_tw_link(shortened_reason);
+    return social.count_reason_text(textarea);
+  },
+
+  &#47;*
+  Если текст короткий, то обновляет статистику и открывает окно соц сети
+  @param share_button [Jquery DOM] кнопка соц сети
+  @return false [boolean] останавливает обычное действие кнопки
+   *&#47;
+  share_reason: function(share_button) {
+    var method, reason, url;
+    if (!share_button.hasClass(&quot;error_share&quot;)) {
+      method = share_button.attr(&quot;data-method&quot;);
+      reason = $(&quot;#reason_field&quot;).val();
+      social.update_statistics(method, reason);
+      if (share_button.hasClass(&quot;fb_like_button&quot;)) {
+        social.post_to_fb(reason);
+      } else {
+        url = share_button.attr(&quot;href&quot;);
+        social.social_window(url);
+      }
+    }
+    return false;
+  },
+
+  &#47;*
+  Запускает метод обновления статистики соц кнопки
+  @param method [String] имя метода
+  @param reason [String] текст причины
+   *&#47;
+  update_statistics: function(method, reason) {
+    return $.ajax(&quot;..&#47;stats&#47;&quot; + method, {
+      type: &quot;POST&quot;,
+      dataType: &quot;json&quot;,
+      data: {
+        reason: reason
+      },
+      success: function() {
+        return console.log(&quot;yeahhhhhh&quot;);
+      },
+      error: function() {
+        return console.log(&quot;nooooo&quot;);
+      }
+    });
+  },
+
+  &#47;*
+  Обрезает текст причины и открывает окно фейсбука
+  @param reason [String] текст причины
+   *&#47;
+  post_to_fb: function(reason) {
+    var shortened_reason;
+    shortened_reason = reason.substr(0, 80);
+    return FB.ui({
+      method: &#39;feed&#39;,
+      link: &#39;valiizrashki.ru&#39;,
+      caption: social.title,
+      description: &quot;&quot; + social.text + &quot; &quot; + shortened_reason
+    }, function(response) {});
+  },
+
+  &#47;*
+  Открывает окошко вк и твиттера для поста
+  @param url [String] текст ссылки на соц сеть с причиной и тд
+   *&#47;
+  social_window: function(url) {
+    return window.open(url, &quot;social_window&quot;, &quot;height=300,width=550,resizable=1&quot;);
+  }
+}</code></pre>
+    <div class='docstring'>
+  <p>Параметры и функции, связанные с соц кнопками и полем ввода причины</p>
 </div>
+<div class='tags'>
+</div>
+  </dd>
+</dl>
     </div>
     <div id='footer'>
-  February 18, 14 02:23:45 by
+  February 18, 14 19:34:41 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

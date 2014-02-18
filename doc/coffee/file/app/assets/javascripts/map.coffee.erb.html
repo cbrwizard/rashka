@@ -47,30 +47,44 @@
   </dt>
   <dd>
     <pre><code class='coffeescript'>{
-
-  &#47;*
-  параметры карты
-   *&#47;
   dom: document.getElementById(&quot;map-canvas&quot;),
-  lastValidCenter: app.current_location,
+  last_valid_center: app.current_location,
   options: {
     center: app.current_location,
     disableDefaultUI: true,
     zoom: 13,
     minZoom: 4
   },
+  current_marker: void 0,
+  last_valid_center: void 0,
+  bounds: void 0,
+  markers: [],
+
+  &#47;*
+  Получает расстояние до каждой точки эвакуации и рисует их на карте
+   *&#47;
   show_places: function() {
     app.places.objects.forEach(places.get_distance);
     return app.places.objects.forEach(places.render);
   },
+
+  &#47;*
+  Ставит маркер на координаты
+  @param location [LatLng] координаты точки
+   *&#47;
   set_current_location: function(location) {
     app.google_map.setCenter(location);
     app.current_location = location;
     return map.put_marker_on_current();
   },
-  nav_geo_success: function(position) {
+
+  &#47;*
+  В случае успеха определения местоположения юзера, обновляет карту
+  @param location [LatLng] координаты местоположения юзера
+   *&#47;
+  nav_geo_success: function(location) {
     var current_location;
-    app.current_marker.setMap(null);
+    map.current_marker.setMap(null);
     if (app.directions_renderer !== void 0) {
       app.directions_renderer.setMap(null);
 
@@ -78,13 +92,21 @@
       TODO: ресетить кнопку валить, раз уж мы на всякий стираем маршрут
        *&#47;
     }
-    current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    current_location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
     map.set_current_location(current_location);
     return map.reset_markers();
   },
+
+  &#47;*
+  В случае ошибки получения гео локации выводи лажу
+   *&#47;
   nav_geo_error: function() {
     return console.log(&quot;Unable to retrieve your location&quot;);
   },
+
+  &#47;*
+  Спрашивает у пользователя его местоположение
+   *&#47;
   get_current_location: function() {
     if (navigator.geolocation) {
       return navigator.geolocation.getCurrentPosition(map.nav_geo_success, map.nav_geo_error, {
@@ -92,38 +114,42 @@
       });
     }
   },
-  put_marker_on_current: function() {
 
-    &#47;*
-    добавляет маркер к текущему месту
-     *&#47;
+  &#47;*
+  Добавляет маркер с определенными параметрами к текущему месту
+   *&#47;
+  put_marker_on_current: function() {
     var current_loc_marker_options;
     current_loc_marker_options = {
       position: app.current_location,
       icon: &quot;&lt;%= asset_path(&#39;current.jpg&#39;) %&gt;&quot;,
       map: app.google_map
     };
-    return app.current_marker = new google.maps.Marker(current_loc_marker_options);
+    return map.current_marker = new google.maps.Marker(current_loc_marker_options);
   },
+
+  &#47;*
+  Обновляет маркеры для подготовки к новому текущему местоположению
+   *&#47;
   reset_markers: function() {
     app.places.objects.forEach(places.get_distance);
     return app.places.objects.forEach(places.update_infobox);
   },
+
+  &#47;*
+  Проверяет, вышел ли пользователь за пределы границ карты. Передвигает в предыдущий &quot;чистый&quot; центер, если да, или записывает новый &quot;чистый&quot; центр
+   *&#47;
   checkBounds: function() {
-
-    &#47;*
-    проверяет, вышел ли пользователь за пределы границ карты
-     *&#47;
-    if (app.bounds.contains(app.google_map.getCenter())) {
-      map.lastValidCenter = app.google_map.getCenter();
+    if (map.bounds.contains(app.google_map.getCenter())) {
+      map.last_valid_center = app.google_map.getCenter();
     }
-    return app.google_map.panTo(map.lastValidCenter);
+    return app.google_map.panTo(map.last_valid_center);
   },
-  cluster_markers: function() {
 
-    &#47;*
-    группирует маркеры вместе в один, если они рядом
-     *&#47;
+  &#47;*
+  Группирует маркеры вместе в один, если они рядом
+   *&#47;
+  cluster_markers: function() {
     var markerCluster_styles;
     markerCluster_styles = [
       {
@@ -133,22 +159,27 @@
         textSize: 1
       }
     ];
-    return new MarkerClusterer(app.google_map, app.markers, {
+    return new MarkerClusterer(app.google_map, map.markers, {
       styles: markerCluster_styles
     });
   },
-  init: function() {
 
-    &#47;*
-    инициализация карты
-     *&#47;
+  &#47;*
+  Инициализация карты и обозначение границ
+   *&#47;
+  init: function() {
     app.google_map = new google.maps.Map(this.dom, this.options);
+    map.bounds = new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999));
     return google.maps.event.addListener(app.google_map, &quot;center_changed&quot;, function() {
       return map.checkBounds();
     });
   }
 }</code></pre>
-    
+    <div class='docstring'>
+  <p>Параметры и функции карты</p>
+</div>
+<div class='tags'>
+</div>
   </dd>
   <dt id='places-variable'>
     places
@@ -156,10 +187,6 @@
   </dt>
   <dd>
     <pre><code class='coffeescript'>{
-
-  &#47;*
-  параметры мест
-   *&#47;
   types: {
     1: {
       icon: &quot;&lt;%= asset_path(&#39;places&#47;airplane.png&#39;) %&gt;&quot;
@@ -177,46 +204,64 @@
       icon: &quot;&lt;%= asset_path(&#39;places&#47;car.png&#39;) %&gt;&quot;
     }
   },
-  render: function(place) {
 
-    &#47;*
-    отображение места на карте, принимает json объект места
-     *&#47;
-    var marker, place_marker_options, position;
-    position = new google.maps.LatLng(place.lat, place.lng);
+  &#47;*
+  Отображает место на карте: создает маркер для него
+  @param place [Object] место
+   *&#47;
+  render: function(place) {
+    var place_marker, place_marker_options, place_position;
+    place_position = new google.maps.LatLng(place.lat, place.lng);
     place_marker_options = {
-      position: position,
+      position: place_position,
       map: app.google_map,
       icon: places.types[place.type_id].icon
     };
-    marker = new google.maps.Marker(place_marker_options);
-    app.markers.push(marker);
+    place_marker = new google.maps.Marker(place_marker_options);
+    map.markers.push(place_marker);
+    return places.create_infobox(place, place_marker);
+  },
+
+  &#47;*
+  Создает инфобокс для места
+  @param place [Object] место
+  @param place_marker [google.maps.Marker] маркер места
+   *&#47;
+  create_infobox: function(place, place_marker) {
     place.infobox = new InfoBox(app.infobox_options);
     places.update_infobox(place);
-    google.maps.event.addListener(marker, &#39;mouseover&#39;, function() {
+    google.maps.event.addListener(place_marker, &#39;mouseover&#39;, function() {
       return place.infobox.open(app.google_map, this);
     });
-    return google.maps.event.addListener(marker, &#39;mouseout&#39;, function() {
+    return google.maps.event.addListener(place_marker, &#39;mouseout&#39;, function() {
       return place.infobox.close();
     });
   },
-  update_infobox: function(place) {
 
-    &#47;*
-    устанавливает контент у инфобокса места
-     *&#47;
+  &#47;*
+  Устанавливает контент у инфобокса места
+  @param place [Object] место
+   *&#47;
+  update_infobox: function(place) {
     var infobox_content;
     infobox_content = &quot;&lt;p&gt;&lt;b&gt;&quot; + place.type + &quot; :&lt;&#47;b&gt; &quot; + place.name + &quot; &lt;&#47;p&gt; &lt;p&gt;&lt;b&gt;Расстояние:&lt;&#47;b&gt; &quot; + (place.distance.toFixed(1)) + &quot; км&lt;&#47;p&gt;&quot;;
     return place.infobox.setContent(infobox_content);
   },
+
+  &#47;*
+  Перевод в радианы
+  @param x [Integer] число
+  @return [String] радианы
+   *&#47;
   rad: function(x) {
     return x * Math.PI &#47; 180;
   },
-  get_distance: function(place) {
 
-    &#47;*
-    добавляет значение расстояния от места до текущего положения, принимает json объект места
-     *&#47;
+  &#47;*
+  Добавляет расстояние от места до текущего положения
+  @param place [Object] место
+   *&#47;
+  get_distance: function(place) {
     var a, c, cur_loc_lat, cur_loc_lng, dLat, dLong, earth_radius, place_lat, place_lng;
     cur_loc_lat = app.current_location.lat();
     cur_loc_lng = app.current_location.lng();
@@ -228,17 +273,29 @@
     a = Math.sin(dLat &#47; 2) * Math.sin(dLat &#47; 2) + Math.cos(places.rad(cur_loc_lat)) * Math.cos(places.rad(cur_loc_lat)) * Math.sin(dLong &#47; 2) * Math.sin(dLong &#47; 2);
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     place.distance = earth_radius * c;
+    return places.closest_check(place);
+  },
+
+  &#47;*
+  Проверяет, является ли это место ближайшим к текущему и записывает, если да
+  @param place [Object] место
+   *&#47;
+  closest_check: function(place) {
     if (app.places.closest === void 0 || app.places.closest.distance &gt; place.distance) {
       return app.places.closest = place;
     }
   }
 }</code></pre>
-    
+    <div class='docstring'>
+  <p>Параметры и функции мест</p>
+</div>
+<div class='tags'>
+</div>
   </dd>
 </dl>
     </div>
     <div id='footer'>
-  February 18, 14 02:23:45 by
+  February 18, 14 19:34:41 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

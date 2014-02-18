@@ -47,27 +47,22 @@
   </dt>
   <dd>
     <pre><code class='coffeescript'>{
-
-  &#47;*
-  общие параметры приложения
-   *&#47;
   current_location: new google.maps.LatLng(55.751667, 37.617778),
   google_map: void 0,
-  bounds: new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999)),
-  social_title: &quot;Симулятор эвакуации из Рашки&quot;,
-  social_text: &quot;Я решил валить из рашки, потому что&quot;,
-  current_marker: void 0,
   directions_renderer: void 0,
-  markers: [],
+
+  &#47;*
+  Точки эвакуации
+   *&#47;
   places: {
     objects: gon.places,
     closest: void 0
   },
-  infobox_options: {
 
-    &#47;*
-    параметры отображения окна инфы при ховере поместу
-     *&#47;
+  &#47;*
+  Параметры отображения окна инфы при ховере поместу
+   *&#47;
+  infobox_options: {
     boxStyle: {
       background: &quot;#fff&quot;,
       padding: &quot;20px&quot;,
@@ -77,12 +72,16 @@
     closeBoxURL: &quot;&quot;
   }
 }</code></pre>
-    
+    <div class='docstring'>
+  <p>Параметры приложения, использующиеся в нескольких js файлах</p>
+</div>
+<div class='tags'>
+</div>
   </dd>
 </dl>
     </div>
     <div id='footer'>
-  February 18, 14 02:23:45 by
+  February 18, 14 19:34:41 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

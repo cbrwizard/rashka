@@ -1,3 +1,4 @@
+# Обработка событий на карте. Грузит карту, ставит в дефолтное место маркер, отображает места и спрашивает текущее местоположение
 $ ->
   map.init()
   map.put_marker_on_current()
@@ -5,83 +6,103 @@ $ ->
   map.cluster_markers()
   map.get_current_location()
 
+
+# Параметры и функции карты
 map =
-  #параметры карты
   dom: document.getElementById("map-canvas")
-  lastValidCenter: app.current_location
+  last_valid_center: app.current_location
   options:
     center: app.current_location,
     disableDefaultUI: true,
     zoom: 13
     minZoom: 4
+  current_marker: undefined
+  last_valid_center: undefined
+  bounds: undefined
+  markers: []
 
+
+  # Получает расстояние до каждой точки эвакуации и рисует их на карте
   show_places: ->
-    #получает расстояние до каждой точки и рисует их на карте
     app.places.objects.forEach(places.get_distance)
     app.places.objects.forEach(places.render)
 
+
+  # Ставит маркер на координаты
+  # @param location [LatLng] координаты точки
   set_current_location: (location) ->
-    #ставит маркер на текущее место
     app.google_map.setCenter location
     app.current_location = location
     map.put_marker_on_current()
 
-  nav_geo_success: (position) ->
-    #в случае успеха определения местоположения юзера, обнови карту
-    app.current_marker.setMap(null)
+
+  # В случае успеха определения местоположения юзера, обновляет карту
+  # @param location [LatLng] координаты местоположения юзера
+  nav_geo_success: (location) ->
+    map.current_marker.setMap(null)
     unless app.directions_renderer == undefined
       app.directions_renderer.setMap(null)
       #TODO: ресетить кнопку валить, раз уж мы на всякий стираем маршрут
-    current_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+    current_location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)
     map.set_current_location(current_location)
     map.reset_markers()
 
+
+  # В случае ошибки получения гео локации выводи лажу
   nav_geo_error: ->
-    #в случае ошибки получения гео локации
     console.log "Unable to retrieve your location"
 
+
+  # Спрашивает у пользователя его местоположение
   get_current_location: ->
-    #пытается разместить окно по центру текущего местоположения, а также отображает места
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition(map.nav_geo_success, map.nav_geo_error, { enableHighAccuracy:true })
 
+
+  # Добавляет маркер с определенными параметрами к текущему месту
   put_marker_on_current: ->
-    #добавляет маркер к текущему месту
     current_loc_marker_options =
       position: app.current_location
       icon: "<%= asset_path('current.jpg') %>"
       map: app.google_map
-    app.current_marker = new google.maps.Marker current_loc_marker_options
+    map.current_marker = new google.maps.Marker current_loc_marker_options
 
+
+  # Обновляет маркеры для подготовки к новому текущему местоположению
   reset_markers: ->
-    #обновляет маркеры для подготовки к новому текущему местоположению
     app.places.objects.forEach(places.get_distance)
     app.places.objects.forEach(places.update_infobox)
 
+                       
+  # Проверяет, вышел ли пользователь за пределы границ карты. Передвигает в предыдущий "чистый" центер, если да, или записывает новый "чистый" центр
   checkBounds: ->
-    #проверяет, вышел ли пользователь за пределы границ карты
-    map.lastValidCenter = app.google_map.getCenter() if app.bounds.contains(app.google_map.getCenter())
-    app.google_map.panTo map.lastValidCenter
+    map.last_valid_center = app.google_map.getCenter() if map.bounds.contains(app.google_map.getCenter())
+    app.google_map.panTo map.last_valid_center
 
+
+  # Группирует маркеры вместе в один, если они рядом
   cluster_markers: ->
-    #группирует маркеры вместе в один, если они рядом
     markerCluster_styles = [{
       url: "<%= asset_path('current.jpg') %>",
       height: 35,
       width: 35,
       textSize: 1
     }]
-    new MarkerClusterer(app.google_map, app.markers, {styles: markerCluster_styles})
-
+    new MarkerClusterer(app.google_map, map.markers, {styles: markerCluster_styles})
+               
+    
+  # Инициализация карты и обозначение границ
   init: ->
-    #инициализация карты
-    app.google_map = new google.maps.Map(@.dom, @.options)
+    app.google_map = new google.maps.Map(@.dom, @.options)    
+    map.bounds = new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999))
 
+    # При передвижении по карте проверяет, находимся ли мы еще в пределах границы
     google.maps.event.addListener app.google_map, "center_changed", ->
       map.checkBounds()
 
+
+# Параметры и функции мест
 places =
-  #параметры мест
   types:
     1:
       icon: "<%= asset_path('places/airplane.png') %>"
@@ -94,38 +115,56 @@ places =
     5:
       icon: "<%= asset_path('places/car.png') %>"
 
+
+  # Отображает место на карте: создает маркер для него
+  # @param place [Object] место
   render:(place) ->
-    #отображение места на карте, принимает json объект места
-    position = new google.maps.LatLng(place.lat, place.lng)
+    place_position = new google.maps.LatLng(place.lat, place.lng)
     place_marker_options =
-      position: position
+      position: place_position
       map: app.google_map
       icon: places.types[place.type_id].icon
-    marker = new google.maps.Marker(place_marker_options)
-    app.markers.push(marker)
+    place_marker = new google.maps.Marker(place_marker_options)
+    map.markers.push(place_marker)
 
+    places.create_infobox(place, place_marker)
+
+
+  # Создает инфобокс для места
+  # @param place [Object] место
+  # @param place_marker [google.maps.Marker] маркер места
+  create_infobox:(place, place_marker) ->
     place.infobox = new InfoBox(app.infobox_options)
     places.update_infobox(place)
 
-    google.maps.event.addListener marker, 'mouseover', ->
+    # При наведении по маркеру открывает инфобокс
+    google.maps.event.addListener place_marker, 'mouseover', ->
       place.infobox.open(app.google_map, this)
 
-    google.maps.event.addListener marker, 'mouseout', ->
+    # И закрывает
+    google.maps.event.addListener place_marker, 'mouseout', ->
       place.infobox.close()
 
+
+  # Устанавливает контент у инфобокса места
+  # @param place [Object] место
   update_infobox: (place) ->
-    #устанавливает контент у инфобокса места
     infobox_content = "
       <p><b>#{place.type} :</b> #{place.name} </p>
       <p><b>Расстояние:</b> #{place.distance.toFixed(1)} км</p>"
     place.infobox.setContent(infobox_content)
 
+
+  # Перевод в радианы
+  # @param x [Integer] число
+  # @return [String] радианы
   rad:(x) ->
-    #перевод в радианы
     x * Math.PI / 180
 
+
+  # Добавляет расстояние от места до текущего положения
+  # @param place [Object] место
   get_distance:(place) ->
-    #добавляет значение расстояния от места до текущего положения, принимает json объект места
     cur_loc_lat = app.current_location.lat()
     cur_loc_lng = app.current_location.lng()
     earth_radius = 6371
@@ -138,5 +177,11 @@ places =
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     place.distance = earth_radius * c
 
+    places.closest_check(place)
+
+
+  # Проверяет, является ли это место ближайшим к текущему и записывает, если да
+  # @param place [Object] место
+  closest_check:(place) ->
     if app.places.closest == undefined || app.places.closest.distance > place.distance
       app.places.closest = place

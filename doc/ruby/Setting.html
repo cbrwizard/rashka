@@ -279,12 +279,12 @@ password_salt: “$2a$10$Jem9RC31Mt.6QQ1c7WNma., created_at: ”2014-02-15
       <pre class="lines">
 
 
-15
-16
-17</pre>
+13
+14
+15</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'app/models/setting.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'app/models/setting.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_correct_admin?'>correct_admin?</span><span class='lparen'>(</span><span class='id identifier rubyid_login'>login</span><span class='comma'>,</span> <span class='id identifier rubyid_try_hash'>try_hash</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_password_hash'>password_hash</span> <span class='op'>==</span> <span class='id identifier rubyid_try_hash'>try_hash</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_login'>login</span> <span class='op'>==</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_login'>login</span>
@@ -299,7 +299,7 @@ password_salt: “$2a$10$Jem9RC31Mt.6QQ1c7WNma., created_at: ”2014-02-15
 </div>
 
     <div id="footer">
-  Generated on Tue Feb 18 02:23:42 2014 by
+  Generated on Tue Feb 18 19:34:42 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.3 (ruby-2.1.0).
 </div>

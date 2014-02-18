@@ -39,75 +39,85 @@
           <td>app&#47;assets&#47;javascripts</td>
         </tr>
       </table>
-      <h2>Method Summary</h2>
-      <ul class='summary'>
-  <li>
-    <span class='signature'>
-      <a href='#news_pagination-'>
-        ~
-(void)
-<b>news_pagination</b><span>()</span>
-      </a>
-    </span>
-    <span class='desc'>
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#reasons_pagination-'>
-        ~
-(void)
-<b>reasons_pagination</b><span>()</span>
-      </a>
-    </span>
-    <span class='desc'>
-    </span>
-  </li>
-  <li>
-    <span class='signature'>
-      <a href='#pagination-'>
-        ~
-(void)
-<b>pagination</b><span>($this)</span>
-      </a>
-    </span>
-    <span class='desc'>
-    </span>
-  </li>
-</ul>
-      <h2>Method Details</h2>
-      <div class='methods'>
-  <div class='method_details'>
-    <p class='signature' id='news_pagination-'>
-      ~
-(void)
-<b>news_pagination</b><span>()</span>
-      <br>
-    </p>
-    
-  </div>
-  <div class='method_details'>
-    <p class='signature' id='reasons_pagination-'>
-      ~
-(void)
-<b>reasons_pagination</b><span>()</span>
-      <br>
-    </p>
-    
-  </div>
-  <div class='method_details'>
-    <p class='signature' id='pagination-'>
-      ~
-(void)
-<b>pagination</b><span>($this)</span>
-      <br>
-    </p>
-    
-  </div>
+      <h2>Variables Summary</h2>
+      <dl class='constants'>
+  <dt id='pagination-variable'>
+    pagination
+    =
+  </dt>
+  <dd>
+    <pre><code class='coffeescript'>{
+
+  &#47;*
+  Подключает пагинацию новостей и причин на главной
+   *&#47;
+  init: function() {
+    this.news_pagination();
+    return this.reasons_pagination();
+  },
+
+  &#47;*
+  При скролле блока новостей идет пагинация
+   *&#47;
+  news_pagination: function() {
+    return $(&quot;#news_container&quot;).on(&quot;scroll&quot;, function() {
+      return pagination.check_for_pagination($(this));
+    });
+  },
+
+  &#47;*
+  При скролле блока причин идет пагинация
+   *&#47;
+  reasons_pagination: function() {
+    return $(&quot;#reasons_container&quot;).on(&quot;scroll&quot;, function() {
+      return pagination.check_for_pagination($(this));
+    });
+  },
+
+  &#47;*
+  При определенной высоте скролла внутри блока пытается вызвать пагинацию
+  @param container [Jquery DOM] контейнер, за которым надо следить
+   *&#47;
+  check_for_pagination: function(container) {
+    var body, container_height, next, pagination_height, scrolled_already;
+    body = $(&quot;body&quot;);
+    next = container.find(&quot;.pagination .next_page&quot;);
+    scrolled_already = container.scrollTop();
+    container_height = container.innerHeight();
+    pagination_height = container[0].scrollHeight - 250;
+    if (scrolled_already + container_height &gt;= pagination_height &amp;&amp; !body.hasClass(&quot;paginating&quot;) &amp;&amp; !next.hasClass(&quot;disabled&quot;)) {
+      return this.paginate(body, next);
+    }
+  },
+
+  &#47;*
+  Через аякс грузит следующие данные в блок данных
+  @note к body добавляется на время пагинации класс, чтобы не дублировалась пагинация
+  @param body [Jquery DOM] body документа
+  @param next_link [Jquery DOM] контейнер ссылки &quot;перелистать далее&quot;
+   *&#47;
+  paginate: function(body, next_link) {
+    body.addClass(&quot;paginating&quot;);
+    return $.ajax({
+      type: &#39;GET&#39;,
+      url: next_link.attr(&#39;href&#39;),
+      dataType: &#39;script&#39;,
+      success: function() {
+        return body.removeClass(&quot;paginating&quot;);
+      }
+    });
+  }
+}</code></pre>
+    <div class='docstring'>
+  <p>Функции, связанные с пагинацией</p>
 </div>
+<div class='tags'>
+</div>
+  </dd>
+</dl>
     </div>
     <div id='footer'>
-  February 18, 14 02:23:45 by
+  February 18, 14 19:34:41 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>
