@@ -50,10 +50,11 @@ group :development do
   gem "bullet"
   gem 'meta_request'
   gem 'rack-mini-profiler'
-  gem 'capistrano'
-  gem 'rvm-capistrano'
-  gem 'capobvious'
 end
+
+gem 'capistrano'
+gem 'rvm-capistrano'
+gem 'capobvious'
 
 group :development, :test do
   gem 'rspec-rails'

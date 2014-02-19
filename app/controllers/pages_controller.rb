@@ -77,6 +77,7 @@ class PagesController < ApplicationController
     gon.places = get_places_info
     @news = News.view_info.paginated(1)
     @reasons = Reason.view_info.paginated(1)
+    set_meta_data
     "лолка штоли"
   end
 
@@ -99,5 +100,36 @@ class PagesController < ApplicationController
       hashes_array << place_hash
     end
     hashes_array
+  end
+
+
+  # Устанавливает мета данные для главной страницы
+  # @note Вызывается в index когда нет никакой пагинации
+  def set_meta_data
+
+    image = ActionController::Base.helpers.image_path("logo.jpg")
+
+    set_meta_tags :title => "Вали из рашки",
+                  :description => "Верный помощник по эвакуации из этой замечательной страны",
+                  :keywords => "Vali iz rashki, ValiIzRashki, Вали из рашки, ВалиИзРашки, сатира, эвакуация, баттхёрт, поросенок, Пётр",
+                  :image => image
+
+    set_meta_tags :og => {
+        :url => request.original_url,
+        :site_name => "Вали из рашки",
+        :image => image,
+        :title => "Вали из рашки",
+        :description => "Верный помощник по эвакуации из этой замечательной страны",
+        :type => "article"
+    }
+
+    set_meta_tags :twitter => {
+        :card => "summary",
+        :site => "@valiizrashki",
+        :url => request.original_url,
+        :image => image,
+        :title => "Вали из рашки",
+        :description => "Верный помощник по эвакуации из этой замечательной страны"
+    }
   end
 end
