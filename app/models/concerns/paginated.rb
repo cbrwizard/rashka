@@ -3,7 +3,6 @@ require 'active_support/concern'
 # Для пагинации объектов
 # @note На главной странице
 # @param page_params [Integer] номер страницы в пролистывании
-# @see Reason
 # @see News
 module Paginated
   extend ActiveSupport::Concern

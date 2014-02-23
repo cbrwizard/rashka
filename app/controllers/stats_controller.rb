@@ -24,7 +24,7 @@ class StatsController < ApplicationController
   # @see Stat
   def evacuate
     @stats.increase_people_left
-    reason = Reason.random.text
+    reason = Reason.random_one.text
 
     respond_to do |format|
       format.json { render :json => reason.to_json }

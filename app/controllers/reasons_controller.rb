@@ -4,10 +4,18 @@ class ReasonsController < ApplicationController
 
   before_action :allow_access?, only: [:index, :show, :edit, :new, :create, :update, :destroy]
 
-  layout 'admin', except: [:get_random]
+  layout 'admin', except: [:get_one_random, :get_three_random]
 
-  def get_random
-    @reason = Reason.random.text
+  def get_one_random
+    @reason = Reason.random_one.text
+
+    respond_to do |format|
+      format.js { render :layout => false }
+    end
+  end
+
+  def get_three_random
+    @reasons = Reason.random_three
 
     respond_to do |format|
       format.js { render :layout => false }

@@ -13,7 +13,8 @@ Rashka::Application.routes.draw do
 
   resources :reasons do
     collection do
-      get 'get_random'
+      get 'get_one_random'
+      get 'get_three_random'
     end
   end
 

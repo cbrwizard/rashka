@@ -1,16 +1,14 @@
 # Причины
 # @example #<Reason id: 2, text: "Страной правят геи", popularity: 12313, created_at: "2014-02-15 11:03:31", updated_at: "2014-02-17 07:32:35">
 class Reason < ActiveRecord::Base
-  include Paginated
-
   default_scope -> {order(updated_at: :desc)}
-  scope :view_info, -> {select(:text, :updated_at)}
-  scope :random, -> {unscoped.order("RANDOM()").first}
+  scope :random_one, -> {unscoped.order("RANDOM()").select(:text).first}
+  scope :random_three, -> {unscoped.order("RANDOM()").select(:text, :updated_at).limit(3)}
+
   scope :find_downcase, -> (downcase_text) {where('lower(text) like ?', "%#{downcase_text}%")}
 
   validates :text, :uniqueness => {:case_sensitive => false, :message => "такая причина уже есть"}
   validates_length_of :text, :minimum => 2, :maximum => 81, :message => "должен быть длиной от 2 до 81 символа"
-
 
   # Либо сохраняет новую причину, либо увеличивает статистику популярности у существующей
   # @note Вызывается при нажатии по соц кнопке

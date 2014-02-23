@@ -54,7 +54,6 @@ class PagesController < ApplicationController
   def initial_index
     gon.places = get_places_info
     @news = News.view_info.paginated(1)
-    @reasons = Reason.view_info.paginated(1)
     set_meta_data
     "лолка штоли"
   end
