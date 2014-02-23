@@ -8,16 +8,12 @@ class PagesController < ApplicationController
   # @note GET /
   # @note Также вызывается в случае пагинации. Тогда выдает либо пагинацию новостей, либо пагинацию причин.
   # @param news_page [Integer] опциональный номер страницы пагинации новостей
-  # @param reasons_page [Integer] опциональный номер страницы пагинации причин
-  # @see Reason
   # @see News
   # @see Paginated
   # @see Place
   def index
     if params[:news_page].present?
       render_file = paginate_news
-    elsif params[:reasons_page].present?
-      render_file = paginate_reasons
     else
       render_file = initial_index
     end
@@ -44,24 +40,6 @@ class PagesController < ApplicationController
   def paginate_news
     @news = News.view_info.paginated(params[:news_page])
     'pages/pagination/news'
-  end
-
-
-  # Пагинация для причин
-  # @note GET /
-  # @note Вызывается в index с помощью AJAX при скролле до низа блока причин
-  # @example
-  #  $.ajax
-  #    type: 'GET'
-  #    url: next.attr('href')
-  #    dataType: 'script'
-  # @param reasons_page [Integer] номер страницы пагинации причин
-  # @return [String] ссылка на файл для рендера причин
-  # @see Reason
-  # @see Paginated
-  def paginate_reasons
-    @reasons = Reason.view_info.paginated(params[:reasons_page])
-    'pages/pagination/reasons'
   end
 
 

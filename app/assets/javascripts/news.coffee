@@ -1,37 +1,27 @@
-# Обработка пагинации
+# Обработка блока новостей
 $ ->
-  pagination.init()
+  news.init()
 
-
-# Функции, связанные с пагинацией
-pagination =
-  # Подключает пагинацию новостей и причин на главной
+news =
+  # Добавляет кастомный скролл для блока новостей и включает пагинацию
   init: ->
-    @.news_pagination()
-    @.reasons_pagination()
+    $("#news_pagination").customScrollbar()
+    @.pagination()
 
 
   # При скролле блока новостей идет пагинация
-  news_pagination: ->
-    $("#news_container").on "scroll", ->
-      pagination.check_for_pagination($(this))
-
-
-  # При скролле блока причин идет пагинация
-  reasons_pagination: ->
-    $("#reasons_container").on "scroll", ->
-      pagination.check_for_pagination($(this))
+  pagination: ->
+    $("#news_pagination").on "customScroll", (event, scrollData) ->
+      news.check_for_pagination($(this), scrollData)
 
 
   # При определенной высоте скролла внутри блока пытается вызвать пагинацию
   # @param container [Jquery DOM] контейнер, за которым надо следить
-  check_for_pagination: (container)->
+  # @param scrollData [Object] объект с данными о текущем скролле
+  check_for_pagination: (container, scrollData)->
     body = $("body")
     next = container.find(".pagination .next_page")
-    scrolled_already = container.scrollTop()
-    container_height = container.innerHeight()
-    pagination_height = container[0].scrollHeight - 250
-    if scrolled_already + container_height >= pagination_height && !body.hasClass("paginating") && !next.hasClass("disabled")
+    if scrollData.scrollPercent >= 75 && !body.hasClass("paginating") && !next.hasClass("disabled")
       @.paginate(body, next)
 
 
@@ -47,3 +37,4 @@ pagination =
       dataType: 'script'
       success: ->
         body.removeClass("paginating")
+        $("#news_pagination").customScrollbar("resize", true)

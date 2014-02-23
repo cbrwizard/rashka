@@ -18,6 +18,7 @@
 //= require bootstrap/dropdown
 //= require infobox
 //= require markerclusterer
+//= require jquery.custom-scrollbar
 
 //= require turbolinks
 //= require_tree .
