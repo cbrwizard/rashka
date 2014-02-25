@@ -1,15 +1,19 @@
 # config/deploy.rb
 require "bundler/capistrano"
 require "rvm/capistrano"
+require 'capistrano/ec2group'
 
 set :scm,             :git
 set :repository,      "git@github.com:cbrwizard/rashka.git"
 set :branch,          "origin/master"
 set :migrate_target,  :current
-set :ssh_options,     { :keys => ["~/security/cbrwizard-key-pair.pem"] }
+set :ssh_options,     { :keys => [ENV["KEY_PAIR"]] }
 set :rails_env,       "production"
 set :deploy_to,       "/home/ubuntu/apps/rashka"
 set :normalize_asset_timestamps, false
+
+#set :aws_access_key_id, '???'
+#set :aws_secret_access_key, '???'
 
 set :user,            "ubuntu"
 set :use_sudo,        false

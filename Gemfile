@@ -55,6 +55,7 @@ end
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'capobvious'
+gem 'capistrano-ec2group'
 
 group :development, :test do
   gem 'rspec-rails'
