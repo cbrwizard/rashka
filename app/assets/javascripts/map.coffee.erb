@@ -143,15 +143,25 @@ places =
 
     # И закрывает
     google.maps.event.addListener place_marker, 'mouseout', ->
-      place.infobox.close()
+#      place.infobox.close()
 
 
   # Устанавливает контент у инфобокса места
   # @param place [Object] место
   update_infobox: (place) ->
     infobox_content = "
-      <p><b>#{place.type} :</b> #{place.name} </p>
-      <p><b>Расстояние:</b> #{place.distance.toFixed(1)} км</p>"
+      <div class='evac_popup'>
+        <div class='left'>
+          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow'>
+          <img src='"+ places.types[place.type_id].icon + "'class='evac_icon'>
+        </div>
+        <div class='right'>
+          <h5>Точка эвакуации</h5>
+          <h4>#{place.name}</h4>
+          <p class='distance'>#{place.distance.toFixed(1)} км</p>
+        </div>
+      </div>
+      "
     place.infobox.setContent(infobox_content)
 
 
