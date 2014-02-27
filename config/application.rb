@@ -27,5 +27,7 @@ module Rashka
     I18n.enforce_available_locales = true
 
     config.sass.preferred_syntax = :sass
+
+    config.assets.paths << Rails.root.join("fonts")
   end
 end
