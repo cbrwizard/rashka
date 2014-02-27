@@ -1,20 +1,18 @@
-$scrollThumbColor: #e2cf56
-
+@import "colors"
 
 #news_container
-  h3
-    position: absolute
-    top: -3px
-    left: 22px
-    font-size: 14px
+  article
+    padding: 8px 8px 16px 16px
+    &:hover
+      background: lighten($blockBackground, 10%)
 
 #news_pagination
-  padding: 37px 13px 0
+  padding: 37px 0 0 5px
   height: 250px
   overflow: hidden
   .scroll-bar.vertical
     left: 0
-    width: 5px
+    width: 4px
     top: 0
     background: #fff
     height: 250px!important

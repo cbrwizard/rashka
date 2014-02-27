@@ -63,7 +63,7 @@ map =
   put_marker_on_current: ->
     current_loc_marker_options =
       position: app.current_location
-      icon: "<%= asset_path('current.jpg') %>"
+      icon: "<%= asset_path('current.png') %>"
       map: app.google_map
     map.current_marker = new google.maps.Marker current_loc_marker_options
 
@@ -83,9 +83,9 @@ map =
   # Группирует маркеры вместе в один, если они рядом
   cluster_markers: ->
     markerCluster_styles = [{
-      url: "<%= asset_path('current.jpg') %>",
-      height: 35,
-      width: 35,
+      url: "<%= asset_path('evac.png') %>",
+      height: 60,
+      width: 60,
       textSize: 1
     }]
     new MarkerClusterer(app.google_map, map.markers, {styles: markerCluster_styles})
@@ -123,7 +123,7 @@ places =
     place_marker_options =
       position: place_position
       map: app.google_map
-      icon: places.types[place.type_id].icon
+      icon: "<%= asset_path('evac.png') %>"
     place_marker = new google.maps.Marker(place_marker_options)
     map.markers.push(place_marker)
 
