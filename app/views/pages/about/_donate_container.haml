@@ -1,9 +1,10 @@
 -cache do
   #donate_container
-    %p
+    %p.about_text
       По правде говоря, мы бы сами не против свалить. Но мы - бедные студенты, поэтому нам приходится выживать в суровых российских реалиях. Понимаете нас? Помогите, чем можете!
     #donate_btn_container
-      %button#donate_btn.btn.btn-success.btn-lg
+      %button#donate_btn.btn
         ДОНАТЕ
-      = render :partial => 'pages/about/ya_money'
-      = render :partial => 'pages/about/paypal'
+      #donate_plugins.hidden
+        = render :partial => 'pages/about/ya_money'
+        = render :partial => 'pages/about/paypal'

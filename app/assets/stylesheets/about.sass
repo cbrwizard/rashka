@@ -1,27 +1,42 @@
+@import "colors"
+
+#about_modal
+  color: $aboutText
+
 .author
   overflow: hidden
   padding: 10px 0
   text-align: center
-  &:hover
-    box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.5)
   img
-    width: 100px
-    height: 100px
-    border-radius: 5px
+    width: 175px
+    height: 175px
+    border-radius: 100px
+  h4
+    font-family: 'Pancetta Pro'
+    font-size: 18px
+    margin: 8px 0 2px
+    text-transform: uppercase
+  p
+    font-size: 18px
 
-#donate_container
-  margin: 15px 0
+.about_text
+  font-size: 18px
+
 
 #donate_btn_container
+  width: 90%
+  max-width: 515px
   text-align: center
   position: relative
-  padding-bottom: 15px
+  margin: 0 auto
+  height: 128px
 
 #donate_btn
-  width: 90%
+  width: 100%
   padding: 50px 0
   position: absolute
-  left: 5%
+  left: 0
+  top: 0
 
 #license_container
   height: 100px
