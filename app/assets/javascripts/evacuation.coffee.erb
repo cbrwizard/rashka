@@ -53,11 +53,19 @@ evacuation =
       if status == google.maps.DirectionsStatus.OK
         evacuation.show_directions(response)
         evacuation.create_end_place_infobox(end_place)
+        evacuation.adjust_center()
     )
 
 
+  # Адаптирует центр карты, чтобы правильно отображался весь маршрут
+  adjust_center: ->
+    app.google_map.setZoom(app.google_map.getZoom() - 1)
+    center = app.google_map.getCenter()
+    app.google_map.panTo(center);
+
+
   # Отображение инфобокса у места
-  # @param end_point [google.maps.LatLng] место конца маршрута
+  # @param end_point [google.maps.Lang] место конца маршрута
   create_end_place_infobox: (end_place) ->
     place_infobox = new InfoBox(app.infobox_options)
     infobox_content = evacuation.get_evac_infobox(end_place)
