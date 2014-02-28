@@ -9,6 +9,7 @@ news =
     $("#news_pagination").customScrollbar()
     @.pagination()
     $("#news_container article").click ->
+      #TODO: чтобы после пагинации тоже работал
       window.open($(this).attr("data-link"), '_blank');
 
 

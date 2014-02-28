@@ -6,19 +6,20 @@
   left: 1%
   width: 475px
   section
-    background: $blockBackground
     color: #fff
     position: relative
     margin-bottom: 15px
-    opacity: .95
+    background: $blockBackground
+    opacity: .92
   h3
     position: absolute
     top: 10px
     left: 12px
     margin: 0
+    color: $orange
     font-family: 'Pancetta Pro'
     span
-      background: #333
+      background: #252525
       margin-right: 1px
       font: 26px monospace
       padding: 0 3px
@@ -33,26 +34,30 @@
 
 #about_btn_container
   position: absolute
-  top: 2%
-  right: 1%
+  top: 0
+  right: 40px
   img
     cursor: pointer
     border: 2px solid #fff
 
 #evac_btn_container
   position: absolute
-  bottom: 15px
-  right: 15px
+  bottom: 20px
+  right: 40px
   button
     width: 235px
-    height: 135px
+    height: 140px
     font-family: 'Pancetta pro'
     font-size: 32px
     color: #fff
     padding: 0
+    position: relative
     line-height: 135px
     box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.5)
     border-radius: 20px
+    &:hover
+      top: -2px
+      box-shadow: 0 3px 1px 1px rgba(0, 0, 0, 0.5)
 
 #evac_btn
   background: $evacButton
