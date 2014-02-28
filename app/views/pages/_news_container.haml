@@ -1,6 +1,6 @@
 -#-cache @news do
 %section#news_container.hidden-xs
-  %h3
+  %h3{data: {flip: "Последние новости"}}
     Последние новости
   #news_pagination
     = render :partial => 'pages/news_pagination'
