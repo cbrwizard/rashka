@@ -11,7 +11,7 @@ $.fn.ticker = () ->
   text_array = text.split("")
   text_array.push "&#160"  while text_array.length < max_length
 
-  target = $("<div class='flip'>")
+  target = $("<h3 class='flip'>")
   target.html "<span>" + text_array.join("</span><span>") + "</span>"
 
   parent_container = $this.parent()
