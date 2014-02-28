@@ -1,59 +1,24 @@
-$vk_color: #3c608a
-$fb_color: #39599f
-$tw_color: #45b0e3
-$gp_color: #dc4b37
+#social_container
+  margin: 15px 0 0
 
 .share_button
-  position: relative
-  width: 140px
-  padding-left: 33px
-  margin: 10px 10px 0 0
-  color: #fff
-  border-radius: 3px
+  display: inline-block
+  margin: 0 10px
+  cursor: pointer
   &.error_share
     opacity: 0.4
     cursor: default
-  &:before
-    position: absolute
-    left: 13px
-    top: 12px
-    width: 25px
-    height: 19px
-    background: image-url('social/social_sprite.png') no-repeat 0 0
-    content: ""
   &:hover
     text-decoration: none
     color: #fff
-
-  &.vk_like_button
-    background: $vk_color
-    &:before
-      left: 8px
-      top: 10px
-      background-position: -48px 0px
-    &.ok_share
-      &:hover
-        background: lighten($vk_color, 10%)
-      &:active
-        background: darken($vk_color, 10%)
-
-  &.fb_like_button
-    background: $fb_color
-    &:before
-      background-position: -75px 0px
-      left: 9px
-    &.ok_share
-      &:hover
-        background: lighten($fb_color, 10%)
-      &:active
-        background: darken($fb_color, 10%)
-
-  &.tw_like_button
-    background: $tw_color
-    &:before
-      background-position: -24px 0px
-    &.ok_share
-      &:hover
-        background: lighten($tw_color, 10%)
-      &:active
-        background: darken($tw_color, 10%)
+  .social_icon
+    float: left
+  .arrow-right
+    float: right
+    margin: 9px 0 0
+  a
+    padding: 0 5px
+    line-height: 41px
+    text-transform: uppercase
+    font-size: 14px
+    font-family: 'Pancetta Pro'

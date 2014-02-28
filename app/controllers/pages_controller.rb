@@ -2,7 +2,6 @@
 class PagesController < ApplicationController
   include AuthorHelper
   include ModalHelper
-  include SocialHelper
 
   # Главная страница. Готовит новости, причины и места к отображению.
   # @note GET /

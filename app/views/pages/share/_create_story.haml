@@ -1,10 +1,11 @@
 -cache do
   #create_story
     %p
-      Я решил валить из рашки, потому что:
-    =text_area_tag "reason","", {id: "reason_field", class: "form-control"}
-    %p#reason_text_counter{title: "Сколько осталось символов"}
-      80
+      Я валю из рашки, потому что:
+    %div
+      =text_area_tag "reason","", {id: "reason_field", class: "form-control"}
+      %p#reason_text_counter{title: "Сколько осталось символов"}
+        80
 
-    #get_random_container.text-center
+    #get_random_container.text-center.hidden
       =link_to "Подсказать причину", get_one_random_reasons_path, {:class => "btn btn-info", :remote => true}

@@ -2,7 +2,7 @@
 $ ->
   # При нажатии по соц кнопке открывай окошко соц сети
   $(".share_button").click ->
-    social.share_reason($(@))
+    social.share_reason($(@).find("a"))
 
 
   # При изменении текста поля ввода причины меняет текст у соц кнопок
@@ -39,20 +39,20 @@ social =
   count_reason_text: (textarea) ->
     text = textarea.val()
     counter = $("#reason_text_counter")
-    share_buttons = $(".share_button")
+    share_buttons = $(".share_button a")
     max_length = 80
     letters_left = max_length - text.length
     counter.html(letters_left)
 
     if letters_left < 0
-      counter.addClass("text-danger").removeClass("text-warning")
+      counter.addClass("text-danger").removeClass("text-warning ok_counter")
       share_buttons.addClass("error_share").removeClass("ok_share")
     else if letters_left < 6
       share_buttons.removeClass("error_share").addClass("ok_share")
-      counter.addClass("text-warning").removeClass("text-danger")
+      counter.addClass("text-warning").removeClass("text-danger ok_counter")
     else
       share_buttons.removeClass("error_share").addClass("ok_share")
-      counter.removeClass("text-danger text-warning")
+      counter.removeClass("text-danger text-warning").addClass("ok_counter")
 
 
   # Переносит текст из поля причины в кнопки соц сетей

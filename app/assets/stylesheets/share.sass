@@ -1,5 +1,12 @@
+@import "colors"
+
+#share_modal
+  .modal-dialog
+    max-width: 565px
+  .modal-content
+    background: #2A2A2A
+
 #widget_holder
-  margin-top: 25px
   iframe
     min-height: 200px
     margin: 0 auto
@@ -8,3 +15,24 @@
 
 #get_random_container
   margin: 10px 0 0
+
+#create_story
+  >p
+    color: #fff
+    font-family: 'Pancetta Pro'
+    font-size: 24px
+  textarea
+    height: 105px
+    border-radius: 0
+    &:focus
+      border-color: $orange
+      box-shadow: none
+  div
+    position: relative
+    p
+      position: absolute
+      bottom: 0
+      right: 10px
+
+.ok_counter
+  color: $counterText

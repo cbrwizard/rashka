@@ -1,4 +1,16 @@
 #social_container.text-center
-  =social_btn("vk_like_button", "Нравится", "http://vkontakte.ru/share.php?url=", "vk_post")
-  =link_to "Лайк", "#", {:class => "btn btn-lg share_button ok_share fb_like_button", :href => "", :target => "_blank", :data => {:method => "fb_post"}}
-  =social_btn("tw_like_button", "Ретвит", "https://twitter.com/intent/tweet?source=webclient&url=", "tw_post")
+  -#  TODO: сделать хелпер для соц кнопок
+  .share_button
+    =image_tag "share/vk.png", {class: "social_icon"}
+    =image_tag "share/arrow-right-small.png", {class: "arrow-right"}
+    =link_to "Рассказать", "#", {:class => "ok_share vk_like_button", :href => "http://vkontakte.ru/share.php?url=http://valiizrashki.ru/", :target => "_blank", :data => {:method => "vk_post"}}
+
+  .share_button
+    =image_tag "share/fb.png", {class: "social_icon"}
+    =image_tag "share/arrow-right-small.png", {class: "arrow-right"}
+    =link_to "Поделиться", "#", {:class => "ok_share fb_like_button", :href => "", :target => "_blank", :data => {:method => "fb_post"}}
+
+  .share_button
+    =image_tag "share/tw.png", {class: "social_icon"}
+    =image_tag "share/arrow-right-small.png", {class: "arrow-right"}
+    =link_to "Твитнуть", "#", {:class => "ok_share tw_like_button", :href => "https://twitter.com/intent/tweet?source=webclient&url=http://valiizrashki.ru/", :target => "_blank", :data => {:method => "tw_post"}}
