@@ -5,12 +5,24 @@ global.app =
   current_location: new google.maps.LatLng(55.751667, 37.617778)
   google_map: undefined
   directions_renderer: undefined
+  time_to_evac: undefined
 
   # Точки эвакуации
   places:
     objects:
       gon.places
     closest: undefined
+    types:
+      1:
+        icon: "<%= asset_path('places/airplane.png') %>"
+      2:
+        icon: "<%= asset_path('places/seaport.png') %>"
+      3:
+        icon: "<%= asset_path('places/railway.png') %>"
+      4:
+        icon: "<%= asset_path('places/border.png') %>"
+      5:
+        icon: "<%= asset_path('places/car.png') %>"
 
   # Параметры отображения окна инфы при ховере поместу
   infobox_options:

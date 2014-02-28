@@ -103,18 +103,6 @@ map =
 
 # Параметры и функции мест
 places =
-  types:
-    1:
-      icon: "<%= asset_path('places/airplane.png') %>"
-    2:
-      icon: "<%= asset_path('places/seaport.png') %>"
-    3:
-      icon: "<%= asset_path('places/railway.png') %>"
-    4:
-      icon: "<%= asset_path('places/border.png') %>"
-    5:
-      icon: "<%= asset_path('places/car.png') %>"
-
 
   # Отображает место на карте: создает маркер для него
   # @param place [Object] место
@@ -125,6 +113,7 @@ places =
       map: app.google_map
       icon: "<%= asset_path('evac.png') %>"
     place_marker = new google.maps.Marker(place_marker_options)
+    place.marker = place_marker
     map.markers.push(place_marker)
 
     places.create_infobox(place, place_marker)
@@ -139,7 +128,8 @@ places =
 
     # При наведении по маркеру открывает инфобокс
     google.maps.event.addListener place_marker, 'mouseover', ->
-      place.infobox.open(app.google_map, this)
+      if !app.time_to_evac || app.places.closest != place
+        place.infobox.open(app.google_map, this)
 
     # И закрывает
     google.maps.event.addListener place_marker, 'mouseout', ->
@@ -153,7 +143,7 @@ places =
       <div class='evac_popup'>
         <div class='left'>
           <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow'>
-          <img src='"+ places.types[place.type_id].icon + "'class='evac_icon'>
+          <img src='"+ app.places.types[place.type_id].icon + "'class='evac_icon'>
         </div>
         <div class='right'>
           <h5>Точка эвакуации</h5>
