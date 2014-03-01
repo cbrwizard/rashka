@@ -7,5 +7,5 @@
       %p#reason_text_counter{title: "Сколько осталось символов"}
         80
 
-    #get_random_container.text-center.hidden
-      =link_to "Подсказать причину", get_one_random_reasons_path, {:class => "btn btn-info", :remote => true}
+    #get_random_container
+      =link_to (image_tag "reload.png"), get_one_random_reasons_path, {:remote => true, :title => "Подсказать причину"}

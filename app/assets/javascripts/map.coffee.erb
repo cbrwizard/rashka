@@ -88,8 +88,10 @@ map =
       width: 60,
       textSize: 1
     }]
-    new MarkerClusterer(app.google_map, map.markers, {styles: markerCluster_styles})
-               
+    cluster = new MarkerClusterer(app.google_map, map.markers, {styles: markerCluster_styles})
+
+    google.maps.event.addListener cluster, 'mouseover', ->
+      console.log "lol"
     
   # Инициализация карты и обозначение границ
   init: ->
@@ -130,6 +132,10 @@ places =
     google.maps.event.addListener place_marker, 'mouseover', ->
       if !app.time_to_evac || app.places.closest != place
         place.infobox.open(app.google_map, this)
+        setTimeout(->
+          $(".evac_popup").fadeIn(300)
+          200
+        )
 
     # И закрывает
     google.maps.event.addListener place_marker, 'mouseout', ->

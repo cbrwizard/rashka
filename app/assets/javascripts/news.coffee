@@ -8,9 +8,8 @@ news =
   init: ->
     $("#news_pagination").customScrollbar()
     @.pagination()
-    $("#news_container article").click ->
-      #TODO: чтобы после пагинации тоже работал
-      window.open($(this).attr("data-link"), '_blank');
+    $(document).on "click", "#news_container article", ->
+      window.open($(this).attr("data-link"), '_blank')
 
 
   # При скролле блока новостей идет пагинация
