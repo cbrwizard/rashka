@@ -16,6 +16,7 @@ map =
     disableDefaultUI: true,
     zoom: 13
     minZoom: 4
+    styles: [{stylers: [{ gamma: 0.6 },{ saturation: -75 }]}]
   current_marker: undefined
   last_valid_center: undefined
   bounds: undefined
@@ -63,7 +64,7 @@ map =
   put_marker_on_current: ->
     current_loc_marker_options =
       position: app.current_location
-      icon: "<%= asset_path('current.png') %>"
+      icon: "<%= asset_path('map/current.gif') %>"
       map: app.google_map
     map.current_marker = new google.maps.Marker current_loc_marker_options
 
@@ -83,21 +84,55 @@ map =
   # Группирует маркеры вместе в один, если они рядом
   cluster_markers: ->
     markerCluster_styles = [{
-      url: "<%= asset_path('evac.png') %>",
-      height: 60,
-      width: 60,
+      url: "<%= asset_path('map/evac.png') %>",
+      height: 35,
+      width: 35,
       textSize: 1
     }]
     cluster = new MarkerClusterer(app.google_map, map.markers, {styles: markerCluster_styles})
+    cluster_infobox = new InfoBox(app.infobox_options)
 
-    google.maps.event.addListener cluster, 'mouseover', ->
-      console.log "lol"
-    
+    # При наведении по кластереру открывает инфобокс
+    google.maps.event.addListener cluster, 'mouseover', (this_clusterer) ->
+      fake_marker_options =
+        position: this_clusterer.getCenter()
+        map: app.google_map
+      fake_marker = new google.maps.Marker(fake_marker_options)
+
+      cluster_infobox.setContent(map.clusterer_infobox())
+      cluster_infobox.open(app.google_map, fake_marker)
+      fake_marker.setMap(null)
+      setTimeout(->
+        $(".evac_popup").fadeIn(300)
+        200
+      )
+
+    # И закрывает
+    google.maps.event.addListener cluster, 'mouseout', ->
+      cluster_infobox.close()
+
+
+  # Устанавливает контент у инфобокса кластерера маркеров
+  # @return [DOM] содержимое инфобокса
+  clusterer_infobox: ->
+    infobox_content = "
+      <div class='evac_popup'>
+        <div class='left'>
+          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow'>
+          <img src='"+ "<%= asset_path('places/multi.gif') %>" + "'class='evac_icon'>
+        </div>
+        <div class='right'>
+          <h5>Точки эвакуации</h5>
+          <h4>Сразу несколько!</h4>
+        </div>
+      </div>
+      "
+
+
   # Инициализация карты и обозначение границ
   init: ->
     app.google_map = new google.maps.Map(@.dom, @.options)    
     map.bounds = new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999))
-
     # При передвижении по карте проверяет, находимся ли мы еще в пределах границы
     google.maps.event.addListener app.google_map, "center_changed", ->
       map.checkBounds()
@@ -113,7 +148,7 @@ places =
     place_marker_options =
       position: place_position
       map: app.google_map
-      icon: "<%= asset_path('evac.png') %>"
+      icon: "<%= asset_path('map/evac.png') %>"
     place_marker = new google.maps.Marker(place_marker_options)
     place.marker = place_marker
     map.markers.push(place_marker)
