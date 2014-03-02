@@ -5,6 +5,11 @@ $ ->
     social.share_reason($(@).find("a"))
 
 
+  # При нажатии по блоку брейнлука открывает страницу брейнлука
+  $("#brainlook").click ->
+    window.open($(this).attr("data-link"), '_blank')
+
+
   # При изменении текста поля ввода причины меняет текст у соц кнопок
   $("#reason_field").on "input propertychange change", ->
     social.update_social_buttons($(this))
@@ -32,6 +37,15 @@ social =
     tw_href = tw_like_button.attr("href")
     correct_tw_href = tw_href.slice( 0, tw_href.indexOf('&text') )
     tw_like_button.attr("href", correct_tw_href + "&text=#{social.text} #{reason}")
+
+
+  # Меняет текст мнения для брейнлука
+  # @param reason [String] текст причины
+  change_bl_link: (reason) ->
+    brainlook = $("#brainlook")
+    link = brainlook.attr("data-link")
+    correct_link = link.slice( 0, link.indexOf('?opinion_text') )
+    brainlook.attr("href", correct_link + "?opinion_text=#{social.text} #{reason}")
 
 
   # Считает количество символов у поля ввода и отображает, удовлетворяет ли длина требованиям
@@ -62,6 +76,7 @@ social =
     shortened_reason = reason.substr(0, 80)
     social.change_vk_link (shortened_reason)
     social.change_tw_link (shortened_reason)
+    social.change_bl_link (shortened_reason)
     social.count_reason_text (textarea)
 
 
