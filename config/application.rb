@@ -28,6 +28,6 @@ module Rashka
 
     config.sass.preferred_syntax = :sass
 
-    config.assets.paths << Rails.root.join("fonts")
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
   end
 end

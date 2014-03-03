@@ -7,7 +7,7 @@ body
   height: 100%
   margin: 0
   padding: 0
-  font-family: 'Myriad Pro'!important
+  font-family: 'Droidsans'!important
   p
     margin: 0
   a
@@ -17,14 +17,19 @@ body
 
 
 @font-face
-  font-family: 'Myriad Pro'
+  font-family: 'Droidsans'
+  src: url(<%= asset_path 'droidsans.eot' %>)
+  src: url(<%= asset_path 'droidsans.eot?#iefix' %>) format('eot')
+  src: url(<%= asset_path 'droidsans.woff' %>) format('woff')
+  src: url(<%= asset_path 'droidsans.ttf' %>) format('truetype')
+  font-weight: normal
   font-style: normal
-  font-weight: 400
-  src: local('Myriad Pro'), local('Myriad Pro-Regular'), url('<%= asset_path('myriad-pro-regular.woff') %>')
 
 @font-face
   font-family: 'Pancetta Pro'
+  src: url(<%= asset_path 'pancetta-pro.eot' %>)
+  src: url(<%= asset_path 'pancetta-pro.eot?#iefix' %>) format('eot')
+  src: url(<%= asset_path 'pancetta-pro.woff' %>) format('woff')
+  src: url(<%= asset_path 'pancetta-pro.ttf' %>) format('truetype')
+  font-weight: normal
   font-style: normal
-  font-weight: 400
-  src: local('Pancetta Pro'), local('Pancetta Pro-Regular'), url('<%= asset_path('pancetta-pro-regular.woff') %>')
-
