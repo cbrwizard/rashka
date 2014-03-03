@@ -45,7 +45,7 @@ social =
     brainlook = $("#brainlook")
     link = brainlook.attr("data-link")
     correct_link = link.slice( 0, link.indexOf('?opinion_text') )
-    brainlook.attr("href", correct_link + "?opinion_text=#{social.text} #{reason}")
+    brainlook.attr("data-link", correct_link + "?opinion_text=#{social.text} #{reason}")
 
 
   # Считает количество символов у поля ввода и отображает, удовлетворяет ли длина требованиям
