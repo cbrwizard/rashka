@@ -8,7 +8,6 @@ body
   margin: 0
   padding: 0
   font-family: 'Droidsans'!important
-  -webkit-font-smoothing: antialiased
   p
     margin: 0
   a
@@ -24,6 +23,7 @@ body
   src: url(<%= asset_path 'droidsans.svg' %>) format('svg')
   src: url(<%= asset_path 'droidsans.woff' %>) format('woff')
   src: url(<%= asset_path 'droidsans.ttf' %>) format('truetype')
+  src: local('Droidsans')
 
 
 @font-face
@@ -33,6 +33,7 @@ body
   src: url(<%= asset_path 'pancetta-pro.svg' %>) format('svg')
   src: url(<%= asset_path 'pancetta-pro.woff' %>) format('woff')
   src: url(<%= asset_path 'pancetta-pro.ttf' %>) format('truetype')
+  src: local('Pancetta Pro')
 
 
 @media screen and (-webkit-min-device-pixel-ratio: 0)

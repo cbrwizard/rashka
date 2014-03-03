@@ -17,7 +17,6 @@ map =
     zoom: 13
     minZoom: 4
     styles: [{stylers: [{ gamma: 0.6 },{ saturation: -75 }]}]
-  current_marker: undefined
   last_valid_center: undefined
   bounds: undefined
   markers: []
@@ -40,7 +39,7 @@ map =
   # В случае успеха определения местоположения юзера, обновляет карту
   # @param location [LatLng] координаты местоположения юзера
   nav_geo_success: (location) ->
-    map.current_marker.setMap(null)
+    app.current_marker.setMap(null)
     unless app.directions_renderer == undefined
       app.directions_renderer.setMap(null)
       #TODO: ресетить кнопку валить, раз уж мы на всякий стираем маршрут
@@ -66,7 +65,7 @@ map =
       position: app.current_location
       icon: "<%= asset_path('map/current.gif') %>"
       map: app.google_map
-    map.current_marker = new google.maps.Marker current_loc_marker_options
+    app.current_marker = new google.maps.Marker current_loc_marker_options
 
 
   # Обновляет маркеры для подготовки к новому текущему местоположению

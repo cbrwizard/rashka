@@ -52,6 +52,7 @@ evacuation =
       #в случае успеха запроса выводит маршрут
       if status == google.maps.DirectionsStatus.OK
         evacuation.show_directions(response)
+        app.current_marker.setIcon("<%= asset_path('map/mover.gif') %>")
         evacuation.create_end_place_infobox(end_place)
         evacuation.adjust_center()
     )
@@ -71,6 +72,10 @@ evacuation =
     infobox_content = evacuation.get_evac_infobox(end_place)
 
     place_infobox.setContent(infobox_content)
+    setTimeout(->
+      $(".evac_popup").fadeIn(300)
+      200
+    )
     place_infobox.open(app.google_map, end_place.marker)
 
 
