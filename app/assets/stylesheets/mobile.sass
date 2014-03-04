@@ -60,6 +60,7 @@
     left: 0
     bottom: 95px
     width: 100%
+    z-index: 6
 
   .evac_popup
     padding: 5px
@@ -119,9 +120,12 @@
       transform: translate(0, 0)
       margin: 0
 
-  .flip
-    display: none
+  .flip,.scroll-bar
+    display: none!important
 
   #news_pagination
-    height: 100%
-    padding: 0
+    .viewport
+      width: 100%!important
+      height: 100%!important
+      .overview
+        position: initial
