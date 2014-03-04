@@ -1,37 +1,58 @@
 $ ->
-  current_page = 2
-  content = $("#content")
+  run_mobile_checks()
+
+  $(window).resize ->
+    run_mobile_checks()
 
   first_news = $("#news_pagination article:first-child").clone()
   $("#news_evac").html(first_news)
 
-  # @todo Объединить эти функции
+  current_page = 2
+  content = $("#content")
+
   $(".prev").click ->
     current_page -= 1
-    left = "-" + current_page + "00%"
-
-    $(".active_block").removeClass("active_block")
-    $("#main_content").addClass("active_block")
-
-    if $("#main_content").hasClass("active_block")
-      $("body").removeClass("no_overflow")
-    else
-      $("body").addClass("no_overflow")
-
-    $("#content").animate({left: left}, 500)
-    false
-
+    change_mobile_block()
 
   $(".next").click ->
     current_page += 1
-    left = "-" + current_page + "00%"
-    $(".active_block").removeClass("active_block")
-    $("#about_content").addClass("active_block")
+    change_mobile_block()
 
-    if $("#main_content").hasClass("active_block")
-      $("body").removeClass("no_overflow")
-    else
-      $("body").addClass("no_overflow")
+  # Перелистывание экранов на мобиле
+  change_mobile_block = ->
+    left = "-" + current_page + "00%"
+    $(".screen_block").addClass("inactive_block")
+
+    current_block = switch current_page
+      when 0 then $("#reasons_content")
+      when 1 then $("#news_content")
+      when 2 then $("#main_content")
+      else $("#about_content")
+
+    current_block.removeClass("inactive_block")
 
     $("#content").animate({left: left}, 500)
     false
+
+# Проверяет, мобила ли это
+is_mobile = ->
+  if $('#popup').css('display') == 'block'
+    true
+   else
+    false
+
+# Запускает проверки по поводу мобилы
+run_mobile_checks = ->
+  total_height = $("body").height()
+  mobile = is_mobile()
+#    resize_news(mobile, total_height)
+  resize_containers(mobile, total_height)
+
+
+resize_news = (mobile, total_height) ->
+  if mobile == true
+    $("#news_pagination").customScrollbar("remove")
+
+resize_containers = (mobile, total_height) ->
+  if mobile == true
+    $(".screen_block").css({"height": total_height})

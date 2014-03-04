@@ -3,20 +3,31 @@
 @media screen and (max-width: 768px)
 
   body
-    overflow: hidden
+    overflow-x: hidden
 
-  .no_overflow
-    overflow: auto
+  #on_map
+    z-index: 100
+    position: relative
 
   #content
     width: 400%
     left: -200%
 
+  .inactive_block
+    overflow: hidden
+
   .screen_block
     width: 25%
-    height: 100%
     >header
       height: 50px
+      background: #ECCF5D
+      position: relative
+      z-index: 100
+      h1
+        margin: 0
+      a
+        color: #333
+        font-size: 24px
 
   .prev
     float: left
@@ -108,3 +119,9 @@
       -ms-transform: translate(0, 0)
       transform: translate(0, 0)
       margin: 0
+
+  .flip
+    display: none
+
+  #news_pagination
+    padding: 0 0 0 5px

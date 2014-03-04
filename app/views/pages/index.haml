@@ -8,40 +8,36 @@
     #tooltips.hidden
 
 #content
-  #reasons_content.screen_block
+  #reasons_content.screen_block.inactive_block
     %header.visible-xs
+      =link_to "Н", "#", {class: "prev"}
+      =link_to "В", "#", {class: "next"}
       %h1
         Причины
-      %nav
-        =link_to "Н", "#", {class: "prev"}
-        =link_to "В", "#", {class: "next"}
   -#    TODO: сделать хелперы для хедеров, сделать один нав
 
-  #news_content.screen_block
+  #news_content.screen_block.inactive_block
     %header.visible-xs
+      =link_to "Н", "#", {class: "prev"}
+      =link_to "В", "#", {class: "next"}
       %h1
         Новости
-      %nav
-        =link_to "Н", "#", {class: "prev"}
-        =link_to "В", "#", {class: "next"}
     = render :partial => 'news_container'
 
-  #main_content.screen_block.active_block
+  #main_content.screen_block
     %header
       #logo_container.block
-        =image_tag "logo.jpg"
-      %nav.visible-xs
         =link_to "Н", "#", {class: "prev"}
         =link_to "В", "#", {class: "next"}
+        =image_tag "logo.jpg"
     = render :partial => 'reasons_container'
 
-  #about_content.screen_block
+  #about_content.screen_block.inactive_block
     %header.visible-xs
+      =link_to "Н", "#", {class: "prev"}
+      =link_to "В", "#", {class: "next"}
       %h1
         О сайте
-      %nav
-        =link_to "Н", "#", {class: "prev"}
-        =link_to "В", "#", {class: "next"}
     =modal("about_modal") {render :partial => 'pages/about/about_modal'}
 
   =modal("share_modal") {render :partial => 'pages/share/share_modal'}
