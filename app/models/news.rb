@@ -5,7 +5,6 @@ class News < ActiveRecord::Base
 
   default_scope -> { order(updated_at: :desc) }
   scope :view_info, -> {select(:title, :text, :link, :updated_at)}
-  scope :paginated, -> (page_params) {paginate(:page => page_params, :per_page => 5)}
 
   validates_presence_of :title, :text, :link, message: "нужно чем-то заполнить"
   validates_uniqueness_of :text, :title, :link, :message => "не должно повторяться в другой новости"

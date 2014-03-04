@@ -34,25 +34,21 @@ $ ->
     $("#content").animate({left: left}, 500)
     false
 
-# Проверяет, мобила ли это
-is_mobile = ->
-  if $('#popup').css('display') == 'block'
-    true
-   else
-    false
 
 # Запускает проверки по поводу мобилы
 run_mobile_checks = ->
   total_height = $("body").height()
-  mobile = is_mobile()
-#    resize_news(mobile, total_height)
-  resize_containers(mobile, total_height)
+  app.is_mobile()
+  resize_news(total_height)
+  resize_containers(total_height)
 
 
-resize_news = (mobile, total_height) ->
-  if mobile == true
-    $("#news_pagination").customScrollbar("remove")
+resize_news = (total_height) ->
+#  if app.mobile == false
 
-resize_containers = (mobile, total_height) ->
-  if mobile == true
+
+
+
+resize_containers = (total_height) ->
+  if app.mobile == true
     $(".screen_block").css({"height": total_height})

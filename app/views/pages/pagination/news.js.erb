@@ -1,2 +1,9 @@
-$("#news_pagination .pagination").remove();
-$("#news_pagination .overview").append("<%= j render :partial => 'pages/news_pagination' %>");
+var news = $("#news_pagination"),
+  overview = news.find(".overview");
+news.find(".pagination").remove();
+
+if (overview.length > 0) {
+  overview.append("<%= j render :partial => 'pages/news_pagination' %>");
+} else {
+  news.append("<%= j render :partial => 'pages/news_pagination' %>");
+}

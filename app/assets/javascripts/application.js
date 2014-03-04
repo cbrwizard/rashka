@@ -19,6 +19,7 @@
 //= require infobox
 //= require markerclusterer
 //= require jquery.custom-scrollbar
+//= require mobile
 
 //= require turbolinks
 //= require_tree .

@@ -6,14 +6,26 @@ $ ->
 news =
   # Добавляет кастомный скролл для блока новостей, включает пагинацию и включает переход по новости
   init: ->
-    $("#news_pagination").customScrollbar()
+    news.try_to_custom_pagination()
+    $(window).resize ->
+      news.try_to_custom_pagination()
+
     @.pagination()
     $(document).on "click", "#news_container article", ->
       window.open($(this).attr("data-link"), '_blank')
 
 
+  # На десктопах пытается включить кастомную пагинацию
+  try_to_custom_pagination: ->
+    if app.mobile == false
+      $("#news_pagination").customScrollbar()
+
+
   # При скролле блока новостей идет пагинация
   pagination: ->
+    $(window).on "scroll", ->
+      news.check_for_pagination($(this), false)
+
     $("#news_pagination").on "customScroll", (event, scrollData) ->
       news.check_for_pagination($(this), scrollData)
 
@@ -23,9 +35,15 @@ news =
   # @param scrollData [Object] объект с данными о текущем скролле
   check_for_pagination: (container, scrollData)->
     body = $("body")
-    next = container.find(".pagination .next_page")
-    if scrollData.scrollPercent >= 75 && !body.hasClass("paginating") && !next.hasClass("disabled")
-      @.paginate(body, next)
+    next = $("#news_pagination").find(".pagination .next_page")
+    if scrollData
+      if scrollData.scrollPercent >= 75 && !body.hasClass("paginating") && !next.hasClass("disabled")
+        @.paginate(body, next)
+    else
+      scrolled_already = container.scrollTop()
+      pagination_height = 250
+      if scrolled_already >= pagination_height && !body.hasClass("paginating") && !next.hasClass("disabled")
+        @.paginate(body, next)
 
 
   # Через аякс грузит следующие данные в блок данных
