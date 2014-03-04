@@ -60,9 +60,13 @@ evacuation =
 
   # Адаптирует центр карты, чтобы правильно отображался весь маршрут
   adjust_center: ->
-    app.google_map.setZoom(app.google_map.getZoom() - 1)
-    center = app.google_map.getCenter()
-    app.google_map.panTo(center);
+    console.log app.google_map.getZoom()
+    setTimeout(->
+      app.google_map.setZoom(app.google_map.getZoom() - 1)
+      center = app.google_map.getCenter()
+      app.google_map.panTo(center)
+      200
+    )
 
 
   # Отображение инфобокса у места
@@ -78,6 +82,9 @@ evacuation =
     )
     place_infobox.open(app.google_map, end_place.marker)
 
+    $("#tooltips").addClass("hidden")
+    $("#news_evac").removeClass("hidden").html infobox_content
+
 
   # Устанавливает контент у инфобокса места, к которому будет идти эвакуация
   # @param place [Object] место
@@ -86,7 +93,7 @@ evacuation =
     infobox_content = "
       <div class='evac_popup'>
         <div class='left'>
-          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow'>
+          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow hidden-xs'>
           <img src='"+ app.places.types[place.type_id].icon + "'class='evac_icon'>
         </div>
         <div class='right'>

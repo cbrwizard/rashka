@@ -170,12 +170,15 @@ places =
           $(".infoBox").fadeIn(300)
           200
         )
-        $("#popup").html place.infobox.getContent()
+        $("#tooltips").toggleClass("hidden").html place.infobox.getContent()
+        $("#news_evac").toggleClass("hidden")
+
 
     # И закрывает
     google.maps.event.addListener place_marker, 'mouseout', ->
-#      place.infobox.close()
-#      $("#popup").html $("#news_pagination article:first-child").clone()
+      place.infobox.close()
+      if !app.time_to_evac || app.places.closest != place
+        $("#tooltips, #news_evac").toggleClass("hidden")
 
 
   # Устанавливает контент у инфобокса места
