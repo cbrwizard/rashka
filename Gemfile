@@ -49,7 +49,7 @@ group :development do
   gem 'mailcatcher'
   gem "bullet"
   gem 'meta_request'
-  gem 'rack-mini-profiler'
+  #gem 'rack-mini-profiler'
 end
 
 gem 'capistrano'

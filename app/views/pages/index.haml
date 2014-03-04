@@ -15,7 +15,7 @@
       %nav
         =link_to "Н", "#", {class: "prev"}
         =link_to "В", "#", {class: "next"}
-  -#    TODO: сделать хелперы для хедеров
+  -#    TODO: сделать хелперы для хедеров, сделать один нав
 
   #news_content.screen_block
     %header.visible-xs
@@ -26,7 +26,7 @@
         =link_to "В", "#", {class: "next"}
     = render :partial => 'news_container'
 
-  #main_content.screen_block
+  #main_content.screen_block.active_block
     %header
       #logo_container.block
         =image_tag "logo.jpg"

@@ -1,12 +1,20 @@
 @import "colors"
 
 @media screen and (max-width: 768px)
+
+  body
+    overflow: hidden
+
+  .no_overflow
+    overflow: auto
+
   #content
     width: 400%
     left: -200%
 
   .screen_block
     width: 25%
+    height: 100%
     >header
       height: 50px
 
@@ -87,3 +95,16 @@
 
   .modal-body
     padding: 10px
+
+  #about_modal
+    display: block
+    opacity: 1
+    position: relative
+    width: 100%
+    overflow-y: hidden
+    margin: 0 auto
+    .modal-dialog
+      -webkit-transform: translate(0, 0)
+      -ms-transform: translate(0, 0)
+      transform: translate(0, 0)
+      margin: 0
