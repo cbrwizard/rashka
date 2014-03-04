@@ -1,12 +1,43 @@
 -cache do
   #map-canvas
+  = render :partial => 'about_btn'
+  = render :partial => 'evac_btn'
 
-#main_container
-  = render :partial => 'logo_container'
-  = render :partial => 'news_container'
-  = render :partial => 'reasons_container'
+#content
+  #reasons_content.screen_block
+    %header.visible-xs
+      %h1
+        Причины
+      %nav
+        =link_to "Н", "#", {class: "prev"}
+        =link_to "В", "#", {class: "next"}
+  -#    TODO: сделать хелперы для хедеров
 
-= render :partial => 'about_btn'
-= render :partial => 'evac_btn'
+  #news_content.screen_block
+    %header.visible-xs
+      %h1
+        Новости
+      %nav
+        =link_to "Н", "#", {class: "prev"}
+        =link_to "В", "#", {class: "next"}
+    = render :partial => 'news_container'
 
-= render :partial => 'modals'
+  #main_content.screen_block
+    %header
+      #logo_container.block
+        =image_tag "logo.jpg"
+      %nav.visible-xs
+        =link_to "Н", "#", {class: "prev"}
+        =link_to "В", "#", {class: "next"}
+    = render :partial => 'reasons_container'
+
+  #about_content.screen_block
+    %header.visible-xs
+      %h1
+        О сайте
+      %nav
+        =link_to "Н", "#", {class: "prev"}
+        =link_to "В", "#", {class: "next"}
+    =modal("about_modal") {render :partial => 'pages/about/about_modal'}
+
+  =modal("share_modal") {render :partial => 'pages/share/share_modal'}
