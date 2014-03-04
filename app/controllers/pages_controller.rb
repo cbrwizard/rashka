@@ -13,6 +13,8 @@ class PagesController < ApplicationController
   def index
     if params[:news_page].present?
       render_file = paginate_news
+    elsif params[:reasons_page].present?
+      render_file = paginate_reasons
     else
       render_file = initial_index
     end
@@ -53,8 +55,27 @@ class PagesController < ApplicationController
   def initial_index
     gon.places = get_places_info
     @news = News.view_info.paginated(1)
+    @reasons = Reason.view_info.paginated(1)
     set_meta_data
     "лолка штоли"
+  end
+
+
+  # Пагинация для причин
+  # @note GET /
+  # @note Вызывается в index с помощью AJAX при скролле до низа окошка причин
+  # @example
+  #  $.ajax
+  #    type: 'GET'
+  #    url: next.attr('href')
+  #    dataType: 'script'
+  # @param reasons_page [Integer] номер страницы пагинации причин
+  # @return [String] ссылка на файл для рендера причин
+  # @see Reason
+  # @see Paginated
+  def paginate_reasons
+    @reasons = Reason.view_info.paginated(params[:reasons_page])
+    'pages/pagination/reasons'
   end
 
 

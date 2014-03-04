@@ -4,6 +4,7 @@ require 'active_support/concern'
 # @note На главной странице
 # @param page_params [Integer] номер страницы в пролистывании
 # @see News
+# @see Reason
 module Paginated
   extend ActiveSupport::Concern
 

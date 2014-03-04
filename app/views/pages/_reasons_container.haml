@@ -1,6 +1,9 @@
 %section#reasons_container.block.hidden-xs
   %h3{data: {flip: "Причины эвакуации"}}
     Причины эвакуации
-  .reload_button{title: "Еще причины"}
+
+  #more_reasons.hidden-xs{"data-toggle" => "modal", "data-target" => "#reasons_modal"}
+    Посмотреть все
+  .reload_button.hidden{title: "Еще причины"}
     =image_tag "reload.svg"
   .reload_container
