@@ -102,7 +102,7 @@ map =
       cluster_infobox.open(app.google_map, fake_marker)
       fake_marker.setMap(null)
       setTimeout(->
-        $(".evac_popup").fadeIn(300)
+        $(".infoBox").fadeIn(300)
         200
       )
 
@@ -117,7 +117,7 @@ map =
     infobox_content = "
       <div class='evac_popup'>
         <div class='left'>
-          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow'>
+          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow hidden-xs'>
           <img src='"+ "<%= asset_path('places/multi.gif') %>" + "'class='evac_icon'>
         </div>
         <div class='right'>
@@ -160,29 +160,32 @@ places =
   # @param place_marker [google.maps.Marker] маркер места
   create_infobox:(place, place_marker) ->
     place.infobox = new InfoBox(app.infobox_options)
-    places.update_infobox(place)
+    place.infobox.setContent places.update_infobox(place)
 
     # При наведении по маркеру открывает инфобокс
     google.maps.event.addListener place_marker, 'mouseover', ->
       if !app.time_to_evac || app.places.closest != place
         place.infobox.open(app.google_map, this)
         setTimeout(->
-          $(".evac_popup").fadeIn(300)
+          $(".infoBox").fadeIn(300)
           200
         )
+        $("#popup").html place.infobox.getContent()
 
     # И закрывает
     google.maps.event.addListener place_marker, 'mouseout', ->
-      place.infobox.close()
+#      place.infobox.close()
+#      $("#popup").html $("#news_pagination article:first-child").clone()
 
 
   # Устанавливает контент у инфобокса места
   # @param place [Object] место
+  # @return [DOM] содержимое инфобокса
   update_infobox: (place) ->
     infobox_content = "
       <div class='evac_popup'>
         <div class='left'>
-          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow'>
+          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow hidden-xs'>
           <img src='"+ app.places.types[place.type_id].icon + "'class='evac_icon'>
         </div>
         <div class='right'>
@@ -192,7 +195,6 @@ places =
         </div>
       </div>
       "
-    place.infobox.setContent(infobox_content)
 
 
   # Перевод в радианы
