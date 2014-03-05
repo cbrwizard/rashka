@@ -14,35 +14,51 @@ pagination =
   # При определенной высоте скролла внутри блока пытается вызвать пагинацию
   # @param container [Jquery DOM] контейнер, за которым надо следить
   # @param scrollData [Object] объект с данными о текущем скролле
-  check_for_pagination: (container, scrollData)->
+  check_news_for_pagination: (container, scrollData)->
     body = $("body")
-    if container[0].self == window
-      next = $("#news_pagination").find(".pagination .next_page")
-    else
-      next = container.find(".pagination .next_page")
+    next = $("#news_pagination").find(".pagination .next_page")
     if scrollData
       if scrollData.scrollPercent >= 75 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
     else
+      if $(window).scrollTop() + $(window).height() > $(document).height() - 250 && !body.hasClass("paginating") && !next.hasClass("disabled")
+        @.paginate(body, next)
+
+
+  # При определенной высоте скролла внутри блока пытается вызвать пагинацию
+  # @param container [Jquery DOM] контейнер, за которым надо следить
+  check_reasons_for_pagination: (container)->
+    body = $("body")
+    next = $("#reasons_pagination").find(".pagination .next_page")
+    console.log container
+    if container[0].self == window
+      if $(window).scrollTop() + $(window).height() > $(document).height() - 250 && !body.hasClass("paginating") && !next.hasClass("disabled")
+        @.paginate(body, next)
+    else
       scrolled_already = container.scrollTop()
-      pagination_height = 250
-      if scrolled_already >= pagination_height && !body.hasClass("paginating") && !next.hasClass("disabled")
+      container_height = container.innerHeight()
+      pagination_height = container[0].scrollHeight - 250
+      if scrolled_already + container_height >= pagination_height && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
 
 
   # При скролле блока новостей идет пагинация
   news_pagination: ->
     $(window).on "scroll", ->
-      pagination.check_for_pagination($(this))
+      pagination.check_news_for_pagination($(this))
 
     $("#news_pagination").on "customScroll", (event, scrollData) ->
-      pagination.check_for_pagination($(this), scrollData)
+      pagination.check_news_for_pagination($(this), scrollData)
 
 
   # При скролле блока причин идет пагинация
   reasons_pagination: ->
-    $("#reasons_container").on "scroll", ->
-      pagination.check_for_pagination($(this))
+    $(window).on "scroll", ->
+      pagination.check_reasons_for_pagination($(this))
+      alert 123
+
+    $("#reasons_modal").on "scroll", ->
+      pagination.check_reasons_for_pagination($(this))
 
 
   # Через аякс грузит следующие данные в блок данных

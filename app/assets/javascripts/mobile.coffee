@@ -47,13 +47,7 @@ $ ->
 run_mobile_checks = ->
   total_height = $("body").height()
   app.is_mobile()
-  resize_news(total_height)
   resize_containers(total_height)
-
-
-resize_news = (total_height) ->
-#  if app.mobile == false
-
 
 
 

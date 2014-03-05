@@ -105,9 +105,13 @@ map =
         $(".evac_popup").fadeIn(200)
       ), 100
 
+      $("#tooltips").toggleClass("hidden").html map.clusterer_infobox()
+      $("#news_evac").toggleClass("hidden")
+
     # И закрывает
     google.maps.event.addListener cluster, 'mouseout', ->
       cluster_infobox.close()
+      $("#tooltips, #news_evac").toggleClass("hidden")
 
 
   # Устанавливает контент у инфобокса кластерера маркеров

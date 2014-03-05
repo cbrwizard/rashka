@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Stat.create(people_left: 100500, shares_vk: 31624, shares_tw: 12352, shares_fb: 15434, shares_gp: 8657 )
+Stat.create(people_left: 0, shares_vk: 0, shares_tw: 0, shares_fb: 0, shares_gp: 0 )
 
 salt = BCrypt::Engine.generate_salt
 password = "qwerty"
@@ -97,16 +97,16 @@ Place.create([{ name: 'Абакан', type_id: 1, lat: 53.74, lng: 91.385 },
               {name: "Автовокзал г. Калининград", type_id: 5, lat: 54.693568, lng: 20.5018619},
               {name: "Автовокзал г. Белгород", type_id: 5, lat: 50.638799, lng: 36.571791}])
 
-Reason.create([{text: "Президент ест детей", popularity: 100500},{text: "Страной правят геи", popularity: 12312},
-               {text: "Как только въезжаю в страну, тут же начинается понос", popularity: 45675},
-               {text: "Надоело жить в этой замечательной стране", popularity: 5},
-               {text: "Страна осталась существовать где-то в середине 20 века", popularity: 5678},
+Reason.create([{text: "Президент ест детей", popularity: 100500},{text: "Страной правят геи", popularity: 0},
+               {text: "Как только въезжаю в страну, тут же начинается понос", popularity: 0},
+               {text: "Надоело жить в этой замечательной стране", popularity: 0},
+               {text: "Страна осталась существовать где-то в середине 20 века", popularity: 0},
                {text: "Как говорил когда-то мой дед, да хуй я на вас всех клал", popularity: 0},
-               {text: "Хочу предаваться содомии и наркомании в другой стране, тут не кошерно", popularity: 6345},
-               {text: "Не хочу попасть в тюрьму за просто так", popularity: 124},
-               {text: "Все валят - тоже хочу", popularity: 7567},
-               {text: "Пенис", popularity: 5689},
-               {text: "1238141ФЫВАЫВАФЫВАФ№ЫВАП;", popularity: 6789},])
+               {text: "Хочу предаваться содомии и наркомании в другой стране, тут не кошерно", popularity: 0},
+               {text: "Не хочу попасть в тюрьму за просто так", popularity: 0},
+               {text: "Все валят - тоже хочу", popularity: 0},
+               {text: "Пенис", popularity: 0},
+               {text: "1238141ФЫВАЫВАФЫВАФ№ЫВАП;", popularity: 0},])
 
 News.create([{title: "Хакеры от лица волгоградской прокуратуры заявили о запрете биткоин-бирж", text: "На сайте волгоградской прокуратуры в ночь на 4 февраля появилась новость об уголовном деле в отношении популярных обменников криптовалют. Позднее в ведомстве заявили, что пресс-релиз появился из-за хакерской атаки.", link: "http://tjournal.ru/paper/volograd-bitcoin"},
              {title: "Facebook отметила 10-летие, вспомнив главные события в истории сайта и пользователей", text: "К своему десятилетию компания Facebook запустила программу под названием «Взгляд в прошлое» (A Look Back), напомнив о главных событиях в истории социальной сети и ее пользователей. Об этом сообщает The Next Web.", link: "http://tjournal.ru/paper/facebook-look-back"},
