@@ -21,7 +21,7 @@ pagination =
       if scrollData.scrollPercent >= 75 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
     else
-      if $(window).scrollTop() + $(window).height() > $(document).height() / 1.1 && !body.hasClass("paginating") && !next.hasClass("disabled")
+      if $(window).scrollTop() + $(window).height() > $(document).height() / 1.3 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
 
 
@@ -32,7 +32,7 @@ pagination =
     next = $("#reasons_pagination").find(".pagination .next_page")
     console.log container
     if container[0].self == window
-      if $(window).scrollTop() + $(window).height() > $(document).height() / 1.1 && !body.hasClass("paginating") && !next.hasClass("disabled")
+      if $(window).scrollTop() + $(window).height() > $(document).height() / 1.3 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
     else
       scrolled_already = container.scrollTop()

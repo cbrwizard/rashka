@@ -9,6 +9,16 @@ $ ->
 
   content = $("#content")
 
+  $(document).on("swipeleft", ".screen_block > header", ->
+    if app.current_page != 3
+      app.current_page += 1
+      change_mobile_block())
+
+  $(document).on("swiperight", ".screen_block > header", ->
+    if app.current_page != 0
+      app.current_page -= 1
+      change_mobile_block())
+
   $(".prev").click ->
     app.current_page -= 1
     change_mobile_block()
