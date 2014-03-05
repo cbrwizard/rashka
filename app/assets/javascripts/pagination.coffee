@@ -16,14 +16,13 @@ pagination =
   # @param scrollData [Object] объект с данными о текущем скролле
   check_for_pagination: (container, scrollData)->
     body = $("body")
-    if container == $(window)
+    if container[0].self == window
       next = $("#news_pagination").find(".pagination .next_page")
     else
       next = container.find(".pagination .next_page")
     if scrollData
       if scrollData.scrollPercent >= 75 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
-        container.customScrollbar("resize", true);
     else
       scrolled_already = container.scrollTop()
       pagination_height = 250
