@@ -2,22 +2,16 @@
 
 @media screen and (max-width: 768px)
 
-  body
-    overflow-x: hidden
-
   #on_map
     position: relative
-
-  #content
-    width: 400%
-    left: -200%
 
   .inactive_block
     overflow: hidden
     display: none
 
   .screen_block
-    width: 25%
+    width: 100%
+    top: 0
     >header
       height: 50px
       background: #ECCF5D
@@ -36,19 +30,19 @@
     float: right
 
   #reasons_content
-    left: 0
+    left: -200%
 
   #news_content
-    left: 25%
+    left: -100%
 
   #main_content
-    left: 50%
+    left: 0
 
   #logo_container
     top: 0
 
   #about_content
-    left: 75%
+    left: 100%
 
   .block
     width: 100%
@@ -97,6 +91,9 @@
   .modal-dialog
     width: 100%
     margin: 0 auto 95px
+
+  .modal-content
+    border: none
 
   .share_button
     min-width: 50%
