@@ -29,6 +29,14 @@ $ ->
       when 2 then $("#main_content")
       else $("#about_content")
 
+    console.log current_page
+    if current_page == 0
+      $(".prev").hide()
+    else if current_page == 3
+      $(".next").hide()
+    else
+      $(".next, .prev").show()
+
     current_block.removeClass("inactive_block")
 
     $("#content").animate({left: left}, 500)

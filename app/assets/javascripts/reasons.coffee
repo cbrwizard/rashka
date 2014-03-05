@@ -8,8 +8,9 @@ reasons =
   init: ->
     @.get_three()
 
-    $(".reload_button").on "click", ->
-      reasons.get_three()
+#    setInterval (->
+#      reasons.get_three()
+#    ), 10000
 
   # Грузит три случайные причины в блок причин
   get_three: ->

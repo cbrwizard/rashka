@@ -101,10 +101,9 @@ map =
       cluster_infobox.setContent(map.clusterer_infobox())
       cluster_infobox.open(app.google_map, fake_marker)
       fake_marker.setMap(null)
-      setTimeout(->
-        $(".infoBox").fadeIn(300)
-        200
-      )
+      setTimeout (->
+        $(".evac_popup").fadeIn(200)
+      ), 100
 
     # И закрывает
     google.maps.event.addListener cluster, 'mouseout', ->
@@ -166,10 +165,9 @@ places =
     google.maps.event.addListener place_marker, 'mouseover', ->
       if !app.time_to_evac || app.places.closest != place
         place.infobox.open(app.google_map, this)
-        setTimeout(->
-          $(".infoBox").fadeIn(300)
-          200
-        )
+        setTimeout (->
+          $(".evac_popup").fadeIn(200)
+        ), 100
         $("#tooltips").toggleClass("hidden").html place.infobox.getContent()
         $("#news_evac").toggleClass("hidden")
 

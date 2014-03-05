@@ -1,8 +1,17 @@
 @import "colors"
 
+
+#reasons_content
+  z-index: 1050
+
+.reason
+  .popularity
+    color: $orange
+
 #reasons_container
   top: 315px
   border-left: 4px solid $redReasons
+  min-height: 200px
   h3
     left: 8px
   article
@@ -13,29 +22,14 @@
 .reload_container
   padding: 42px 0 0 1px
 
-.reload_button
+#more_reasons
   position: absolute
-  top: 8px
-  right: 8px
-
-.reload_button, #get_random_container
-  img
-    cursor: pointer
-    width: 35px
-    &:hover
-      -webkit-animation: spin 1.5s infinite linear
-      animation: spin 1.5s infinite linear
-
-//TODO: подключить Compass
-
-@-webkit-keyframes spin
-  0%
-    -webkit-transform: rotate(0deg)
-  100%
-    -webkit-transform: rotate(359deg)
-
-@keyframes spin
-  0%
-    transform: rotate(0deg)
-  100%
-    transform: rotate(359deg)
+  top: 7px
+  right: 7px
+  cursor: pointer
+  color: $orange
+  border: 1px solid $orange
+  padding: 4px 6px
+  &:hover
+    color: $blockBackground
+    background: $orange

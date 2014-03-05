@@ -4,9 +4,9 @@ class Reason < ActiveRecord::Base
   include Paginated
 
   default_scope -> {order(updated_at: :desc)}
+  scope :view_info, -> {select(:text, :popularity, :updated_at)}
   scope :random_one, -> {unscoped.order("RANDOM()").select(:text).first}
-  scope :random_three, -> {unscoped.order("RANDOM()").select(:text, :updated_at).limit(3)}
-  scope :view_info, -> {select(:text, :updated_at)}
+  scope :random_three, -> {unscoped.order("RANDOM()").view_info.limit(3)}
 
   scope :find_downcase, -> (downcase_text) {where('lower(text) like ?', "%#{downcase_text}%")}
 

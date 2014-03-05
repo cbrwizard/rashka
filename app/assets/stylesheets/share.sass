@@ -10,6 +10,7 @@
     color: #fff
     font-family: 'Pancetta Pro'
     font-size: 24px
+    float: left
 
 #widget_holder
   iframe
@@ -19,9 +20,19 @@
     max-width: 90%
 
 #get_random_container
-  position: absolute
-  top: -5px
-  right: -3px
+  float: right
+  margin: -2px 0 0
+  color: $orange
+  border: 1px solid $orange
+  a
+    padding: 4px 6px
+    display: inline-block
+  &:hover
+    color: $blockBackground
+    background: $orange
+    a
+      color: $blockBackground
+      text-decoration: none
 
 #create_story
   position: relative

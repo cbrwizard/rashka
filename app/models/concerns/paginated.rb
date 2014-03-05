@@ -9,6 +9,6 @@ module Paginated
   extend ActiveSupport::Concern
 
   included do
-    scope :paginated, -> (page_params) {paginate(:page => page_params, :per_page => 10)}
+    scope :paginated, -> (page_params) {paginate(:page => page_params, :per_page => 15)}
   end
 end
