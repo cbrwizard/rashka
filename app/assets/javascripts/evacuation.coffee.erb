@@ -76,10 +76,10 @@ evacuation =
     infobox_content = evacuation.get_evac_infobox(end_place)
 
     place_infobox.setContent(infobox_content)
-    setTimeout(->
-      $(".evac_popup").fadeIn(300)
-      200
-    )
+    setTimeout (->
+      $(".evac_popup").fadeIn(200)
+    ), 100
+
     place_infobox.open(app.google_map, end_place.marker)
 
     $("#tooltips").addClass("hidden")

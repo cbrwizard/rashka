@@ -39,7 +39,7 @@ class PagesController < ApplicationController
   # @see News
   # @see Paginated
   def paginate_news
-    @news = News.view_info.paginated(params[:news_page])
+    @news = News.view_info.paginated(params[:news_page], 10)
     'pages/pagination/news'
   end
 
@@ -54,8 +54,8 @@ class PagesController < ApplicationController
   # @see Paginated
   def initial_index
     gon.places = get_places_info
-    @news = News.view_info.paginated(1)
-    @reasons = Reason.view_info.paginated(1)
+    @news = News.view_info.paginated(1, 10)
+    @reasons = Reason.view_info.paginated(1, 25)
     set_meta_data
     "лолка штоли"
   end
@@ -74,7 +74,7 @@ class PagesController < ApplicationController
   # @see Reason
   # @see Paginated
   def paginate_reasons
-    @reasons = Reason.view_info.paginated(params[:reasons_page])
+    @reasons = Reason.view_info.paginated(params[:reasons_page], 25)
     'pages/pagination/reasons'
   end
 
