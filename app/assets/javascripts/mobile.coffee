@@ -7,39 +7,38 @@ $ ->
   first_news = $("#news_pagination article:first-child").clone()
   $("#news_evac").html(first_news)
 
-  current_page = 2
   content = $("#content")
 
   $(".prev").click ->
-    current_page -= 1
+    app.current_page -= 1
     change_mobile_block()
 
   $(".next").click ->
-    current_page += 1
+    app.current_page += 1
     change_mobile_block()
 
   # Перелистывание экранов на мобиле
   change_mobile_block = ->
-    left = "-" + current_page + "00%"
-    $(".screen_block").addClass("inactive_block")
-
-    current_block = switch current_page
+    new_block = switch app.current_page
       when 0 then $("#reasons_content")
       when 1 then $("#news_content")
       when 2 then $("#main_content")
       else $("#about_content")
 
-    console.log current_page
-    if current_page == 0
+    new_block.removeClass("inactive_block")
+
+    left = "-" + app.current_page + "00%"
+    $("#content").animate({left: left}, 500, ->
+      $(".active_block").addClass("inactive_block").removeClass("active_block")
+      new_block.addClass("active_block"))
+
+
+    if app.current_page == 0
       $(".prev").hide()
-    else if current_page == 3
+    else if app.current_page == 3
       $(".next").hide()
     else
       $(".next, .prev").show()
-
-    current_block.removeClass("inactive_block")
-
-    $("#content").animate({left: left}, 500)
     false
 
 

@@ -21,7 +21,7 @@ pagination =
       if scrollData.scrollPercent >= 75 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
     else
-      if $(window).scrollTop() + $(window).height() > $(document).height() - 250 && !body.hasClass("paginating") && !next.hasClass("disabled")
+      if $(window).scrollTop() + $(window).height() > $(document).height() / 1.1 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
 
 
@@ -32,7 +32,7 @@ pagination =
     next = $("#reasons_pagination").find(".pagination .next_page")
     console.log container
     if container[0].self == window
-      if $(window).scrollTop() + $(window).height() > $(document).height() - 250 && !body.hasClass("paginating") && !next.hasClass("disabled")
+      if $(window).scrollTop() + $(window).height() > $(document).height() / 1.1 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
     else
       scrolled_already = container.scrollTop()
@@ -45,7 +45,8 @@ pagination =
   # При скролле блока новостей идет пагинация
   news_pagination: ->
     $(window).on "scroll", ->
-      pagination.check_news_for_pagination($(this))
+      if app.current_page == 1
+        pagination.check_news_for_pagination($(this))
 
     $("#news_pagination").on "customScroll", (event, scrollData) ->
       pagination.check_news_for_pagination($(this), scrollData)
@@ -54,8 +55,8 @@ pagination =
   # При скролле блока причин идет пагинация
   reasons_pagination: ->
     $(window).on "scroll", ->
-      pagination.check_reasons_for_pagination($(this))
-      alert 123
+      if app.current_page == 0
+        pagination.check_reasons_for_pagination($(this))
 
     $("#reasons_modal").on "scroll", ->
       pagination.check_reasons_for_pagination($(this))
