@@ -48,19 +48,15 @@ $ ->
       new_block.addClass("active_block")
     ), 500
 
-
-#      $(this).animate({left: left}, 500)
-
-#    left = "-" + app.current_page + "00%"
-#    $("#content").animate({left: left}, 500, ->
-
-
     if app.current_page == 0
       $(".prev").hide()
     else if app.current_page == 3
       $(".next").hide()
+      $("#map-canvas").fadeOut(500)
     else
       $(".next, .prev").show()
+      $("#map-canvas").fadeIn(500)
+
     false
 
 
