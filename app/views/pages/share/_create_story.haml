@@ -2,9 +2,9 @@
   #create_story
     %h3
       Я валю из рашки, потому что:
-    #get_random_container
-      =link_to "Подсказать?", get_one_random_reasons_path, {:remote => true, :title => "Подсказать причину"}
     %div
       =text_area_tag "reason","", {id: "reason_field", class: "form-control"}
+      #get_random_container
+        =link_to "Подсказать?", get_one_random_reasons_path, {:remote => true, :title => "Подсказать причину"}
       %p#reason_text_counter{title: "Сколько осталось символов"}
         80

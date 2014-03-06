@@ -56,6 +56,7 @@ class PagesController < ApplicationController
     gon.places = get_places_info
     @news = News.view_info.paginated(1, 10)
     @reasons = Reason.popular.paginated(1, 25)
+    @one_news = News.view_info.last
     set_meta_data
     "лолка штоли"
   end

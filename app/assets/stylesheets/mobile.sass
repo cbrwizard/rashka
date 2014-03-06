@@ -2,6 +2,18 @@
 
 @media screen and (max-width: 768px)
 
+  #mobile_nav a
+    position: absolute
+    top: 5px
+    z-index: 10000
+    opacity: .9
+    &:hover
+      opacity: .99
+    &.prev
+      left: 5px
+    &.next
+      right: 5px
+
   #on_map
     position: relative
 
@@ -11,23 +23,18 @@
 
   .screen_block
     width: 100%
-    top: 0
     >header
       height: 50px
       background: #ECCF5D
       position: relative
       z-index: 100
+      padding: 0 35px
+      text-align: center
       h1
         margin: 0
-      a
-        color: #333
+        font-family: 'Pancetta Pro'
         font-size: 24px
-
-  .prev
-    float: left
-
-  .next
-    float: right
+        line-height: 50px
 
   #reasons_content
     left: -200%
@@ -53,7 +60,7 @@
   #popup
     position: absolute
     left: 0
-    bottom: 95px
+    bottom: 85px
     width: 100%
     z-index: 6
 
@@ -67,7 +74,7 @@
       top: 8px
     .right
       width: 100%
-      padding-left: 85px
+      padding-left: 60px
     h4
       margin: 2px 0
       font-size: 21px
@@ -75,13 +82,18 @@
       margin: 2px 0 0
 
   .evac_icon
-    width: 75px
-    height: 75px
+    width: 50px
+    height: 50px
+
+
+  .news_article
+    h4
+      font-size: 18px
 
   #evac_btn_container
     left: 50%
     margin-left: -75px
-    bottom: 10px
+    bottom: 5px
     button
       height: 75px
       line-height: 70px
@@ -97,6 +109,9 @@
 
   .share_button
     min-width: 50%
+
+  #share_modal
+    z-index: 20000
 
   #brainlook
     img

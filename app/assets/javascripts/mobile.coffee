@@ -4,12 +4,6 @@ $ ->
   $(window).resize ->
     run_mobile_checks()
 
-  first_news = $("#news_pagination article:first-child").clone()
-  $("#news_evac").html(first_news)
-
-  content = $("#content")
-
-
   $(document).on "swiperight", ".screen_block > header", ->
     if app.current_page != 0
       app.current_page -= 1
@@ -20,7 +14,7 @@ $ ->
       app.current_page += 1
       change_mobile_block(-100)
 
-  $(".prev").click ->
+  $(".prev, #news_evac .news_article").click ->
     app.current_page -= 1
     change_mobile_block(100)
 

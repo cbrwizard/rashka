@@ -5,21 +5,22 @@
   = render :partial => 'evac_btn'
   #popup.visible-xs
     #news_evac
+      =render @one_news
     #tooltips.hidden
 
 -#  TODO: сделать хелперы для хедеров, сделать один нав
+
+%nav#mobile_nav.visible-xs
+  =link_to image_tag("mobile/prev.png"), "#", {class: "prev"}
+  =link_to image_tag("mobile/next.png"), "#", {class: "next"}
 #reasons_content.screen_block.inactive_block{data: {left: -200}}
   %header.visible-xs
-    =link_to "Н", "#", {class: "prev"}
-    =link_to "В", "#", {class: "next"}
     %h1
       Причины
   =modal("reasons_modal") {render :partial => 'reasons/reasons_modal'}
 
 #news_content.screen_block.inactive_block{data: {left: -100}}
   %header.visible-xs
-    =link_to "Н", "#", {class: "prev"}
-    =link_to "В", "#", {class: "next"}
     %h1
       Новости
   = render :partial => 'news_container'
@@ -27,15 +28,11 @@
 #main_content.screen_block.active_block{data: {left: 0}}
   %header
     #logo_container.block
-      =link_to "Н", "#", {class: "prev"}
-      =link_to "В", "#", {class: "next"}
       =image_tag "logo.jpg"
   = render :partial => 'reasons_container'
 
 #about_content.screen_block.inactive_block{data: {left: 100}}
   %header.visible-xs
-    =link_to "Н", "#", {class: "prev"}
-    =link_to "В", "#", {class: "next"}
     %h1
       О сайте
   =modal("about_modal") {render :partial => 'pages/about/about_modal'}
