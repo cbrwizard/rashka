@@ -85,7 +85,6 @@
     width: 50px
     height: 50px
 
-
   .news_article
     h4
       font-size: 18px
@@ -120,9 +119,11 @@
   .modal-body
     padding: 10px
 
+  #about_modal
+    opacity: 1
+
   #about_modal, #reasons_modal
     display: block!important
-    opacity: 1
     position: relative
     width: 100%
     overflow-y: hidden
@@ -132,6 +133,15 @@
       -ms-transform: translate(0, 0)
       transform: translate(0, 0)
       margin: 0
+
+  #reasons_modal
+    opacity: .95
+    article
+      padding: 6px 0
+    .text
+      color: #fff
+    .modal-content
+      background: #434343
 
   .flip,.scroll-bar
     display: none!important
