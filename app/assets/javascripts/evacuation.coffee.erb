@@ -52,7 +52,7 @@ evacuation =
       #в случае успеха запроса выводит маршрут
       if status == google.maps.DirectionsStatus.OK
         evacuation.show_directions(response)
-        app.current_marker.setIcon("<%= asset_path('map/mover.gif') %>")
+        app.current_marker.setIcon("<%= asset_path('map/mover.png') %>")
         evacuation.create_end_place_infobox(end_place)
         evacuation.adjust_center()
     )

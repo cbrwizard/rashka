@@ -1,5 +1,6 @@
 # Обработка событий на карте. Грузит карту, ставит в дефолтное место маркер, отображает места и спрашивает текущее местоположение
 $ ->
+  console.log app.current_location
   map.init()
   map.put_marker_on_current()
   map.show_places()
@@ -34,6 +35,7 @@ map =
     app.google_map.setCenter location
     app.current_location = location
     map.put_marker_on_current()
+    map.reset_markers()
 
 
   # В случае успеха определения местоположения юзера, обновляет карту
@@ -45,7 +47,6 @@ map =
       #TODO: ресетить кнопку валить, раз уж мы на всякий стираем маршрут
     current_location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)
     map.set_current_location(current_location)
-    map.reset_markers()
 
 
   # В случае ошибки получения гео локации выводи лажу
@@ -63,7 +64,7 @@ map =
   put_marker_on_current: ->
     current_loc_marker_options =
       position: app.current_location
-      icon: "<%= asset_path('map/current.gif') %>"
+      icon: "<%= asset_path('map/current.png') %>"
       map: app.google_map
     app.current_marker = new google.maps.Marker current_loc_marker_options
 
@@ -121,7 +122,7 @@ map =
       <div class='evac_popup'>
         <div class='left'>
           <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow hidden-xs'>
-          <img src='"+ "<%= asset_path('places/multi.gif') %>" + "'class='evac_icon'>
+          <img src='"+ "<%= asset_path('places/multy.png') %>" + "'class='evac_icon'>
         </div>
         <div class='right'>
           <h5>Точки эвакуации</h5>
@@ -162,8 +163,9 @@ places =
   # @param place [Object] место
   # @param place_marker [google.maps.Marker] маркер места
   create_infobox:(place, place_marker) ->
+    console.log place.infobox
     place.infobox = new InfoBox(app.infobox_options)
-    place.infobox.setContent places.update_infobox(place)
+    place.infobox.setContent places.get_infobox(place)
 
     # При наведении по маркеру открывает инфобокс
     google.maps.event.addListener place_marker, 'mouseover', ->
@@ -186,7 +188,7 @@ places =
   # Устанавливает контент у инфобокса места
   # @param place [Object] место
   # @return [DOM] содержимое инфобокса
-  update_infobox: (place) ->
+  get_infobox: (place) ->
     infobox_content = "
       <div class='evac_popup'>
         <div class='left'>
@@ -202,6 +204,14 @@ places =
       "
 
 
+  # Обновляет контент у инфобокса места
+  # @param place [Object] место
+  # @return [DOM] содержимое инфобокса
+  update_infobox: (place) ->
+    place.infobox = new InfoBox(app.infobox_options)
+    place.infobox.setContent places.get_infobox(place)
+
+
   # Перевод в радианы
   # @param x [Integer] число
   # @return [String] радианы
@@ -214,6 +224,7 @@ places =
   get_distance:(place) ->
     cur_loc_lat = app.current_location.lat()
     cur_loc_lng = app.current_location.lng()
+    console.log app.current_location
     earth_radius = 6371
     place_lat = place.lat
     place_lng = place.lng
