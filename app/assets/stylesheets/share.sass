@@ -1,10 +1,12 @@
+// Стили модульного окошка "рассказать"
+
 @import "colors"
 
 #share_modal
   .modal-dialog
     max-width: 565px
   .modal-content
-    background: $blockBackground
+    background: $dark_grey
     opacity: .95
 
 #widget_holder
@@ -21,8 +23,8 @@
   a
     padding: 4px 6px
     display: inline-block
-    color: $blockBackground
-    border: 1px solid $blockBackground
+    color: $dark_grey
+    border: 1px solid $dark_grey
   &:hover
     a
       color: #FFF
@@ -44,4 +46,4 @@
       right: 10px
 
 .ok_counter
-  color: $counterText
+  color: lighten($light_grey, 25%)

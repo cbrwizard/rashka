@@ -3,38 +3,24 @@
 #on_map
   = render :partial => 'about_btn'
   = render :partial => 'evac_btn'
-  #popup.visible-xs
-    #news_evac
-      =render @one_news
-    #tooltips.hidden
+  = render :partial => 'pages/mobile/popup'
 
--#  TODO: сделать хелперы для хедеров, сделать один нав
+= render :partial => 'pages/mobile/mobile_nav'
 
-%nav#mobile_nav.visible-xs
-  =link_to image_tag("mobile/prev.png"), "#", {class: "prev"}
-  =link_to image_tag("mobile/next.png"), "#", {class: "next"}
 #reasons_content.screen_block.inactive_block{data: {left: -200}}
-  %header.visible-xs
-    %h1
-      Причины
+  = render :partial => 'pages/mobile/reasons_header'
   =modal("reasons_modal") {render :partial => 'reasons/reasons_modal'}
 
 #news_content.screen_block.inactive_block{data: {left: -100}}
-  %header.visible-xs
-    %h1
-      Новости
+  = render :partial => 'pages/mobile/news_header'
   = render :partial => 'news_container'
 
 #main_content.screen_block.active_block{data: {left: 0}}
-  %header
-    #logo_container.block
-      =image_tag "logo1.png"
-  = render :partial => 'reasons_container'
+  = render :partial => 'pages/mobile/main_header'
+  = render :partial => 'three_reasons_container'
 
 #about_content.screen_block.inactive_block{data: {left: 100}}
-  %header.visible-xs
-    %h1
-      О сайте
+  = render :partial => 'pages/mobile/about_header'
   =modal("about_modal") {render :partial => 'pages/about/about_modal'}
 
 =modal("share_modal") {render :partial => 'pages/share/share_modal'}

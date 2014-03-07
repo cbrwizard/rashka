@@ -6,6 +6,11 @@ class ReasonsController < ApplicationController
 
   layout 'admin', except: [:get_one_random, :get_three_random]
 
+
+  # Выводит текст случайной причины
+  # @note GET /reasons/get_one_random
+  # @note Вызывается при нажатии по кнопке "подсказать" в окошке рассказать
+  # @see Reason
   def get_one_random
     @reason = Reason.random_one.text
 
@@ -14,6 +19,11 @@ class ReasonsController < ApplicationController
     end
   end
 
+
+  # Выводит текст трех случайных причин
+  # @note GET /reasons/get_three_random
+  # @note Вызывается при нажатии по кнопке "больше" в блоке причин на главной
+  # @see Reason
   def get_three_random
     @reasons = Reason.random_three
 

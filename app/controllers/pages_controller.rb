@@ -2,6 +2,7 @@
 class PagesController < ApplicationController
   include AuthorHelper
   include ModalHelper
+  include SocialHelper
 
   # Главная страница. Готовит новости, причины и места к отображению.
   # @note GET /
@@ -44,7 +45,7 @@ class PagesController < ApplicationController
   end
 
 
-  # Отображение первоначальных данных на главной: мест, причин и новостей
+  # Отображение первоначальных данных на главной: мест, причин и новостей, а также первой новости для мобил
   # @note GET /
   # @note Вызывается в index когда нет никакой пагинации
   # @return [String] очень важный текст
@@ -64,7 +65,7 @@ class PagesController < ApplicationController
 
   # Пагинация для причин
   # @note GET /
-  # @note Вызывается в index с помощью AJAX при скролле до низа окошка причин
+  # @note Вызывается в index с помощью AJAX при скролле до низа модульного окошка причин
   # @example
   #  $.ajax
   #    type: 'GET'

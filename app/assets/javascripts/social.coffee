@@ -24,7 +24,7 @@ social =
   # Меняет текст вк кнопки
   # @param reason [String] текст причины
   change_vk_link: (reason) ->
-    vk_like_button = $(".vk_like_button")
+    vk_like_button = $(".vk_post")
     vk_href = vk_like_button.attr("href")
     correct_vk_href = vk_href.slice( 0, vk_href.indexOf('&title') )
     vk_like_button.attr("href", correct_vk_href + "&title=#{social.title}&description=#{social.text} #{reason}")
@@ -33,7 +33,7 @@ social =
   # Меняет текст тв кнопки
   # @param reason [String] текст причины
   change_tw_link: (reason) ->
-    tw_like_button = $(".tw_like_button")
+    tw_like_button = $(".tw_post")
     tw_href = tw_like_button.attr("href")
     correct_tw_href = tw_href.slice( 0, tw_href.indexOf('&text') )
     tw_like_button.attr("href", correct_tw_href + "&text=#{social.text} #{reason}")
@@ -89,7 +89,7 @@ social =
       reason = $("#reason_field").val()
       social.update_statistics(method, reason)
 
-      if share_button.hasClass("fb_like_button")
+      if share_button.hasClass("fb_post")
         social.post_to_fb(reason)
       else
         url = share_button.attr("href")
