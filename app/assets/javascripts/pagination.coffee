@@ -26,6 +26,7 @@ pagination =
     # В случае скролла на мобиле
     else
       if $(window).scrollTop() + $(window).height() > $(document).height() / 1.3 && !body.hasClass("paginating") && !next.hasClass("disabled")
+        $("#news_pagination").addClass("loading_pagination")
         @.paginate(body, next)
 
 
@@ -38,6 +39,7 @@ pagination =
     # В случае скролла на мобиле
     if container[0].self == window
       if $(window).scrollTop() + $(window).height() > $(document).height() / 1.3 && !body.hasClass("paginating") && !next.hasClass("disabled")
+        $("#reasons_pagination").addClass("loading_pagination")
         @.paginate(body, next)
 
     # В случае скролла в модульном окошке
@@ -46,13 +48,14 @@ pagination =
       container_height = container.innerHeight()
       pagination_height = container[0].scrollHeight - 250
       if scrolled_already + container_height >= pagination_height && !body.hasClass("paginating") && !next.hasClass("disabled")
+        $("#reasons_pagination").addClass("loading_pagination")
         @.paginate(body, next)
 
 
   # При скролле блока новостей идет пагинация
   news_pagination: ->
     # Проверяет скролл только на экране новостей, ибо только там он и происходит
-    $(window).on "scroll", ->
+    $(window).on "scroll touchmove", ->
       if app.current_page == 1
         pagination.check_news_for_pagination($(this))
 
@@ -64,7 +67,7 @@ pagination =
   # При скролле блока причин идет пагинация
   reasons_pagination: ->
     # Проверяет скролл только на экране причин, ибо только там он и происходит
-    $(window).on "scroll", ->
+    $(window).on "scroll touchmove", ->
       if app.current_page == 0
         pagination.check_reasons_for_pagination($(this))
 
@@ -85,3 +88,4 @@ pagination =
       dataType: 'script'
       success: ->
         body.removeClass("paginating")
+        $(".loading_pagination").removeClass("loading_pagination")
