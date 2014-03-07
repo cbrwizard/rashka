@@ -1,5 +1,7 @@
-var reason_field = $("#reason_field");
+var reason_field = $("#reason_field"),
+  get_random_container = $("#get_random_container");
 reason_field.val("<%= @reason %>");
 reason_field.trigger("change");
-$("#get_random_container").removeClass("hidden");
-$("#story_loader").addClass("hidden");
+
+get_random_container.removeClass("loading");
+get_random_container.find("img").addClass("hidden");

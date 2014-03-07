@@ -6,8 +6,8 @@ $ ->
   share.update_share_buttons(reason_field)
 
   $("#get_random_container").click ->
-    $(this).addClass("hidden")
-    $("#story_loader").removeClass("hidden")
+    $(this).addClass("loading")
+    $(this).find("img").removeClass("hidden")
 
   # При нажатии по соц кнопке открывай окошко соц сети
   $(".share_button").click ->

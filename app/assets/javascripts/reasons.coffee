@@ -23,8 +23,10 @@ reasons =
         dataType: 'script'
         beforeSend: ->
           $("body").addClass("loading_three")
-          $("#reasons_loader, #more_reasons").toggleClass("hidden")
+          $("#more_reasons").toggleClass("loading")
+          $("#more_reasons img").toggleClass("hidden")
         success: ->
           $("body").removeClass("loading_three")
-          $("#reasons_loader, #more_reasons").toggleClass("hidden")
+          $("#more_reasons").toggleClass("loading")
+          $("#more_reasons img").toggleClass("hidden")
           console.log("yay")

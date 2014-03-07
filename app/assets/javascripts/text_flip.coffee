@@ -1,6 +1,10 @@
+$ ->
+  $("#news_container h3").ticker()
+  $("#reasons_container h3").ticker()
+
+
 $.fn.ticker = () ->
   $this = $(this)
-  $this.hide()
 
   letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVXYZ,.?!01234567890«»-():' "
 
@@ -16,10 +20,15 @@ $.fn.ticker = () ->
 
   parent_container = $this.parent()
   parent_container.prepend(target)
-  console.log target
 
-$("#news_container h3").ticker()
-$("#reasons_container h3").ticker()
+  $this.remove()
+
+  if app.mobile == true
+    target.show()
+  else
+    target.show()
+    console.log target
+
 #
 #  @each ->
 #    k = 1

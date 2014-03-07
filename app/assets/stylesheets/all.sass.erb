@@ -42,3 +42,13 @@ body
   font-family: 'Pancetta Pro'
   src: local('Pancetta Pro'), local('Pancetta Pro-Regular'), url('<%= asset_path('pancetta-pro.woff') %>')
 
+
+@media screen and (-webkit-min-device-pixel-ratio: 0)
+  @font-face
+    font-family: 'Droidsans'
+    src: url(<%= asset_path 'droidsans.svg' %>) format('svg')
+
+  @font-face
+    font-family: 'Pancetta Pro'
+    src: url(<%= asset_path 'pancetta-pro.svg' %>) format('svg')
+

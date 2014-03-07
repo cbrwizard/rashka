@@ -70,6 +70,7 @@ map =
     app.places.objects.forEach(places.get_distance)
     app.places.objects.forEach(places.render)
 
+
   # Обновляет маркеры для подготовки к новому текущему местоположению
   reset_markers: ->
     app.places.objects.forEach(places.get_distance)
@@ -188,7 +189,7 @@ places =
 
     # И закрывает
     google.maps.event.addListener place_marker, 'mouseout', ->
-      place.infobox.close()
+#      place.infobox.close()
       if !app.time_to_evac || app.places.closest != place
         $("#tooltips, #news_evac").toggleClass("hidden")
 
