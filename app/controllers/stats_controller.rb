@@ -1,7 +1,7 @@
 #Методы статистики
 class StatsController < ApplicationController
   before_action :get_stat
-  before_action :update_reason, only: [:vk_post, :tw_post, :fb_post]
+  before_action :update_reason, only: [:vk_post, :tw_post, :fb_post, :bl_post]
 
   layout 'admin', only: [:index]
 
@@ -93,6 +93,28 @@ class StatsController < ApplicationController
 
     respond_to do |format|
       format.json { render :json => @stats.shares_tw }
+    end
+  end
+
+
+  # Обрабатывает нажатие по соц кнопке брейнлука. Увеличивает статистику, также пытается сохранить причину, указанную в посте
+  # @note POST stats/evacuate через AJAX
+  # @param reason [String] Текст отправленной в пост причины
+  # @return shares_bl [Integer] количество текущей статистики соц кнопки
+  # @example
+  # $.ajax "../stats/bl_post",
+  #   type: "POST"
+  #   dataType: "json"
+  #   data:
+  #     reason: reason
+  #
+  # @see Stat
+  # @see Reason#try_to_save
+  def bl_post
+    @stats.increase_shares_bl
+
+    respond_to do |format|
+      format.json { render :json => @stats.shares_bl }
     end
   end
 

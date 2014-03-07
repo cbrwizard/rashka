@@ -23,6 +23,7 @@ Rashka::Application.routes.draw do
   match 'stats/vk_post' => 'stats#vk_post', via: :post
   match 'stats/fb_post' => 'stats#fb_post', via: :post
   match 'stats/tw_post' => 'stats#tw_post', via: :post
+  match 'stats/bl_post' => 'stats#bl_post', via: :post
 
   #match 'news/index' => 'news#index_admin', via: :get
 

@@ -1,7 +1,9 @@
 # Обработка нажатий по соц кнопкам, а также поля ввода причины
 $ ->
   # Включает обновление поля причины для учета кол-ва символов
-  $("#reason_field").trigger("change")
+  reason_field = $("#reason_field")
+  reason_field.trigger("change")
+  share.update_share_buttons(reason_field)
 
   $("#get_random_container").click ->
     $(this).addClass("hidden")
@@ -13,10 +15,12 @@ $ ->
 
   # При нажатии по блоку брейнлука открывает страницу брейнлука
   $("#brainlook").click ->
+    reason = $(reason_field).val()
+    share.update_statistics("bl_post", reason)
     window.open($(this).attr("data-link"), '_blank')
 
   # При изменении текста поля ввода причины меняет текст у соц кнопок
-  $("#reason_field").on "input propertychange change", ->
+  $(reason_field).on "input propertychange change", ->
     share.update_share_buttons($(this))
 
 
@@ -47,6 +51,7 @@ share =
   # Меняет текст мнения для брейнлука
   # @param reason [String] текст причины
   change_bl_link: (reason) ->
+    console.log reason
     brainlook = $("#brainlook")
     link = brainlook.attr("data-link")
     correct_link = link.slice( 0, link.indexOf('?opinion_text') )

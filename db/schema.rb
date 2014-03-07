@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140204090546) do
+ActiveRecord::Schema.define(version: 20140307191852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20140204090546) do
     t.integer  "shares_vk",   default: 0
     t.integer  "shares_tw",   default: 0
     t.integer  "shares_fb",   default: 0
-    t.integer  "shares_gp",   default: 0
+    t.integer  "shares_bl",   default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

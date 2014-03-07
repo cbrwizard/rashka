@@ -40,4 +40,14 @@ class Stat < ActiveRecord::Base
   def increase_shares_fb
     self.update(shares_fb: self.shares_fb + 1)
   end
+
+
+  # Увеличивает статистику нажавших по кнопке брейнлука
+  # @note Включается при нажатии по кнопке брейнлука
+  # @example Stat.first.increase_shares_bl
+  #
+  # @see StatsController#bl_post
+  def increase_shares_bl
+    self.update(shares_bl: self.shares_bl + 1)
+  end
 end
