@@ -13,9 +13,8 @@ class StatsController < ApplicationController
   end
 
 
-  # Обрабатывает нажатие по ВАЛИТЬ. Увеличивает статистику и готовит случайную причину для формы "рассказать друзьям"
+  # Обрабатывает нажатие по ВАЛИТЬ. Увеличивает статистику
   # @note POST stats/evacuate через AJAX
-  # @return [String] текст причины
   # @example
   #  $.ajax "../stats/evacuate",
   #    type: "POST"
@@ -24,10 +23,10 @@ class StatsController < ApplicationController
   # @see Stat
   def evacuate
     @stats.increase_people_left
-    reason = Reason.random_one.text
+    result = ""
 
     respond_to do |format|
-      format.json { render :json => reason.to_json }
+      format.json { render :json => result.to_json }
     end
   end
 

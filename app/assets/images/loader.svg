@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="50px" height="50px" viewBox="0 0 140 140" enable-background="new 0 0 50 50" xml:space="preserve">
+<g>
+	<path fill="#fff" d="M70.865,3.98C33.926,3.98,3.98,33.926,3.98,70.865s29.945,66.885,66.885,66.885
+		s66.885-29.945,66.885-66.885S107.805,3.98,70.865,3.98z M70.865,121.875c-28.172,0-51.01-22.838-51.01-51.01
+		s22.838-51.01,51.01-51.01s51.01,22.838,51.01,51.01S99.037,121.875,70.865,121.875z"/>
+	<path fill="#eccf5d" d="M120.602,59.557c0.824,3.639,1.273,7.42,1.273,11.308c0,18.879-10.264,35.35-25.508,44.17l7.937,13.747
+		c19.988-11.565,33.446-33.163,33.446-57.917c0-5.794-0.738-11.416-2.123-16.777L120.602,59.557z"/>
+    <animateTransform
+    attributeType="XML"
+    attributeName="transform"
+    type="rotate"
+    from="0,70.865,70.865" to="360,70.865,70.865"
+    begin="0s" dur="0.9s"
+    repeatCount="indefinite"/>
+</g>
+</svg>

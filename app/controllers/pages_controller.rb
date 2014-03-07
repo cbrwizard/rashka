@@ -45,7 +45,7 @@ class PagesController < ApplicationController
   end
 
 
-  # Отображение первоначальных данных на главной: мест, причин и новостей, а также первой новости для мобил
+  # Отображение первоначальных данных на главной: мест, причин и новостей, а также первой новости для мобил и готовит случайную причину для формы "рассказать друзьям"
   # @note GET /
   # @note Вызывается в index когда нет никакой пагинации
   # @return [String] очень важный текст
@@ -58,6 +58,7 @@ class PagesController < ApplicationController
     @news = News.view_info.paginated(1, 10)
     @reasons = Reason.popular.paginated(1, 25)
     @one_news = News.view_info.first
+    @one_reason = Reason.random_one.text
     set_meta_data
     "лолка штоли"
   end

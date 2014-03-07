@@ -16,9 +16,15 @@ reasons =
 
   # Грузит три случайные причины в блок причин
   get_three: ->
-    $.ajax
-      type: 'GET'
-      url: "../reasons/get_three_random"
-      dataType: 'script'
-      success: ->
-        console.log("yay")
+    unless $("body").hasClass("loading_three")
+      $.ajax
+        type: 'GET'
+        url: "../reasons/get_three_random"
+        dataType: 'script'
+        beforeSend: ->
+          $("body").addClass("loading_three")
+          $("#reasons_loader, #more_reasons").toggleClass("hidden")
+        success: ->
+          $("body").removeClass("loading_three")
+          $("#reasons_loader, #more_reasons").toggleClass("hidden")
+          console.log("yay")

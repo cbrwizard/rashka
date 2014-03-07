@@ -1,8 +1,15 @@
 # Обработка нажатий по соц кнопкам, а также поля ввода причины
 $ ->
+  # Включает обновление поля причины для учета кол-ва символов
+  $("#reason_field").trigger("change")
+
+  $("#get_random_container").click ->
+    $(this).addClass("hidden")
+    $("#story_loader").removeClass("hidden")
+
   # При нажатии по соц кнопке открывай окошко соц сети
   $(".share_button").click ->
-    social.share_reason($(@).find("a"))
+    share.share_reason($(@).find("a"))
 
   # При нажатии по блоку брейнлука открывает страницу брейнлука
   $("#brainlook").click ->
@@ -10,11 +17,11 @@ $ ->
 
   # При изменении текста поля ввода причины меняет текст у соц кнопок
   $("#reason_field").on "input propertychange change", ->
-    social.update_social_buttons($(this))
+    share.update_share_buttons($(this))
 
 
 # Параметры и функции, связанные с соц кнопками и полем ввода причины
-social =
+share =
   title: "Симулятор эвакуации из Рашки"
   text: "Я решил валить из рашки, потому что"
 
@@ -25,7 +32,7 @@ social =
     vk_like_button = $(".vk_post")
     vk_href = vk_like_button.attr("href")
     correct_vk_href = vk_href.slice( 0, vk_href.indexOf('&title') )
-    vk_like_button.attr("href", correct_vk_href + "&title=#{social.title}&description=#{social.text} #{reason}")
+    vk_like_button.attr("href", correct_vk_href + "&title=#{share.title}&description=#{share.text} #{reason}")
 
 
   # Меняет текст тв кнопки
@@ -34,7 +41,7 @@ social =
     tw_like_button = $(".tw_post")
     tw_href = tw_like_button.attr("href")
     correct_tw_href = tw_href.slice( 0, tw_href.indexOf('&text') )
-    tw_like_button.attr("href", correct_tw_href + "&text=#{social.text} #{reason}")
+    tw_like_button.attr("href", correct_tw_href + "&text=#{share.text} #{reason}")
 
 
   # Меняет текст мнения для брейнлука
@@ -43,7 +50,7 @@ social =
     brainlook = $("#brainlook")
     link = brainlook.attr("data-link")
     correct_link = link.slice( 0, link.indexOf('?opinion_text') )
-    brainlook.attr("data-link", correct_link + "?opinion_text=#{social.text} #{reason}")
+    brainlook.attr("data-link", correct_link + "?opinion_text=#{share.text} #{reason}")
 
 
   # Считает количество символов у поля ввода и отображает, удовлетворяет ли длина требованиям
@@ -69,13 +76,13 @@ social =
 
   # Переносит текст из поля причины в кнопки соц сетей
   # @param textarea [jQuery DOM] поле ввода причины
-  update_social_buttons: (textarea) ->
+  update_share_buttons: (textarea) ->
     reason = textarea.val()
     shortened_reason = reason.substr(0, 80)
-    social.change_vk_link (shortened_reason)
-    social.change_tw_link (shortened_reason)
-    social.change_bl_link (shortened_reason)
-    social.count_reason_text (textarea)
+    share.change_vk_link (shortened_reason)
+    share.change_tw_link (shortened_reason)
+    share.change_bl_link (shortened_reason)
+    share.count_reason_text (textarea)
 
 
   # Если текст короткий, то обновляет статистику и открывает окно соц сети
@@ -85,13 +92,13 @@ social =
     unless share_button.hasClass("error_share")
       method = share_button.attr("data-method")
       reason = $("#reason_field").val()
-      social.update_statistics(method, reason)
+      share.update_statistics(method, reason)
 
       if share_button.hasClass("fb_post")
-        social.post_to_fb(reason)
+        share.post_to_fb(reason)
       else
         url = share_button.attr("href")
-        social.social_window(url)
+        share.share_window(url)
     false
 
 
@@ -117,13 +124,13 @@ social =
     FB.ui({
       method: 'feed'
       link: 'valiizrashki.ru'
-      caption: social.title
-      description: "#{social.text} #{shortened_reason}"
+      caption: share.title
+      description: "#{share.text} #{shortened_reason}"
     },
       (response)->)
 
 
   # Открывает окошко вк и твиттера для поста
   # @param url [String] текст ссылки на соц сеть с причиной и тд
-  social_window: (url) ->
-    window.open url, "social_window", "height=300,width=550,resizable=1"
+  share_window: (url) ->
+    window.open url, "share_window", "height=300,width=550,resizable=1"

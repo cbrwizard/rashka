@@ -29,14 +29,6 @@ evacuation =
       type: "POST"
       dataType: "json"
 
-      # В случае успеха обновляет поле текста случайной причиной
-      success: (reason_text) ->
-        $("#reason_field").val(reason_text)
-        $("#reason_field").trigger("change")
-        console.log "yeahhhhhh"
-      error: ->
-        console.log "nooooo"
-
 
   # Строит маршрут до ближайшего места
   # @param start_point [google.maps.LatLng] место начала

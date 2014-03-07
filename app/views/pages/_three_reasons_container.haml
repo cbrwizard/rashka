@@ -2,6 +2,8 @@
   %h3{data: {flip: "Причины эвакуации"}}
     Причины эвакуации
 
-  #more_reasons.hidden-xs{"data-toggle" => "modal", "data-target" => "#reasons_modal"}
+  #more_reasons{"data-toggle" => "modal", "data-target" => "#reasons_modal"}
     Больше!
+  #reasons_loader.hidden
+    =image_tag 'loader.svg'
   .reload_container

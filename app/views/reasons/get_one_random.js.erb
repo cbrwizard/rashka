@@ -1,3 +1,5 @@
 var reason_field = $("#reason_field");
 reason_field.val("<%= @reason %>");
 reason_field.trigger("change");
+$("#get_random_container").removeClass("hidden");
+$("#story_loader").addClass("hidden");
