@@ -7,7 +7,6 @@ body
   height: 100%
   margin: 0
   padding: 0
-  font-family: 'Droidsans'!important
   p
     margin: 0
     word-wrap: break-word
@@ -15,33 +14,16 @@ body
     color: $orange
     &:hover
       color: $orange
+  a,p,h1,h2,h3,h4,h5,h6,span
+    font-family: 'Droidsans', 'Arial', 'sans-serif'
 
 
 @font-face
   font-family: 'Droidsans'
-  src: url(<%= asset_path 'droidsans.eot' %>)
-  src: url(<%= asset_path 'droidsans.eot?#iefix' %>) format('eot')
-  src: url(<%= asset_path 'droidsans.svg' %>) format('svg')
-  src: url(<%= asset_path 'droidsans.woff' %>) format('woff')
-  src: url(<%= asset_path 'droidsans.ttf' %>) format('truetype')
-  src: local('Droidsans')
+  src: local('Droidsans'), url('<%= asset_path('droidsans.woff') %>')
 
 
 @font-face
   font-family: 'Pancetta Pro'
-  src: url(<%= asset_path 'pancetta-pro.eot' %>)
-  src: url(<%= asset_path 'pancetta-pro.eot?#iefix' %>) format('eot')
-  src: url(<%= asset_path 'pancetta-pro.svg' %>) format('svg')
-  src: url(<%= asset_path 'pancetta-pro.woff' %>) format('woff')
-  src: url(<%= asset_path 'pancetta-pro.ttf' %>) format('truetype')
-  src: local('Pancetta Pro')
+  src: local('Pancetta Pro'), local('Pancetta Pro-Regular'), url('<%= asset_path('pancetta-pro.woff') %>')
 
-
-@media screen and (-webkit-min-device-pixel-ratio: 0)
-  @font-face
-    font-family: 'Droidsans'
-    src: url(<%= asset_path 'droidsans.svg' %>) format('svg')
-
-  @font-face
-    font-family: 'Pancetta Pro'
-    src: url(<%= asset_path 'pancetta-pro.svg' %>) format('svg')

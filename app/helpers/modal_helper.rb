@@ -1,7 +1,7 @@
 # Хелпер отображения модульных окошек
 module ModalHelper
 
-  # Отображает данные о создателе
+  # Отображает модульное окошко
   # @note На вьюхе pages/modals
   # @example modal("about_modal") {render :partial => 'pages/about/about_modal'}
   #

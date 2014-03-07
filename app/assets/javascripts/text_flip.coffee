@@ -5,7 +5,7 @@ $.fn.ticker = () ->
   letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVXYZ,.?!01234567890«»-():' "
 
   letters_array = letters.split("")
-  max_length = 18
+  max_length = 17
 
   text = $this.attr("data-flip")
   text_array = text.split("")
