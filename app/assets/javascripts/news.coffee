@@ -10,11 +10,12 @@ news =
     $(window).resize ->
       news.try_to_custom_pagination()
 
+    # При клике по блоку новости открывается ссылка на её сайт
     $(document).on "click", "#news_container article", ->
       window.open($(this).attr("data-link"), '_blank')
 
 
   # На десктопах пытается включить кастомную пагинацию
   try_to_custom_pagination: ->
-    if app.mobile == false
+    unless app.mobile
       $("#news_pagination").customScrollbar()

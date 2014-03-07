@@ -8,9 +8,11 @@ reasons =
   init: ->
     @.get_three()
 
-#    setInterval (->
-#      reasons.get_three()
-#    ), 10000
+    setInterval (->
+      unless app.mobile
+        reasons.get_three()
+    ), 10000
+
 
   # Грузит три случайные причины в блок причин
   get_three: ->

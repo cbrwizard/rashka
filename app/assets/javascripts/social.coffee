@@ -4,11 +4,9 @@ $ ->
   $(".share_button").click ->
     social.share_reason($(@).find("a"))
 
-
   # При нажатии по блоку брейнлука открывает страницу брейнлука
   $("#brainlook").click ->
     window.open($(this).attr("data-link"), '_blank')
-
 
   # При изменении текста поля ввода причины меняет текст у соц кнопок
   $("#reason_field").on "input propertychange change", ->

@@ -17,9 +17,13 @@ pagination =
   check_news_for_pagination: (container, scrollData)->
     body = $("body")
     next = $("#news_pagination").find(".pagination .next_page")
+
+    # В случае кастомного скролла новостей
     if scrollData
       if scrollData.scrollPercent >= 75 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
+
+    # В случае скролла на мобиле
     else
       if $(window).scrollTop() + $(window).height() > $(document).height() / 1.3 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
@@ -30,10 +34,13 @@ pagination =
   check_reasons_for_pagination: (container)->
     body = $("body")
     next = $("#reasons_pagination").find(".pagination .next_page")
-    console.log container
+
+    # В случае скролла на мобиле
     if container[0].self == window
       if $(window).scrollTop() + $(window).height() > $(document).height() / 1.3 && !body.hasClass("paginating") && !next.hasClass("disabled")
         @.paginate(body, next)
+
+    # В случае скролла в модульном окошке
     else
       scrolled_already = container.scrollTop()
       container_height = container.innerHeight()
@@ -44,20 +51,24 @@ pagination =
 
   # При скролле блока новостей идет пагинация
   news_pagination: ->
+    # Проверяет скролл только на экране новостей, ибо только там он и происходит
     $(window).on "scroll", ->
       if app.current_page == 1
         pagination.check_news_for_pagination($(this))
 
+  # В случае кастомного скролла тоже пагинация
     $("#news_pagination").on "customScroll", (event, scrollData) ->
       pagination.check_news_for_pagination($(this), scrollData)
 
 
   # При скролле блока причин идет пагинация
   reasons_pagination: ->
+    # Проверяет скролл только на экране причин, ибо только там он и происходит
     $(window).on "scroll", ->
       if app.current_page == 0
         pagination.check_reasons_for_pagination($(this))
 
+  # Проверяет скролл в модульном окошке
     $("#reasons_modal").on "scroll", ->
       pagination.check_reasons_for_pagination($(this))
 

@@ -1,37 +1,21 @@
+# Обработка малых экранов
 $ ->
-  run_mobile_checks()
+  mobile.init()
+  mobile.run_mobile_checks()
 
-  $(window).resize ->
-    run_mobile_checks()
+# Функции, связанные с мобильниками
+mobile =
 
-  $(document).on "swiperight", ".screen_block > header", ->
-    if app.current_page != 0
-      app.current_page -= 1
-      change_mobile_block(100)
-
-  $(document).on "swipeleft", ".screen_block > header", ->
-    if app.current_page != 3
-      app.current_page += 1
-      change_mobile_block(-100)
-
-  $(".prev, #news_evac .news_article").click ->
-    app.current_page -= 1
-    change_mobile_block(100)
-
-  $(".next").click ->
-    app.current_page += 1
-    change_mobile_block(-100)
+  # Проверяет, мобила ли это и пробует поставить новую высоту основных контейнеров
+  run_mobile_checks: ->
+    app.is_mobile()
+    mobile.try_resize_containers()
 
 
   # Перелистывание экранов на мобиле
   # @param percent проценты, на которые нужно сдвинуть все блоки
-  change_mobile_block = (percent) ->
-    new_block = switch app.current_page
-      when 0 then $("#reasons_content")
-      when 1 then $("#news_content")
-      when 2 then $("#main_content")
-      else $("#about_content")
-
+  change_mobile_block: (percent) ->
+    new_block = mobile.get_current_screen_name()
     new_block.removeClass("inactive_block")
 
     $(".screen_block").each ->
@@ -39,15 +23,16 @@ $ ->
       this_left = parseInt($this.attr("data-left"))
       new_left = this_left + percent + "%"
       $this.attr("data-left", new_left)
-      console.log $this
-      console.log this_left
-      console.log new_left
       $this.animate {left: new_left}, 500
-    setTimeout (->
-      $(".active_block").addClass("inactive_block").removeClass("active_block")
-      new_block.addClass("active_block")
-    ), 500
 
+    mobile.update_screens(new_block)
+    mobile.update_navigation()
+
+    false
+
+
+  # Отображает или скрывает навигацию по экранам в зависимости от текущего экрана
+  update_navigation: ->
     if app.current_page == 0
       $(".prev").hide()
     else if app.current_page == 3
@@ -57,17 +42,61 @@ $ ->
       $(".next, .prev").show()
       $("#map-canvas").fadeIn(500)
 
-    false
+
+  # Скрывает не активные экраны после анимации
+  # @param new_block [jQuery Object] элемент активного экрана
+  update_screens:(new_block) ->
+    setTimeout (->
+      $(".active_block").addClass("inactive_block").removeClass("active_block")
+      new_block.addClass("active_block")
+    ), 500
 
 
-# Запускает проверки по поводу мобилы
-run_mobile_checks = ->
-  total_height = $("body").height()
-  app.is_mobile()
-  resize_containers(total_height)
+  # В зависимости от текущего значения экрана, выдает его элемент
+  # @return [jQuery Object] элемент текущего экрана
+  get_current_screen_name: ->
+    current_screen = switch app.current_page
+      when 0 then $("#reasons_content")
+      when 1 then $("#news_content")
+      when 2 then $("#main_content")
+      else $("#about_content")
 
 
+  # Если это мобильник, то подстраивает высоту основных контейнеров
+  try_resize_containers: ->
+    if app.mobile == true
+      total_height = $("body").height()
+      $(".screen_block").css({"height": total_height})
 
-resize_containers = (total_height) ->
-  if app.mobile == true
-    $(".screen_block").css({"height": total_height})
+
+  # Перелистывает экраны влево
+  go_left: ->
+    app.current_page -= 1
+    mobile.change_mobile_block(100)
+
+
+  # Перелистывает экраны вправо
+  go_right: ->
+    app.current_page += 1
+    mobile.change_mobile_block(-100)
+
+
+  # При изменении размеров экрана проверяет, не стал ли экран малым; включает кнопки перелистывания экранов
+  # @note При свайпах проверяет, можно ли дальше перелистывать
+  init: ->
+    $(window).resize ->
+      mobile.run_mobile_checks()
+
+    $(document).on "swiperight", ".screen_block > header", ->
+      if app.current_page != 0
+        mobile.go_left()
+
+    $(document).on "swipeleft", ".screen_block > header", ->
+      if app.current_page != 3
+        mobile.go_right()
+
+    $(".prev, #news_evac .news_article").click ->
+      mobile.go_left()
+
+    $(".next").click ->
+      mobile.go_right()

@@ -42,7 +42,6 @@ evacuation =
   # @param start_point [google.maps.LatLng] место начала
   # @param end_place [Object] место конца
   get_directions: (start_point, end_place) ->
-
     end_point = new google.maps.LatLng(end_place.lat, end_place.lng)
 
     directions_service =new google.maps.DirectionsService()
@@ -54,22 +53,19 @@ evacuation =
         evacuation.show_directions(response)
         app.current_marker.setIcon("<%= asset_path('map/mover.png') %>")
         evacuation.create_end_place_infobox(end_place)
-        evacuation.adjust_center()
+        evacuation.adjust_center(response)
     )
 
 
   # Адаптирует центр карты, чтобы правильно отображался весь маршрут
-  adjust_center: ->
-    console.log app.google_map.getZoom()
-    setTimeout(->
-      app.google_map.setZoom(app.google_map.getZoom() - 1)
-      center = app.google_map.getCenter()
-      app.google_map.panTo(center)
-      200
-    )
+  # @param response [Маршрут] маршрут до места
+  adjust_center: (response) ->
+    bounds = response.routes[0].bounds
+    app.google_map.fitBounds(bounds);
+    app.google_map.setCenter(bounds.getCenter())
 
 
-  # Отображение инфобокса у места
+  # Отображение инфобокса/(тултипа на мобиле) у места
   # @param end_point [google.maps.Lang] место конца маршрута
   create_end_place_infobox: (end_place) ->
     place_infobox = new InfoBox(app.infobox_options)
@@ -81,7 +77,6 @@ evacuation =
     ), 100
 
     place_infobox.open(app.google_map, end_place.marker)
-
     $("#tooltips").addClass("hidden")
     $("#news_evac").removeClass("hidden").html infobox_content
 

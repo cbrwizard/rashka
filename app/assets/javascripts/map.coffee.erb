@@ -1,6 +1,5 @@
 # Обработка событий на карте. Грузит карту, ставит в дефолтное место маркер, отображает места и спрашивает текущее местоположение
 $ ->
-  console.log app.current_location
   map.init()
   map.put_marker_on_current()
   map.show_places()
@@ -23,12 +22,6 @@ map =
   markers: []
 
 
-  # Получает расстояние до каждой точки эвакуации и рисует их на карте
-  show_places: ->
-    app.places.objects.forEach(places.get_distance)
-    app.places.objects.forEach(places.render)
-
-
   # Ставит маркер на координаты
   # @param location [LatLng] координаты точки
   set_current_location: (location) ->
@@ -42,9 +35,12 @@ map =
   # @param location [LatLng] координаты местоположения юзера
   nav_geo_success: (location) ->
     app.current_marker.setMap(null)
+
+    #заново дает возможность нажать по свалить
     unless app.directions_renderer == undefined
       app.directions_renderer.setMap(null)
-      #TODO: ресетить кнопку валить, раз уж мы на всякий стираем маршрут
+      $("#evac_btn").removeClass("hidden")
+      $("#share_btn").addClass("hidden")
     current_location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)
     map.set_current_location(current_location)
 
@@ -69,6 +65,11 @@ map =
     app.current_marker = new google.maps.Marker current_loc_marker_options
 
 
+  # Получает расстояние до каждой точки эвакуации и рисует их на карте
+  show_places: ->
+    app.places.objects.forEach(places.get_distance)
+    app.places.objects.forEach(places.render)
+
   # Обновляет маркеры для подготовки к новому текущему местоположению
   reset_markers: ->
     app.places.objects.forEach(places.get_distance)
@@ -92,22 +93,14 @@ map =
     cluster = new MarkerClusterer(app.google_map, map.markers, {styles: markerCluster_styles})
     cluster_infobox = new InfoBox(app.infobox_options)
 
-    # При наведении по кластереру открывает инфобокс
+    # При наведении по кластереру открывает инфобокс и тултип для мобил
     google.maps.event.addListener cluster, 'mouseover', (this_clusterer) ->
-      fake_marker_options =
-        position: this_clusterer.getCenter()
-        map: app.google_map
-      fake_marker = new google.maps.Marker(fake_marker_options)
+      fake_marker = map.get_fake_marker(this_clusterer)
 
       cluster_infobox.setContent(map.clusterer_infobox())
       cluster_infobox.open(app.google_map, fake_marker)
       fake_marker.setMap(null)
-      setTimeout (->
-        $(".evac_popup").fadeIn(200)
-      ), 100
-
-      $("#tooltips").toggleClass("hidden").html map.clusterer_infobox()
-      $("#news_evac").toggleClass("hidden")
+      map.update_tooltip(map.clusterer_infobox())
 
     # И закрывает
     google.maps.event.addListener cluster, 'mouseout', ->
@@ -132,10 +125,31 @@ map =
       "
 
 
+  # Создает фейковый маркер для размещения там иконки кластерера
+  # @param clusterer [MarkerClusterer] кластерер точек на карте
+  # @return [google.maps.Marker] фейковый маркер
+  get_fake_marker: (clusterer) ->
+    fake_marker_options =
+      position: clusterer.getCenter()
+      map: app.google_map
+    new google.maps.Marker(fake_marker_options)
+
+
+  # Отображает тултип и обновляет контент попапа на мобилах
+  # @param infobox_content [DOM] содержимое инфобокса
+  update_tooltip: (infobox_content) ->
+    setTimeout (->
+      $(".evac_popup").fadeIn(200)
+    ), 100
+    $("#tooltips").toggleClass("hidden").html infobox_content
+    $("#news_evac").toggleClass("hidden")
+
+
   # Инициализация карты и обозначение границ
   init: ->
     app.google_map = new google.maps.Map(@.dom, @.options)    
     map.bounds = new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999))
+
     # При передвижении по карте проверяет, находимся ли мы еще в пределах границы
     google.maps.event.addListener app.google_map, "center_changed", ->
       map.checkBounds()
@@ -163,7 +177,6 @@ places =
   # @param place [Object] место
   # @param place_marker [google.maps.Marker] маркер места
   create_infobox:(place, place_marker) ->
-    console.log place.infobox
     place.infobox = new InfoBox(app.infobox_options)
     place.infobox.setContent places.get_infobox(place)
 
@@ -171,12 +184,7 @@ places =
     google.maps.event.addListener place_marker, 'mouseover', ->
       if !app.time_to_evac || app.places.closest != place
         place.infobox.open(app.google_map, this)
-        setTimeout (->
-          $(".evac_popup").fadeIn(200)
-        ), 100
-        $("#tooltips").toggleClass("hidden").html place.infobox.getContent()
-        $("#news_evac").toggleClass("hidden")
-
+        map.update_tooltip(place.infobox.getContent())
 
     # И закрывает
     google.maps.event.addListener place_marker, 'mouseout', ->
@@ -224,7 +232,6 @@ places =
   get_distance:(place) ->
     cur_loc_lat = app.current_location.lat()
     cur_loc_lng = app.current_location.lng()
-    console.log app.current_location
     earth_radius = 6371
     place_lat = place.lat
     place_lng = place.lng
