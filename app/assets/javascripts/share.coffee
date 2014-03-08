@@ -51,7 +51,6 @@ share =
   # Меняет текст мнения для брейнлука
   # @param reason [String] текст причины
   change_bl_link: (reason) ->
-    console.log reason
     brainlook = $("#brainlook")
     link = brainlook.attr("data-link")
     correct_link = link.slice( 0, link.indexOf('?opinion_text') )
