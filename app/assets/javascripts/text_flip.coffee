@@ -6,7 +6,7 @@ $ ->
 $.fn.ticker = () ->
   $this = $(this)
 
-  letters = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVXYZ,.?!01234567890«»-():' "
+  letters = "ALU.CHBDRJFNQSIKP2E53O!А0GVЁ?4,T18»9'YM«0)Д(БЗК-ИТZ:XПЕХ6ЛГО7ВЙЭЧРЬФШЦНЮЪЫСЩМУЖЯ "
 
   letters_array = letters.split("")
   max_length = 17
@@ -23,11 +23,39 @@ $.fn.ticker = () ->
 
   $this.remove()
 
-  if app.mobile == true
-    target.show()
-  else
-    target.show()
-    console.log target
+  target.show()
+  unless app.mobile == true
+    target.find("span").each ->
+      magic(target.find($(this)), letters)
+
+magic = (span, letters)->
+  $this = span
+  letter = span.html().toUpperCase()
+  i = 0
+
+  flipper_interval = setInterval(->
+    $this.html(letters[i])
+    if letter == letters[i]
+      console.log "yeah, was #{letters[i]} and this was #{letter}"
+#          alert 123
+      clearInterval flipper_interval
+    else
+      console.log "nope, letter was #{letters[i]} and this was #{letter}"
+      i += 1
+  , 40)
+#      flipper_interval = window.setInterval(->
+##        console.log $this
+#        console.log $this.html()
+#        unless letter is $this.html()
+#          $this.html(letters[i])
+#          i += 1
+#        else
+#          window.clearInterval flipper_interval
+#      , 20)
+
+
+
+#    target.show()
 
 #
 #  @each ->
