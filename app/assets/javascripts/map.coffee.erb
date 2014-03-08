@@ -189,7 +189,7 @@ places =
 
     # И закрывает
     google.maps.event.addListener place_marker, 'mouseout', ->
-#      place.infobox.close()
+      place.infobox.close()
       if !app.time_to_evac || app.places.closest != place
         $("#tooltips, #news_evac").toggleClass("hidden")
 
