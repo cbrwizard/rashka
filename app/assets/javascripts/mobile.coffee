@@ -29,6 +29,7 @@ mobile =
 
       mobile.update_screens(new_block)
       mobile.update_navigation()
+      mobile.display_map()
     ), 100
 
     false
@@ -40,12 +41,19 @@ mobile =
       $(".prev").hide()
     else if app.current_page == 3
       $(".next").hide()
-      $("#map-canvas").fadeOut(500)
     else
       $(".next, .prev").show()
+
+
+
+  # Отображает или скрывает карту в зависимости от текущего экрана
+  display_map: ->
+    if app.current_page == 2
       $("#map-canvas").fadeIn(500)
       # Чтобы на карте не было глюков
       google.maps.event.trigger(app.google_map,'resize')
+    else
+      $("#map-canvas").fadeOut(500)
 
 
   # Скрывает не активные экраны после анимации
