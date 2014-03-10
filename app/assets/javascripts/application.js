@@ -19,7 +19,7 @@
 //= require infobox
 //= require markerclusterer
 //= require jquery.custom-scrollbar
-//= require jquery.mobile.custom.min
+//= require jquery.touchSwipe.min
 //= require mobile
 
 //= require turbolinks

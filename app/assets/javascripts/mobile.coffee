@@ -18,15 +18,18 @@ mobile =
     new_block = mobile.get_current_screen_name()
     new_block.removeClass("inactive_block")
 
-    $(".screen_block").each ->
-      $this = $(this)
-      this_left = parseInt($this.attr("data-left"))
-      new_left = this_left + percent + "%"
-      $this.attr("data-left", new_left)
-      $this.animate {left: new_left}, 500
+    # Чтобы новый контейнер успел отрендериться
+    setTimeout (->
+      $(".screen_block").each ->
+        $this = $(this)
+        this_left = parseInt($this.attr("data-left"))
+        new_left = this_left + percent + "%"
+        $this.attr("data-left", new_left)
+        $this.css {left: new_left}
 
-    mobile.update_screens(new_block)
-    mobile.update_navigation()
+      mobile.update_screens(new_block)
+      mobile.update_navigation()
+    ), 100
 
     false
 
@@ -41,10 +44,13 @@ mobile =
     else
       $(".next, .prev").show()
       $("#map-canvas").fadeIn(500)
+      # Чтобы на карте не было глюков
+      google.maps.event.trigger(app.google_map,'resize')
 
 
   # Скрывает не активные экраны после анимации
   # @param new_block [jQuery Object] элемент активного экрана
+  # @note Timeout чтобы контейнеры успели прогнать анимацию
   update_screens:(new_block) ->
     setTimeout (->
       $(".active_block").addClass("inactive_block").removeClass("active_block")
@@ -87,13 +93,14 @@ mobile =
     $(window).resize ->
       mobile.run_mobile_checks()
 
-    $(document).on "swiperight", ".screen_block > header", ->
-      if app.current_page != 0
-        mobile.go_left()
+    $(".screen_block > header, #about_modal, #news_pagination, #reasons_modal").swipe
+      swipeRight: ->
+        if app.current_page != 0 && app.mobile == true
+          mobile.go_left()
+      swipeLeft: ->
+        if app.current_page != 3 && app.mobile == true
+          mobile.go_right()
 
-    $(document).on "swipeleft", ".screen_block > header", ->
-      if app.current_page != 3
-        mobile.go_right()
 
     $(".prev, #news_evac .news_article").click ->
       mobile.go_left()

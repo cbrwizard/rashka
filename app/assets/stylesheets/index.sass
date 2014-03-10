@@ -2,11 +2,17 @@
 
 @import "colors"
 
+$time: .5s
 
 .screen_block
   position: absolute
   left: 10px
   top: 0
+  -moz-transition: all $time
+  -ms-transition: all $time
+  -o-transition: all $time
+  -webkit-transition: all $time
+  transition: all $time
 
 .block
   color: #fff
