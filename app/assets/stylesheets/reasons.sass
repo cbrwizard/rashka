@@ -11,12 +11,18 @@
   .modal-content
     background: $dark_grey
     opacity: .95
+  h3
+    color: $orange
+    border-bottom: 1px solid #ECCF5D
+    padding-bottom: 5px
   .text
     color: #fff
+    font-size: 18px
 
 .reason
   .popularity
     color: $orange
+    font-size: 14px!important
 
 #reasons_container
   top: 280px
@@ -25,28 +31,28 @@
   h3
     left: 8px
   article
-    padding: 6px 8px
+    padding: 4px 8px
   p
     font-size: 16px
 
 .reload_container
-  padding: 35px 0 0 1px
+  padding: 45px 0 6px 1px
 
 #more_reasons
   position: absolute
-  top: 6px
+  top: 7px
   right: 7px
   cursor: pointer
   color: $orange
   border: 1px solid $orange
   padding: 0 8px
-  height: 29px
-  line-height: 27px
+  height: 27px
+  line-height: 25px
   &:hover
     color: $dark_grey
     background: $orange
   &.loading
-    background: lighten($dark_grey,25%)
+    background: lighten($dark_grey, 15%)
     cursor: default
   img
     position: absolute

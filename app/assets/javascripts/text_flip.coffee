@@ -34,6 +34,7 @@ display_flipper = (heading) ->
   result = $("<h3 class='flip'>")
   result.html "<span class='hidden'>" + text_array.join("</span><span class='hidden'>") + "</span>"
 
+  #TODO: сделать так, чтобы сначала были видны пустые прямоугольники
   parent_container = heading.parent()
   parent_container.prepend(result)
   heading.remove()
@@ -44,7 +45,7 @@ display_flipper = (heading) ->
 # @note i определяется случайно, чтобы каждый символ по-разному анимировался
 do_the_filp = (span)->
 
-  all_letters = "ABCDEFGHIJKLMNOPQRSTUVXYZ,.?!01234567890«»-():' АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+  all_letters = "ABCDEFGHIJKLMNOPQRSTUVXYZ,.?!01234567890«»-():'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ "
   span_letter = span.html().toUpperCase()
   span.html("").removeClass("hidden")
 
