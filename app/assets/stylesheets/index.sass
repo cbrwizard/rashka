@@ -1,24 +1,19 @@
 // Стили основных структур и объектов на главной странице
 
-@import "colors"
-
-$time: .5s
+@import colors
+@import compass
 
 .screen_block
   position: absolute
   left: 10px
   top: 0
-  -moz-transition: all $time
-  -ms-transition: all $time
-  -o-transition: all $time
-  -webkit-transition: all $time
-  transition: all $time
+  +transition(left, .5s)
 
 .block
   color: #fff
   position: relative
   background: $dark_grey
-  opacity: .95
+  +opacity(.95)
   width: 450px
 
 .flip
@@ -30,7 +25,7 @@ $time: .5s
     text-align: center
     font-family: "Pancetta Pro"
     text-transform: uppercase
-    display: inline-block
+    +inline-block
     width: 19px
     height: 29px
     vertical-align: top
@@ -67,11 +62,12 @@ $time: .5s
     color: #fff
     padding: 0
     position: relative
-    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.5)
-    border-radius: 15px
+    +box-shadow(0 1px 1px 1px rgba(0, 0, 0, 0.5))
+    +border-radius(15px)
+    +transition(all, .2s)
     &:hover
       top: -2px
-      box-shadow: 0 3px 1px 1px rgba(0, 0, 0, 0.5)
+      +box-shadow(0 3px 1px 1px rgba(0, 0, 0, 0.5))
 
 #evac_btn
   background: $red

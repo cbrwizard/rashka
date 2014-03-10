@@ -1,6 +1,7 @@
 // Стили с размерами для мобилы и её объектами
 
-@import "colors"
+@import colors
+@import compass
 
 @media screen and (max-width: 768px)
 
@@ -8,9 +9,9 @@
     position: absolute
     top: 5px
     z-index: 10000
-    opacity: .9
+    +opacity(.9)
     &:hover
-      opacity: .99
+      +opacity(.99)
     &.prev
       left: 5px
     &.next
@@ -39,7 +40,7 @@
         line-height: 50px
 
   .block
-    opacity: 1
+    +opacity(.99)
 
   #reasons_content
     left: -200%
@@ -149,7 +150,7 @@
     width: 100%
     overflow-y: hidden
     margin: 0 auto
-    opacity: 1
+    +opacity(.99)
     p
       font-size: 16px
     .modal-dialog

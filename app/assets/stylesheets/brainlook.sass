@@ -1,12 +1,15 @@
 // Стили инфы о брейнлуке в окошке "рассказать"
 
-@import "colors"
+@import colors
+@import compass
 
 #brainlook
   color: #fff
   cursor: pointer
   padding: 10px
+  margin: 10px 0 0
   overflow: hidden
+  +transition(background, .2s)
   &:hover
     background: lighten($dark_grey, 10%)
   img

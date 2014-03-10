@@ -1,6 +1,7 @@
 // Стили модульного окна информации
 
-@import "colors"
+@import colors
+@import compass
 
 
 #about_content
@@ -16,7 +17,7 @@
   img
     width: 125px
     height: 125px
-    border-radius: 75px
+    +border-radius(75px)
   h4
     font-family: 'Pancetta Pro'
     font-size: 18px
@@ -29,6 +30,7 @@
   padding: 0 0 10px
   cursor: pointer
   overflow: hidden
+  position: relative
 
 .about_text
   font-size: 16px
@@ -51,7 +53,7 @@
   color: #fff
   font-size: 24px
   font-family: 'Pancetta Pro'
-  border-radius: 0
+  +border-radius(0)
   margin-top: 10px
   p
     margin: 0 auto

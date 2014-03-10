@@ -1,6 +1,7 @@
 // Стили причин
 
-@import "colors"
+@import colors
+@import compass
 
 #reasons_content
   z-index: 1050
@@ -47,6 +48,7 @@
   padding: 0 8px
   height: 27px
   line-height: 25px
+  +transition(all, .2s)
   &:hover
     color: $dark_grey
     background: $orange

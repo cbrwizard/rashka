@@ -1,21 +1,20 @@
 // Стили соц кнопок в модульном окошке "рассказать"
 
-@import "colors"
+@import colors
+@import compass
 
 #social_container
   margin: 15px 0 0
 
 .share_button
-  display: inline-block
+  +inline-block
   padding: 10px
   cursor: pointer
+  +transition(all, .2s)
   &:hover
     text-decoration: none
     color: #fff
     background: lighten($dark_grey, 10%)
-  &.error_share
-    opacity: 0.4
-    cursor: default
   .social_icon
     float: left
   .arrow-right
@@ -29,3 +28,7 @@
     font-family: 'Pancetta Pro'
     &:hover
       text-decoration: none
+
+.error_share
+  +opacity(.4)
+  cursor: default

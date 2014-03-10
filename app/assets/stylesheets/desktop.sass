@@ -1,6 +1,7 @@
 // Стили размеров в десктоп версии
 
-@import "colors"
+@import colors
+@import compass
 
 @media screen and (min-width: 769px)
 
@@ -21,7 +22,7 @@
 
   #reasons_modal
     .modal-content
-      opacity: .95
+      +opacity(.95)
 
   #evac_btn_container
     button
@@ -63,8 +64,10 @@
   .scroll-bar.vertical
     height: 250px!important
 
+  .author
+    +transition(all, .2s)
+
   .author_container
     &:hover .author
-      box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.5)
-      position: relative
+      +box-shadow(0px 2px 2px 1px rgba(0, 0, 0, 0.5))
       top: -2px

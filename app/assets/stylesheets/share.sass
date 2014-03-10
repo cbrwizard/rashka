@@ -1,13 +1,14 @@
 // Стили модульного окошка "рассказать"
 
-@import "colors"
+@import colors
+@import compass
 
 #share_modal
   .modal-dialog
     max-width: 565px
   .modal-content
     background: $dark_grey
-    opacity: .95
+    +opacity(.95)
 
 #widget_holder
   iframe
@@ -27,9 +28,10 @@
       cursor: default
   a
     padding: 4px 6px
-    display: inline-block
+    +inline-block
     color: $dark_grey
     border: 1px solid $dark_grey
+    +transition(all, .2s)
   img
     position: absolute
     bottom: 3px
@@ -46,11 +48,11 @@
   position: relative
   textarea
     height: 105px
-    border-radius: 0
+    +border-radius(0)
     resize: none
     &:focus
       border-color: $orange
-      box-shadow: none
+      +box-shadow(none)
   div
     p
       position: absolute

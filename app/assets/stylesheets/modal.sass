@@ -1,13 +1,15 @@
 // Общие стили модульных окошек
 
+@import compass
+
 .modal-dialog
   h3
     margin-top: 0
 
 .modal-content
   overflow: hidden
-  border-radius: 0
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3)
+  +border-radius(0)
+  +box-shadow(0 1px 4px rgba(0, 0, 0, 0.3))
 
 #share_modal, #reasons_modal
   h3

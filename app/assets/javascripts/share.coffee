@@ -15,9 +15,10 @@ $ ->
 
   # При нажатии по блоку брейнлука открывает страницу брейнлука
   $("#brainlook").click ->
-    reason = $(reason_field).val()
-    share.update_statistics("bl_post", reason)
-    window.open($(this).attr("data-link"), '_blank')
+    unless $(this).hasClass("error_share")
+      reason = $(reason_field).val()
+      share.update_statistics("bl_post", reason)
+      window.open($(this).attr("data-link"), '_blank')
 
   # При изменении текста поля ввода причины меняет текст у соц кнопок
   $(reason_field).on "input propertychange change", ->
@@ -62,7 +63,7 @@ share =
   count_reason_text: (textarea) ->
     text = textarea.val()
     counter = $("#reason_text_counter")
-    share_buttons = $(".share_button a")
+    share_buttons = $(".share_button, #brainlook")
     max_length = 80
     letters_left = max_length - text.length
     counter.html(letters_left)
@@ -93,7 +94,7 @@ share =
   # @param share_button [Jquery DOM] кнопка соц сети
   # @return false [boolean] останавливает обычное действие кнопки
   share_reason: (share_button) ->
-    unless share_button.hasClass("error_share")
+    unless share_button.parent().hasClass("error_share")
       method = share_button.attr("data-method")
       reason = $("#reason_field").val()
       share.update_statistics(method, reason)

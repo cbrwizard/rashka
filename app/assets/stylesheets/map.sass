@@ -1,6 +1,7 @@
 // Стили объектов на карте
 
-@import "colors"
+@import colors
+@import compass
 
 
 #map-canvas
@@ -9,7 +10,7 @@
 
 .evac_popup
   background: $dark_grey
-  opacity: .95
+  +opacity(.95)
   color: #FFF
   overflow: hidden
   position: relative
