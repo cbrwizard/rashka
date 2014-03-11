@@ -73,7 +73,7 @@ evacuation =
 
     place_infobox.open(app.google_map, end_place.marker)
     $("#tooltips").addClass("hidden")
-    $("#news_evac").removeClass("hidden").html infobox_content
+    $(".news_evac").removeClass("hidden").html infobox_content
 
 
   # Устанавливает контент у инфобокса места, к которому будет идти эвакуация
@@ -81,7 +81,7 @@ evacuation =
   # @return [DOM] содержимое инфобокса
   get_evac_infobox: (place) ->
     infobox_content = "
-      <div class='evac_popup'>
+      <div class='evac_popup escape'>
         <div class='left'>
           <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow hidden-xs'>
           <img src='"+ app.places.types[place.type_id].icon + "'class='evac_icon'>

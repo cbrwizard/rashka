@@ -106,7 +106,7 @@ map =
     # И закрывает
     google.maps.event.addListener cluster, 'mouseout', ->
       cluster_infobox.close()
-      $("#tooltips, #news_evac").toggleClass("hidden")
+      $("#tooltips, .news_evac").toggleClass("hidden")
 
 
   # Устанавливает контент у инфобокса кластерера маркеров
@@ -143,7 +143,7 @@ map =
       $(".evac_popup").fadeIn(200)
     ), 100
     $("#tooltips").toggleClass("hidden").html infobox_content
-    $("#news_evac").toggleClass("hidden")
+    $(".news_evac").toggleClass("hidden")
 
 
   # Инициализация карты и обозначение границ
@@ -154,6 +154,8 @@ map =
     # При передвижении по карте проверяет, находимся ли мы еще в пределах границы
     google.maps.event.addListener app.google_map, "center_changed", ->
       map.checkBounds()
+      # Скрывает попапы при отдалении
+      $(".evac_popup:not(.escape)").hide()
 
 
 # Параметры и функции мест
@@ -191,7 +193,7 @@ places =
     google.maps.event.addListener place_marker, 'mouseout', ->
       place.infobox.close()
       if !app.time_to_evac || app.places.closest != place
-        $("#tooltips, #news_evac").toggleClass("hidden")
+        $("#tooltips, .news_evac").toggleClass("hidden")
 
 
   # Устанавливает контент у инфобокса места

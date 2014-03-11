@@ -20,6 +20,7 @@ mobile =
 
     # Чтобы новый контейнер успел отрендериться
     setTimeout (->
+      $("html, body").animate({ scrollTop: "0" }, 200)
       $(".screen_block").each ->
         $this = $(this)
         this_left = parseInt($this.attr("data-left"))
@@ -101,7 +102,7 @@ mobile =
     $(window).resize ->
       mobile.run_mobile_checks()
 
-    $(".screen_block > header, #about_modal, #news_pagination, #reasons_modal").swipe
+    $(".screen_block > header, #authors_container, #donate_container .about_text, #explain_container, #news_pagination, #reasons_modal").swipe
       swipeRight: ->
         if app.current_page != 0 && app.mobile == true
           mobile.go_left()
@@ -109,8 +110,7 @@ mobile =
         if app.current_page != 3 && app.mobile == true
           mobile.go_right()
 
-
-    $(".prev, #news_evac .news_article").click ->
+    $(".prev, .news_evac .news_article").click ->
       mobile.go_left()
 
     $(".next").click ->

@@ -10,14 +10,9 @@ $.fn.flipper = () ->
   $this = $(this)
   target = display_flipper($this)
 
-  # Дает время карте подгрузиться, после чего включает анимацию, либо просто отображает на мобилах
-  setTimeout (->
-    if app.mobile == true
-      target.find("span").removeClass "hidden"
-    else
-      target.find("span").each ->
-        do_the_filp($(this))
-  ), 2000
+  unless app.mobile == true
+    target.find("span").each ->
+      do_the_filp($(this))
 
 
 # Разбирает заголовок по кусочкам, превращая их в отдельные спаны
@@ -32,9 +27,8 @@ display_flipper = (heading) ->
   text_array.push "&#160" while text_array.length < length
 
   result = $("<h3 class='flip'>")
-  result.html "<span class='hidden'>" + text_array.join("</span><span class='hidden'>") + "</span>"
+  result.html "<span>" + text_array.join("</span><span>") + "</span>"
 
-  #TODO: сделать так, чтобы сначала были видны пустые прямоугольники
   parent_container = heading.parent()
   parent_container.prepend(result)
   heading.remove()
@@ -47,14 +41,17 @@ do_the_filp = (span)->
 
   all_letters = "ABCDEFGHIJKLMNOPQRSTUVXYZ,.?!01234567890«»-():'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ "
   span_letter = span.html().toUpperCase()
-  span.html("").removeClass("hidden")
+  span.html("")
 
   i = Math.floor((Math.random()*20))
 
-  flipper_interval = setInterval(->
-    span.html(all_letters[i])
-    if span_letter == all_letters[i]
-      clearInterval flipper_interval
-    else
-      i += 1
-  , 30)
+  # Дает время карте подгрузиться, после чего включает анимацию
+  setTimeout (->
+    flipper_interval = setInterval(->
+      span.html(all_letters[i])
+      if span_letter == all_letters[i]
+        clearInterval flipper_interval
+      else
+        i += 1
+    , 30)
+  ), 2000

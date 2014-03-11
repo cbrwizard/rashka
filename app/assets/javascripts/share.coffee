@@ -25,6 +25,10 @@ $ ->
     share.update_share_buttons($(this))
 
 
+  $(reason_field).on "click", ->
+    reason_field.val("")
+
+
 # Параметры и функции, связанные с соц кнопками и полем ввода причины
 share =
   title: "Симулятор эвакуации из Рашки"
