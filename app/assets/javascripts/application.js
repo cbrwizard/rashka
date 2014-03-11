@@ -19,9 +19,9 @@
 //= require infobox
 //= require markerclusterer
 //= require jquery.custom-scrollbar
-//= require toe
-//= require swipe
-//= require tap
+//= require hammer.min
+//= require jquery.hammer.min
+
 //= require mobile
 
 //= require turbolinks

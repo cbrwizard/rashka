@@ -102,15 +102,14 @@ mobile =
     $(window).resize ->
       mobile.run_mobile_checks()
 
-    $(".screen_block > header, #authors_container, #donate_container .about_text, #explain_container, #news_pagination, #reasons_modal").on "swipe", (event) ->
-      console.log event
-      if event.direction == 'left'
-        if app.current_page != 3 && app.mobile == true
-          mobile.go_right()
-      if event.direction == 'right'
+    $(".screen_block > header, #authors_container, #donate_container .about_text, #explain_container, #news_pagination, #reasons_modal").hammer().on "dragend", (event) ->
+      if event.gesture.direction == 'right'
         if app.current_page != 0 && app.mobile == true
           mobile.go_left()
 
+      if event.gesture.direction == 'left'
+        if app.current_page != 3 && app.mobile == true
+          mobile.go_right()
 
     $(".prev, .news_evac .news_article").click ->
       mobile.go_left()
