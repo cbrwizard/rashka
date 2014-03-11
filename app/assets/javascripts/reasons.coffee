@@ -2,6 +2,10 @@
 $ ->
   reasons.init()
 
+  $(document).on "click", ".share_reason", () ->
+    reasons.copy_reason($(this))
+
+
 # Параметры и функции, связанные с блоком причин
 reasons =
   # Отображение трех причин на главной и бинд этого отображения на клик по кнопке
@@ -30,3 +34,11 @@ reasons =
           $("#more_reasons").toggleClass("loading")
           $("#more_reasons img").toggleClass("hidden")
           console.log("yay")
+
+
+  # Берет текст причины и вставляет его в поле рассказать
+  # @param share_reason_button [DOM element] кнопка рассказать у причины
+  copy_reason: (share_reason_button) ->
+    text = $.trim(share_reason_button.parent().find(".text").text())
+    $("#share_modal").modal()
+    $("#reason_field").val(text)

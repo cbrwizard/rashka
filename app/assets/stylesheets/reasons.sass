@@ -9,6 +9,11 @@
 #reasons_modal
   article
     padding: 6px 0
+    position: relative
+    .share_reason
+      margin-left: 0
+      right: 10px
+
   .modal-content
     background: $dark_grey
   h3
@@ -20,28 +25,23 @@
     font-size: 18px
 
 .reason
+  &:hover
+    .share_reason
+      display: block
   .popularity
     color: $orange
     font-size: 14px!important
 
-#reasons_container
-  top: 280px
-  border-left: 4px solid $red
-  min-height: 120px
-  h3
-    left: 8px
-  article
-    padding: 4px 8px
-  p
-    font-size: 16px
-
-.reload_container
-  padding: 45px 0 6px 1px
-
-#more_reasons
+.share_reason
+  display: none
+  background: $dark_grey
   position: absolute
-  top: 7px
-  right: 7px
+  top: 50%
+  width: 90px
+  text-align: center
+  margin: -14px 0 0 -45px
+
+.share_reason, #more_reasons
   cursor: pointer
   color: $orange
   border: 1px solid $orange
@@ -52,6 +52,28 @@
   &:hover
     color: $dark_grey
     background: $orange
+
+#reasons_container
+  top: 280px
+  border-left: 4px solid $red
+  min-height: 120px
+  h3
+    left: 8px
+  article
+    padding: 4px 8px
+    position: relative
+  .share_reason
+    left: 50%
+  p
+    font-size: 16px
+
+.reload_container
+  padding: 45px 0 6px 1px
+
+#more_reasons
+  position: absolute
+  top: 7px
+  right: 7px
   &.loading
     background: lighten($dark_grey, 15%)
     cursor: default

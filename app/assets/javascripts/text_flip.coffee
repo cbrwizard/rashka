@@ -22,7 +22,7 @@ $.fn.flipper = () ->
 # @return [DOM element] переделанный заголовок
 display_flipper = (heading) ->
   length = 17
-  text = heading.attr("data-flip")
+  text = $.trim(heading.text())
   text_array = text.split("")
   text_array.push "&#160" while text_array.length < length
 

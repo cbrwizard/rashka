@@ -16,6 +16,12 @@
   +opacity(.95)
   width: 450px
 
+.block article, #reasons_pagination article
+  cursor: pointer
+  +transition(background, .2s)
+  &:hover
+    background: lighten($dark_grey, 10%)
+
 .flip
   position: absolute
   top: 6px
