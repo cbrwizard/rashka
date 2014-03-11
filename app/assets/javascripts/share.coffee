@@ -5,6 +5,7 @@ $ ->
   reason_field.trigger("change")
   share.update_share_buttons(reason_field)
 
+  # При нажатии по кнопке подсказать причину включает лоадер
   $("#get_random_container").click ->
     $(this).addClass("loading")
     $(this).find("img").removeClass("hidden")
@@ -24,7 +25,7 @@ $ ->
   $(reason_field).on "input propertychange change", ->
     share.update_share_buttons($(this))
 
-
+  # Очищает поле причины при нажатии по нему
   $(reason_field).on "click", ->
     reason_field.val("")
 

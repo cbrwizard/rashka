@@ -3,17 +3,9 @@
 @import colors
 @import compass
 
-#reasons_content
-  z-index: 1050
-
 #reasons_modal
   article
-    padding: 6px 0
     position: relative
-    .share_reason
-      margin-left: 0
-      right: 10px
-
   .modal-content
     background: $dark_grey
   h3
@@ -25,7 +17,7 @@
     font-size: 18px
 
 .reason
-  &:hover
+  &.hovered
     .share_reason
       display: block
   .popularity

@@ -11,7 +11,7 @@ news =
       news.try_to_custom_pagination()
 
     # При клике по блоку новости открывается ссылка на её сайт
-    $(document).on "click", "#news_container article", ->
+    $(document).on "click", ".news_article", ->
       window.open($(this).attr("data-link"), '_blank')
 
 

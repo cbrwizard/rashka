@@ -2,13 +2,18 @@
 $ ->
   reasons.init()
 
-  $(document).on "click", ".share_reason", () ->
+  # При нажатии по кнопке рассказать у причины открывает окно рассказать с текстом причины
+  $(document).on "click", ".share_reason", ->
     reasons.copy_reason($(this))
 
+  $(document).on "mouseenter", ".reason, .news_article", ->
+    $(this).addClass("hovered")
+  $(document).on "mouseleave", ".reason, .news_article", ->
+    $(this).removeClass("hovered")
 
 # Параметры и функции, связанные с блоком причин
 reasons =
-  # Отображение трех причин на главной и бинд этого отображения на клик по кнопке
+  # Отображение трех причин на главной
   init: ->
     @.get_three()
 
