@@ -1,4 +1,4 @@
-#Методы страниц для пользователей
+# Методы страниц для пользователей
 class PagesController < ApplicationController
   include AuthorHelper
   include ModalHelper

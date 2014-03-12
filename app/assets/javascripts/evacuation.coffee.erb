@@ -45,8 +45,131 @@ evacuation =
         evacuation.show_directions(response)
         app.current_marker.setIcon("<%= asset_path('map/mover.png') %>")
         evacuation.create_end_place_infobox(end_place)
-        evacuation.adjust_center(response)
+#        evacuation.adjust_center(response)
+
+
+        app.polyline = new google.maps.Polyline(
+          path: []
+          strokeColor: "#FF0000"
+          strokeWeight: 3
+        )
+
+        bounds = new google.maps.LatLngBounds()
+        route = response.routes[0]
+        startLocation = new Object()
+        app.endLocation = new Object()
+
+        # For each route, display summary information.
+        path = response.routes[0].overview_path
+        legs = response.routes[0].legs
+#        console.log "path"
+#        console.log path
+#        console.log "legs"
+#        console.log legs
+        i = 0
+        while i < legs.length
+          if i is 0
+            startLocation.latlng = legs[i].start_location
+            startLocation.address = legs[i].start_address
+            console.log "startLocation"
+            console.log startLocation
+
+            app.mega_marker = new google.maps.Marker(
+              position: legs[i].start_location
+              map: app.google_map
+              title: "hai"
+            )
+          app.endLocation.latlng = legs[i].end_location
+          app.endLocation.address = legs[i].end_address
+          console.log "app.endLocation"
+          console.log app.endLocation
+          steps = legs[i].steps
+          console.log "steps"
+          console.log steps
+          j = 0
+          while j < steps.length
+            nextSegment = steps[j].path
+            k = 0
+            while k < nextSegment.length
+              app.polyline.getPath().push nextSegment[k]
+              bounds.extend nextSegment[k]
+              k++
+            j++
+          i++
+        app.polyline.setMap app.google_map
+        app.google_map.fitBounds bounds
+
+        evacuation.startAnimation()
     )
+
+  #=============== animation functions ======================
+  updatePoly: (d) ->
+
+    lastVertex = 1
+    # Spawn a new polyline every 20 vertices, because updating a 100-vertex poly is too slow
+    app.poly2 = new google.maps.Polyline([app.polyline.getPath().getAt(lastVertex - 1)])  if app.poly2.getPath().getLength() > 20
+
+    # map.addOverlay(app.poly2)
+    if app.polyline.GetIndexAtDistance(d) < lastVertex + 2
+      app.poly2.getPath().removeAt app.poly2.getPath().getLength() - 1  if app.poly2.getPath().getLength() > 1
+      app.poly2.getPath().insertAt app.poly2.getPath().getLength(), app.polyline.GetPointAtDistance(d)
+    else
+      app.poly2.getPath().insertAt app.poly2.getPath().getLength(), app.endLocation.latlng
+    return
+
+
+  animate: (d) ->
+
+    # alert("animate("+d+")");
+#    if d > eol
+#      app.google_map.panTo app.endLocation.latlng
+#      app.mega_marker.setPosition app.endLocation.latlng
+#      return
+    p = app.polyline.GetPointAtDistance(d)
+    console.log d
+    console.log p
+    if p == null
+      console.log 123
+      console.log app.endLocation.latlng
+#      end_point = new google.maps.LatLng(app.endLocation.lat, app.endLocation.lng)
+#      console.log end_point
+      app.google_map.panTo app.endLocation.latlng
+#      app.mega_marker.setPosition end_point
+      console.log d
+      console.log "stopped"
+    else
+      console.log p == null
+      app.google_map.panTo p
+      app.mega_marker.setPosition p
+      evacuation.updatePoly d
+
+      step = 2000
+      tick = 100
+      animationTimeout = window.setTimeout (->
+        evacuation.animate(d + step)
+      ), tick
+    return
+
+  startAnimation: ->
+    console.log app.polyline
+    eol = app.polyline.Distance()
+    app.google_map.setCenter app.polyline.getPath().getAt(0)
+
+    # map.addOverlay(new google.maps.Marker(polyline.getAt(0),G_START_ICON));
+    # map.addOverlay(new GMarker(polyline.getVertex(polyline.getVertexCount()-1),G_END_ICON));
+    # marker = new google.maps.Marker({location:polyline.getPath().getAt(0)} /* ,{icon:car} */);
+    # map.addOverlay(marker);
+    app.poly2 = new google.maps.Polyline(
+      path: [app.polyline.getPath().getAt(0)]
+      strokeColor: "#0000FF"
+      strokeWeight: 10
+    )
+
+    # map.addOverlay(poly2);
+    setTimeout (->
+      evacuation.animate(50)
+    ), 200
+    return
 
 
   # Адаптирует центр карты, чтобы правильно отображался весь маршрут

@@ -18,6 +18,7 @@
 //= require bootstrap/dropdown
 //= require infobox
 //= require markerclusterer
+//= require v3_epoly
 //= require jquery.custom-scrollbar
 //= require hammer.min
 //= require jquery.hammer.min
