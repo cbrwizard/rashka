@@ -37,8 +37,8 @@ map =
     app.current_marker.setMap(null)
 
     #заново дает возможность нажать по свалить
-    unless app.directions_renderer == undefined
-      app.directions_renderer.setMap(null)
+    unless app.path_to_evac == undefined
+      app.path_to_evac.setMap(null)
       $("#evac_btn").removeClass("hidden")
       $("#share_btn").addClass("hidden")
     current_location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)

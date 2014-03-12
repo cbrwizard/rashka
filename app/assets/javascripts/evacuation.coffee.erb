@@ -6,8 +6,8 @@ $ ->
 # Параметры и функции, связанные с эвакуацией
 evacuation =
   dom_element: $("#evac_btn")
+  polyline: undefined 
   hidden_polyline: undefined 
-  hidden_polyline2: undefined 
   escape_marker: undefined
   path_length: undefined
   audio: document.getElementById('hallelujah')
@@ -51,8 +51,7 @@ evacuation =
     directions_service.route(directions_service_options, (response, status) ->
       # В случае успеха запроса выводит маршрут и гонит по нему петра
       if status == google.maps.DirectionsStatus.OK
-        evacuation.show_directions(response)
-#        app.current_marker.setIcon("<%= asset_path('map/mover.png') %>")
+        evacuation.set_time_to_evac(response)
         evacuation.create_end_place_infobox(end_place)
         evacuation.adjust_center(response)
         evacuation.escape(response)
@@ -83,7 +82,7 @@ evacuation =
         nextSegment = steps[j].path
         k = 0
         while k < nextSegment.length
-          evacuation.hidden_polyline.getPath().push nextSegment[k]
+          app.path_to_evac.getPath().push nextSegment[k]
           k++
         j++
       i++
@@ -93,8 +92,10 @@ evacuation =
   # @note запускается из evacuation.escape
   # @param legs [route.legs] уточненный путь маршрута
   prepare_escape_polyline: (legs) ->
-    evacuation.hidden_polyline = new google.maps.Polyline(
+    app.path_to_evac = new google.maps.Polyline(
       path: []
+      strokeColor:'#24c94b'
+      strokeWeight: "6"
     )
 
     evacuation.escape_marker = new google.maps.Marker(
@@ -110,22 +111,22 @@ evacuation =
   poly_magic: (distance) ->
 
     lastVertex = 1
-    evacuation.hidden_polyline2 = new google.maps.Polyline([evacuation.hidden_polyline.getPath().getAt(lastVertex - 1)])  if evacuation.hidden_polyline2.getPath().getLength() > 20
+    evacuation.hidden_polyline = new google.maps.Polyline([app.path_to_evac.getPath().getAt(lastVertex - 1)])  if evacuation.hidden_polyline.getPath().getLength() > 20
 
-    if evacuation.hidden_polyline.GetIndexAtDistance(distance) < lastVertex + 2
-      evacuation.hidden_polyline2.getPath().removeAt evacuation.hidden_polyline2.getPath().getLength() - 1  if evacuation.hidden_polyline2.getPath().getLength() > 1
-      evacuation.hidden_polyline2.getPath().insertAt evacuation.hidden_polyline2.getPath().getLength(), evacuation.hidden_polyline.GetPointAtDistance(distance)
+    if app.path_to_evac.GetIndexAtDistance(distance) < lastVertex + 2
+      evacuation.hidden_polyline.getPath().removeAt evacuation.hidden_polyline.getPath().getLength() - 1  if evacuation.hidden_polyline.getPath().getLength() > 1
+      evacuation.hidden_polyline.getPath().insertAt evacuation.hidden_polyline.getPath().getLength(), app.path_to_evac.GetPointAtDistance(distance)
     else
       end_point = new google.maps.LatLng(app.places.closest.lat, app.places.closest.lng)
 
-      evacuation.hidden_polyline2.getPath().insertAt evacuation.hidden_polyline2.getPath().getLength(), end_point
+      evacuation.hidden_polyline.getPath().insertAt evacuation.hidden_polyline.getPath().getLength(), end_point
 
 
   # Узнает, куда нужно передвинуть маркер во время анимации и пытается это сделать
   # @note запускается из evacuation.start_animation
   # @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
   animate: (distance) ->
-    point = evacuation.hidden_polyline.GetPointAtDistance(distance)
+    point = app.path_to_evac.GetPointAtDistance(distance)
 
     # Если еще не дошли до конца
     if point?
@@ -143,10 +144,10 @@ evacuation =
     evacuation.escape_marker.setPosition point
     evacuation.poly_magic(distance)
 
-    step = evacuation.path_length / 100
+    step = evacuation.path_length / 435
     animationTimeout = window.setTimeout (->
       evacuation.animate(distance + step)
-    ), 50
+    ), 1
 
 
   # Заканчивает анимацию сваливания
@@ -164,13 +165,13 @@ evacuation =
   # Начало анимации сваливания
   # @note запускается из evacuation.escape
   start_animation: ->
-    evacuation.hidden_polyline.setMap app.google_map
-    eol = evacuation.hidden_polyline.Distance()
-    app.google_map.setCenter evacuation.hidden_polyline.getPath().getAt(0)
-    evacuation.hidden_polyline2 = new google.maps.Polyline(
-      path: [evacuation.hidden_polyline.getPath().getAt(0)]
+    app.path_to_evac.setMap app.google_map
+    eol = app.path_to_evac.Distance()
+    app.google_map.setCenter app.path_to_evac.getPath().getAt(0)
+    evacuation.hidden_polyline = new google.maps.Polyline(
+      path: [app.path_to_evac.getPath().getAt(0)]
     )
-    evacuation.path_length = evacuation.hidden_polyline.Distance()
+    evacuation.path_length = app.path_to_evac.Distance()
 
     setTimeout (->
       evacuation.animate(500)
@@ -223,16 +224,6 @@ evacuation =
       "
 
 
-  # Создает рендерер для маршрута
-  # @return [google.maps.DirectionsRenderer] рендерер маршрута
-  get_directions_renderer: () ->
-    directions_renderer_options =
-      map: app.google_map
-      suppressMarkers: true
-      polylineOptions:{strokeColor:'#24c94b', strokeWeight: "6"}
-    new google.maps.DirectionsRenderer(directions_renderer_options)
-
-
   # Настройки отображения маршрута
   # @param start_point [google.maps.LatLng] место начала
   # @param end_point [google.maps.LatLng] место конца маршрута
@@ -243,10 +234,7 @@ evacuation =
     travelMode: google.maps.TravelMode.DRIVING
 
 
-  # Отображение маршрута на карте и запоминание времени маршрута
+  # Запоминает время до маршрута
   # @param response [Маршрут] маршрут до места
-  show_directions: (response) ->
-    directions_renderer = evacuation.get_directions_renderer()
-    directions_renderer.setDirections(response)
-    app.directions_renderer = directions_renderer
+  set_time_to_evac: (response) ->
     app.time_to_evac = response.routes[0].legs[0].duration.text
