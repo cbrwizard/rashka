@@ -28,6 +28,7 @@ module Rashka
 
     config.sass.preferred_syntax = :sass
 
-    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts', 'sounds')
+    config.assets.precompile += %w( .svg .eot .woff .ttf)
   end
 end

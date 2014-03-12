@@ -43,18 +43,18 @@ evacuation =
     directions_service_options = evacuation.get_directions_service_options(start_point, end_point)
 
     directions_service.route(directions_service_options, (response, status) ->
-      #в случае успеха запроса выводит маршрут
+      # В случае успеха запроса выводит маршрут и гонит по нему петра
       if status == google.maps.DirectionsStatus.OK
         evacuation.show_directions(response)
 #        app.current_marker.setIcon("<%= asset_path('map/mover.png') %>")
         evacuation.create_end_place_infobox(end_place)
         evacuation.adjust_center(response)
-
         evacuation.escape(response)
     )
 
     
   # Запускает анимацию сваливания из рашки, создавая невидимый маршрут и расставляя на нем временные точки для маркера
+  # @note запускается из evacuation.get_directions
   # @param response [Маршрут] маршрут до места
   escape: (response) ->
     route = response.routes[0]
@@ -115,7 +115,7 @@ evacuation =
       evacuation.hidden_polyline2.getPath().insertAt evacuation.hidden_polyline2.getPath().getLength(), end_point
 
 
-  # Перемещает маркер из одного скрытого маркера к другому во время сваливания
+  # Узнает, куда нужно передвинуть маркер во время анимации и пытается это сделать
   # @note запускается из evacuation.start_animation
   # @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
   animate: (distance) ->
@@ -150,7 +150,9 @@ evacuation =
 
     app.google_map.panTo end_point
     evacuation.escape_marker.setPosition end_point
-    console.log "stopped"
+    evacuation.escape_marker.setMap(null)
+    audio = new Audio("<%= asset_path('hallelujah.mp3') %>")
+    audio.play()
 
 
   # Начало анимации сваливания
@@ -159,7 +161,6 @@ evacuation =
     evacuation.hidden_polyline.setMap app.google_map
     eol = evacuation.hidden_polyline.Distance()
     app.google_map.setCenter evacuation.hidden_polyline.getPath().getAt(0)
-
     evacuation.hidden_polyline2 = new google.maps.Polyline(
       path: [evacuation.hidden_polyline.getPath().getAt(0)]
     )
