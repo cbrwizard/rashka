@@ -143,7 +143,7 @@ evacuation =
     evacuation.escape_marker.setPosition point
     evacuation.poly_magic(distance)
 
-    step = evacuation.path_length / 20
+    step = evacuation.path_length / 100
     animationTimeout = window.setTimeout (->
       evacuation.animate(distance + step)
     ), 100
