@@ -10,12 +10,14 @@ evacuation =
   hidden_polyline2: undefined 
   escape_marker: undefined
   path_length: undefined
+  audio: new Audio("<%= asset_path('hallelujah.ogg') %>")
 
 
   # Запуск слушателя при нажатии
   init: ->
     # При нажатии строит маршрут до ближайшего места от текущего, отображает кнопку рассказать и увеличивает статистику
     $(evacuation.dom_element).click ->
+      evacuation.audio.play()
       evacuation.get_directions(app.current_location, app.places.closest)
       evacuation.share_mode_on()
       evacuation.evac_stat_increase()
@@ -138,7 +140,7 @@ evacuation =
     evacuation.escape_marker.setPosition point
     evacuation.poly_magic(distance)
 
-    step = evacuation.path_length / 35
+    step = evacuation.path_length / 20
     animationTimeout = window.setTimeout (->
       evacuation.animate(distance + step)
     ), 100
@@ -152,8 +154,8 @@ evacuation =
     app.google_map.panTo end_point
     evacuation.escape_marker.setPosition end_point
     evacuation.escape_marker.setMap(null)
-    audio = new Audio("<%= asset_path('hallelujah.ogg') %>")
-    audio.play()
+#    # Для iOS
+#    evacuation.audio.src = "<%= asset_path('hallelujah.mp3') %>"
 
 
   # Начало анимации сваливания
