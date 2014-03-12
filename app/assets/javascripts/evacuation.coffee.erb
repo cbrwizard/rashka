@@ -9,6 +9,7 @@ evacuation =
   hidden_polyline: undefined 
   hidden_polyline2: undefined 
   escape_marker: undefined
+  path_length: undefined
 
 
   # Запуск слушателя при нажатии
@@ -137,7 +138,7 @@ evacuation =
     evacuation.escape_marker.setPosition point
     evacuation.poly_magic(distance)
 
-    step = 500
+    step = evacuation.path_length / 35
     animationTimeout = window.setTimeout (->
       evacuation.animate(distance + step)
     ), 100
@@ -151,7 +152,7 @@ evacuation =
     app.google_map.panTo end_point
     evacuation.escape_marker.setPosition end_point
     evacuation.escape_marker.setMap(null)
-    audio = new Audio("<%= asset_path('hallelujah.mp3') %>")
+    audio = new Audio("<%= asset_path('hallelujah.ogg') %>")
     audio.play()
 
 
@@ -164,6 +165,7 @@ evacuation =
     evacuation.hidden_polyline2 = new google.maps.Polyline(
       path: [evacuation.hidden_polyline.getPath().getAt(0)]
     )
+    evacuation.path_length = evacuation.hidden_polyline.Distance()
 
     setTimeout (->
       evacuation.animate(500)
