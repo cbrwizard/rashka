@@ -6,6 +6,9 @@ $ ->
 # Параметры и функции, связанные с эвакуацией
 evacuation =
   dom_element: $("#evac_btn")
+  hidden_polyline: undefined 
+  hidden_polyline2: undefined 
+  escape_marker: undefined
 
 
   # Запуск слушателя при нажатии
@@ -43,133 +46,127 @@ evacuation =
       #в случае успеха запроса выводит маршрут
       if status == google.maps.DirectionsStatus.OK
         evacuation.show_directions(response)
-        app.current_marker.setIcon("<%= asset_path('map/mover.png') %>")
+#        app.current_marker.setIcon("<%= asset_path('map/mover.png') %>")
         evacuation.create_end_place_infobox(end_place)
-#        evacuation.adjust_center(response)
+        evacuation.adjust_center(response)
 
-
-        app.polyline = new google.maps.Polyline(
-          path: []
-          strokeColor: "#FF0000"
-          strokeWeight: 3
-        )
-
-        bounds = new google.maps.LatLngBounds()
-        route = response.routes[0]
-        startLocation = new Object()
-        app.endLocation = new Object()
-
-        # For each route, display summary information.
-        path = response.routes[0].overview_path
-        legs = response.routes[0].legs
-#        console.log "path"
-#        console.log path
-#        console.log "legs"
-#        console.log legs
-        i = 0
-        while i < legs.length
-          if i is 0
-            startLocation.latlng = legs[i].start_location
-            startLocation.address = legs[i].start_address
-            console.log "startLocation"
-            console.log startLocation
-
-            app.mega_marker = new google.maps.Marker(
-              position: legs[i].start_location
-              map: app.google_map
-              title: "hai"
-            )
-          app.endLocation.latlng = legs[i].end_location
-          app.endLocation.address = legs[i].end_address
-          console.log "app.endLocation"
-          console.log app.endLocation
-          steps = legs[i].steps
-          console.log "steps"
-          console.log steps
-          j = 0
-          while j < steps.length
-            nextSegment = steps[j].path
-            k = 0
-            while k < nextSegment.length
-              app.polyline.getPath().push nextSegment[k]
-              bounds.extend nextSegment[k]
-              k++
-            j++
-          i++
-        app.polyline.setMap app.google_map
-        app.google_map.fitBounds bounds
-
-        evacuation.startAnimation()
+        evacuation.escape(response)
     )
 
-  #=============== animation functions ======================
-  updatePoly: (d) ->
+    
+  # Запускает анимацию сваливания из рашки, создавая невидимый маршрут и расставляя на нем временные точки для маркера
+  # @param response [Маршрут] маршрут до места
+  escape: (response) ->
+    route = response.routes[0]
+    legs = route.legs
+
+    evacuation.prepare_escape_polyline(legs)
+    evacuation.add_evac_segments(legs)
+    evacuation.start_animation()
+
+
+  # Расставляет на маршруте сваливания временные точки для анимации маркера
+  # @note запускается из evacuation.escape
+  # @param legs [route.legs] уточненный путь маршрута
+  add_evac_segments: (legs) ->
+    i = 0
+    while i < legs.length
+      steps = legs[i].steps
+      j = 0
+      while j < steps.length
+        nextSegment = steps[j].path
+        k = 0
+        while k < nextSegment.length
+          evacuation.hidden_polyline.getPath().push nextSegment[k]
+          k++
+        j++
+      i++
+
+
+  # Создает невидимый маршрут, на котором будут расставлены маркеры для анимации
+  # @note запускается из evacuation.escape
+  # @param legs [route.legs] уточненный путь маршрута
+  prepare_escape_polyline: (legs) ->
+    evacuation.hidden_polyline = new google.maps.Polyline(
+      path: []
+    )
+
+    evacuation.escape_marker = new google.maps.Marker(
+      position: legs[0].start_location
+      map: app.google_map
+      icon: "<%= asset_path('map/mover.png') %>"
+    )
+
+
+  # Какая-то лютая магия с махинациями с маркерами для того, чтобы анимация сваливания работала ок
+  # @note запускается из evacuation.animate
+  # @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
+  poly_magic: (distance) ->
 
     lastVertex = 1
-    # Spawn a new polyline every 20 vertices, because updating a 100-vertex poly is too slow
-    app.poly2 = new google.maps.Polyline([app.polyline.getPath().getAt(lastVertex - 1)])  if app.poly2.getPath().getLength() > 20
+    evacuation.hidden_polyline2 = new google.maps.Polyline([evacuation.hidden_polyline.getPath().getAt(lastVertex - 1)])  if evacuation.hidden_polyline2.getPath().getLength() > 20
 
-    # map.addOverlay(app.poly2)
-    if app.polyline.GetIndexAtDistance(d) < lastVertex + 2
-      app.poly2.getPath().removeAt app.poly2.getPath().getLength() - 1  if app.poly2.getPath().getLength() > 1
-      app.poly2.getPath().insertAt app.poly2.getPath().getLength(), app.polyline.GetPointAtDistance(d)
+    if evacuation.hidden_polyline.GetIndexAtDistance(distance) < lastVertex + 2
+      evacuation.hidden_polyline2.getPath().removeAt evacuation.hidden_polyline2.getPath().getLength() - 1  if evacuation.hidden_polyline2.getPath().getLength() > 1
+      evacuation.hidden_polyline2.getPath().insertAt evacuation.hidden_polyline2.getPath().getLength(), evacuation.hidden_polyline.GetPointAtDistance(distance)
     else
-      app.poly2.getPath().insertAt app.poly2.getPath().getLength(), app.endLocation.latlng
-    return
+      end_point = new google.maps.LatLng(app.places.closest.lat, app.places.closest.lng)
+
+      evacuation.hidden_polyline2.getPath().insertAt evacuation.hidden_polyline2.getPath().getLength(), end_point
 
 
-  animate: (d) ->
+  # Перемещает маркер из одного скрытого маркера к другому во время сваливания
+  # @note запускается из evacuation.start_animation
+  # @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
+  animate: (distance) ->
+    point = evacuation.hidden_polyline.GetPointAtDistance(distance)
 
-    # alert("animate("+d+")");
-#    if d > eol
-#      app.google_map.panTo app.endLocation.latlng
-#      app.mega_marker.setPosition app.endLocation.latlng
-#      return
-    p = app.polyline.GetPointAtDistance(d)
-    console.log d
-    console.log p
-    if p == null
-      console.log 123
-      console.log app.endLocation.latlng
-#      end_point = new google.maps.LatLng(app.endLocation.lat, app.endLocation.lng)
-#      console.log end_point
-      app.google_map.panTo app.endLocation.latlng
-#      app.mega_marker.setPosition end_point
-      console.log d
-      console.log "stopped"
+    # Если еще не дошли до конца
+    if point?
+      evacuation.move_marker(point, distance)
     else
-      console.log p == null
-      app.google_map.panTo p
-      app.mega_marker.setPosition p
-      evacuation.updatePoly d
+      evacuation.finish_animation()
 
-      step = 2000
-      tick = 100
-      animationTimeout = window.setTimeout (->
-        evacuation.animate(d + step)
-      ), tick
-    return
 
-  startAnimation: ->
-    console.log app.polyline
-    eol = app.polyline.Distance()
-    app.google_map.setCenter app.polyline.getPath().getAt(0)
+  # Передвигает маркер
+  # @note запускается из evacuation.animate
+  # @param point [LatLng] точка в пути на определнном расстоянии
+  # @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
+  move_marker: (point, distance) ->
+    app.google_map.panTo point
+    evacuation.escape_marker.setPosition point
+    evacuation.poly_magic(distance)
 
-    # map.addOverlay(new google.maps.Marker(polyline.getAt(0),G_START_ICON));
-    # map.addOverlay(new GMarker(polyline.getVertex(polyline.getVertexCount()-1),G_END_ICON));
-    # marker = new google.maps.Marker({location:polyline.getPath().getAt(0)} /* ,{icon:car} */);
-    # map.addOverlay(marker);
-    app.poly2 = new google.maps.Polyline(
-      path: [app.polyline.getPath().getAt(0)]
-      strokeColor: "#0000FF"
-      strokeWeight: 10
+    step = 500
+    animationTimeout = window.setTimeout (->
+      evacuation.animate(distance + step)
+    ), 100
+
+
+  # Заканчивает анимацию сваливания
+  # @note запускается из evacuation.animate
+  finish_animation: ->
+    end_point = new google.maps.LatLng(app.places.closest.lat, app.places.closest.lng)
+
+    app.google_map.panTo end_point
+    evacuation.escape_marker.setPosition end_point
+    console.log "stopped"
+
+
+  # Начало анимации сваливания
+  # @note запускается из evacuation.escape
+  start_animation: ->
+    evacuation.hidden_polyline.setMap app.google_map
+    eol = evacuation.hidden_polyline.Distance()
+    app.google_map.setCenter evacuation.hidden_polyline.getPath().getAt(0)
+
+    evacuation.hidden_polyline2 = new google.maps.Polyline(
+      path: [evacuation.hidden_polyline.getPath().getAt(0)]
     )
 
-    # map.addOverlay(poly2);
     setTimeout (->
-      evacuation.animate(50)
+      evacuation.animate(500)
     ), 200
-    return
 
 
   # Адаптирует центр карты, чтобы правильно отображался весь маршрут
