@@ -1,5 +1,5 @@
 # Статистика сайта (1 шт)
-# @example #<Stat id: 1, people_left: 100519, shares_vk: 31628, shares_tw: 12357, shares_fb: 15438, shares_gp: 8657, created_at: "2014-02-15 11:03:30", updated_at: "2014-02-17 07:32:36">
+# @example #<Stat id: 1, people_left: 100519, shares_vk: 31628, shares_tw: 12357, shares_fb: 15438, shares_bl: 8657, created_at: "2014-02-15 11:03:30", updated_at: "2014-02-17 07:32:36">
 class Stat < ActiveRecord::Base
 
   # Увеличивает статистику эвакуировавшихся пользователей

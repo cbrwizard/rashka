@@ -59,8 +59,8 @@ share =
   change_bl_link: (reason) ->
     brainlook = $("#brainlook")
     link = brainlook.attr("data-link")
-    correct_link = link.slice( 0, link.indexOf('?opinion_text') )
-    brainlook.attr("data-link", correct_link + "?opinion_text=#{share.text} #{reason}")
+    correct_link = link.slice( 0, link.indexOf('?text') )
+    brainlook.attr("data-link", correct_link + "?text=#{share.text} #{reason}")
 
 
   # Считает количество символов у поля ввода и отображает, удовлетворяет ли длина требованиям

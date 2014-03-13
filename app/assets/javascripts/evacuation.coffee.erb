@@ -17,7 +17,6 @@ evacuation =
   init: ->
     # При нажатии строит маршрут до ближайшего места от текущего, отображает кнопку рассказать и увеличивает статистику
     $(evacuation.dom_element).click ->
-
       evacuation.get_directions(app.current_location, app.places.closest)
       evacuation.share_mode_on()
       evacuation.evac_stat_increase()
@@ -144,10 +143,10 @@ evacuation =
     evacuation.escape_marker.setPosition point
     evacuation.poly_magic(distance)
 
-    step = evacuation.path_length / 435
+    step = evacuation.path_length / 300
     animationTimeout = window.setTimeout (->
       evacuation.animate(distance + step)
-    ), 1
+    ), 4
 
 
   # Заканчивает анимацию сваливания
@@ -158,8 +157,6 @@ evacuation =
     app.google_map.panTo end_point
     evacuation.escape_marker.setPosition end_point
     evacuation.escape_marker.setMap(null)
-#    # Для iOS
-#    evacuation.audio.src = "<%= asset_path('hallelujah.mp3') %>"
 
 
   # Начало анимации сваливания
@@ -175,7 +172,7 @@ evacuation =
 
     setTimeout (->
       evacuation.animate(500)
-    ), 200
+    ), 20
 
 
   # Адаптирует центр карты, чтобы правильно отображался весь маршрут

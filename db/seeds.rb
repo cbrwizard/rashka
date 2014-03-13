@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Stat.create(people_left: 0, shares_vk: 0, shares_tw: 0, shares_fb: 0, shares_gp: 0 )
+Stat.create(people_left: 0, shares_vk: 0, shares_tw: 0, shares_fb: 0, shares_bl: 0 )
 
 salt = BCrypt::Engine.generate_salt
 password = "qwerty"
