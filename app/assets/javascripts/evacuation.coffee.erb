@@ -206,6 +206,7 @@ evacuation =
   # @param place [Object] место
   # @return [DOM] содержимое инфобокса
   get_evac_infobox: (place) ->
+    escape_text = evacuation.get_random_exit_text()
     infobox_content = "
       <div class='evac_popup escape'>
         <div class='left'>
@@ -215,11 +216,22 @@ evacuation =
         <div class='right'>
           <h5>Точка эвакуации</h5>
           <h4>#{place.name}</h4>
-          <p class='time_to_evac'>Собирай манатки, ведь тебе до него всего #{app.time_to_evac}!</p>
+          <p class='time_to_evac'>#{escape_text}</p>
         </div>
       </div>
       "
 
+
+  # Достает случайный текст при эвакуации
+  # @return [String] текст эвакуации
+  get_random_exit_text: ->
+    texts_array = []
+    texts_array[0] = "Собирай манатки, ведь тебе до эвакуации всего #{app.time_to_evac}!"
+    texts_array[1] = "Нужно всего лишь #{app.time_to_evac} чтобы свалить из этой замечательной страны!"
+    texts_array[2] = "Чего ты ждешь? От свободы тебя отделяет всего лишь #{app.time_to_evac}!"
+    element_number = Math.floor(Math.random() * texts_array.length)
+
+    texts_array[element_number]
 
   # Настройки отображения маршрута
   # @param start_point [google.maps.LatLng] место начала
@@ -234,4 +246,4 @@ evacuation =
   # Запоминает время до маршрута
   # @param response [Маршрут] маршрут до места
   set_time_to_evac: (response) ->
-    app.time_to_evac = response.routes[0].legs[0].duration.text
+    app.time_to_evac = response.routes[0].legs[0].duration.text.slice(0, -1)
