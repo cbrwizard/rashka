@@ -18,8 +18,12 @@
 
 .reason
   &.hovered
+    .text
+      +opacity(0)
     .share_reason
       display: block
+  .text
+    +transition(opacity, .3s)
   .popularity
     color: $orange
     font-size: 14px!important
@@ -29,6 +33,7 @@
   background: $dark_grey
   position: absolute
   top: 50%
+  left: 50%
   width: 90px
   text-align: center
   margin: -14px 0 0 -45px
@@ -54,8 +59,6 @@
   article
     padding: 4px 8px
     position: relative
-  .share_reason
-    left: 50%
   p
     font-size: 16px
 
