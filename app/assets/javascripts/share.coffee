@@ -7,6 +7,7 @@ $ ->
 
   # При нажатии по кнопке подсказать причину включает лоадер
   $("#get_random_container").click ->
+    share.is_user_input = false
     $(this).addClass("loading")
     $(this).find("img").removeClass("hidden")
 
@@ -27,13 +28,15 @@ $ ->
 
   # Очищает поле причины при нажатии по нему
   $(reason_field).on "click", ->
-    reason_field.val("")
-
+    unless share.is_user_input
+      reason_field.select()
+      share.is_user_input = true
 
 # Параметры и функции, связанные с соц кнопками и полем ввода причины
 share =
   title: "Симулятор эвакуации из Рашки"
   text: "Я решил валить из рашки, потому что"
+  is_user_input: false
 
 
   # Меняет текст вк кнопки
@@ -88,7 +91,7 @@ share =
   # @param textarea [jQuery DOM] поле ввода причины
   update_share_buttons: (textarea) ->
     reason = textarea.val()
-    shortened_reason = reason.substr(0, 80)
+    shortened_reason = reason.substr(0, 80).charAt(0).toLowerCase() + reason.slice(1)
     share.change_vk_link (shortened_reason)
     share.change_tw_link (shortened_reason)
     share.change_bl_link (shortened_reason)
