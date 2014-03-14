@@ -32,9 +32,6 @@ body
     height: 50px
     margin: 15px auto
 
-*:focus, button
-  outline: 0!important
-
 
 @font-face
   font-family: 'Droidsans'
@@ -55,3 +52,11 @@ body
     font-family: 'Pancetta Pro'
     src: url(<%= asset_path 'pancetta-pro.svg' %>) format('svg')
 
+
+/*chrome*/
+*:focus, button
+  outline: 0!important
+
+/*ie*/
+img[src*=svg]
+  width: 100%\9
