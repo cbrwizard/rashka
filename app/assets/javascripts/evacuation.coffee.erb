@@ -226,12 +226,12 @@ evacuation =
   # @return [String] текст эвакуации
   get_random_exit_text: ->
     texts_array = []
-    texts_array[0] = "Собирай манатки, ведь тебе до эвакуации всего #{app.time_to_evac}!"
-    texts_array[1] = "Нужно всего лишь #{app.time_to_evac} чтобы свалить из этой замечательной страны!"
-    texts_array[2] = "Чего ты ждешь? От свободы тебя отделяет всего лишь #{app.time_to_evac}!"
-    element_number = Math.floor(Math.random() * texts_array.length)
+    texts_array.push "Собирай манатки, ведь тебе до эвакуации всего #{app.time_to_evac}!"
+    texts_array.push "Нужно всего лишь #{app.time_to_evac} чтобы свалить из этой замечательной страны!"
+    texts_array.push "Чего ты ждешь? От свободы тебя отделяет всего лишь #{app.time_to_evac}!"
+    chosen_number = Math.floor(Math.random() * texts_array.length)
 
-    texts_array[element_number]
+    texts_array[chosen_number]
 
   # Настройки отображения маршрута
   # @param start_point [google.maps.LatLng] место начала

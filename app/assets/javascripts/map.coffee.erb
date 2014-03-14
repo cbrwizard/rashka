@@ -52,8 +52,10 @@ map =
 
   # Спрашивает у пользователя его местоположение
   get_current_location: ->
-    if navigator.geolocation
-      navigator.geolocation.getCurrentPosition(map.nav_geo_success, map.nav_geo_error, { enableHighAccuracy:true })
+    if geo_position_js.init()
+      geo_position_js.getCurrentPosition(map.nav_geo_success,map.nav_geo_error, {enableHighAccuracy:true})
+    else
+      console.log "location not available :["
 
 
   # Добавляет маркер с определенными параметрами к текущему месту

@@ -16,6 +16,7 @@
 //= require bootstrap/transition
 //= require bootstrap/modal
 //= require bootstrap/dropdown
+//= require geo-min
 //= require infobox
 //= require markerclusterer
 //= require v3_epoly
