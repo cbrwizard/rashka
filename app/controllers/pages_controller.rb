@@ -3,6 +3,7 @@ class PagesController < ApplicationController
   include AuthorHelper
   include ModalHelper
   include SocialHelper
+  include PlacesCache
 
   # Главная страница. Готовит новости, причины и места к отображению.
   # @note GET /
@@ -84,22 +85,15 @@ class PagesController < ApplicationController
 
   # Переносит данные мест в переменную gon для её использования картой
   # @note Вызывается в index когда нет никакой пагинации
-  # @return [Hash] объект с инфой о каждом месте
+  # @note Берет переменные из redis для быстрого использования
+  # @return [JSON] инфа о каждом месте
   # @see Place
   # @see PlaceType
   def get_places_info
-    hashes_array = []
-    Place.includes(:type).each do |place|
-      place_hash = {}
-      place_hash[:name] = place.name
-      place_hash[:lat] = place.lat
-      place_hash[:lng] = place.lng
-      place_hash[:type] = place.type.name
-      place_hash[:type_id] = place.type_id
-
-      hashes_array << place_hash
+    unless $redis.exists("places_array")
+      update_places_cache
     end
-    hashes_array
+    JSON.parse($redis.get('places_array'))
   end
 
 

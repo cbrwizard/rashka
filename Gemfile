@@ -72,6 +72,8 @@ end
 
 gem "figaro"
 
+gem 'redis-rails'
+
 gem 'meta-tags', :require => 'meta_tags'
 #gem 'sitemap_generator'
 

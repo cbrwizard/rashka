@@ -23,6 +23,10 @@ module Rashka
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache'
+    config.session_store :redis_store
+
     config.i18n.default_locale = :ru
     I18n.enforce_available_locales = true
 
