@@ -1,11 +1,12 @@
--#-cache do
 #create_story
-  %h3
-    Я валю из рашки, потому что:
+  -cache do
+    %h3
+      Я валю из рашки, потому что:
   %div
     =text_area_tag "reason", @one_reason, {id: "reason_field", class: "form-control"}
-    #get_random_container
-      =link_to "Подсказать?", get_one_random_reasons_path, {:remote => true, :title => "Подсказать причину"}
-      =image_tag 'loader.svg', {class: "hidden"}
-    %p#reason_text_counter{title: "Сколько осталось символов"}
-      80
+    -cache do
+      #get_random_container
+        =link_to "Подсказать?", get_one_random_reasons_path, {:remote => true, :title => "Подсказать причину"}
+        =image_tag 'loader.svg', {class: "hidden"}
+      %p#reason_text_counter{title: "Сколько осталось символов"}
+        80

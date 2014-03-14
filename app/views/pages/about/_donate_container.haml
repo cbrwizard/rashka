@@ -1,13 +1,13 @@
--#-cache do
-#donate_container
-  %p.about_text
-    По правде говоря, мы бы сами не против свалить. Но мы - бедные студенты, поэтому нам приходится выживать в суровых российских реалиях. Понимаете нас? Помогите, чем можете!
-  #donate_btn_container
-    #donate_btn
-      =image_tag "about/heart.png", {class: "heart"}
-      =image_tag "about/arrow-right.png", {class: "arrow-right"}
-      %p
-        ДОНАТЕ
-    #donate_plugins
-      = render :partial => 'pages/about/ya_money'
-      = render :partial => 'pages/about/paypal'
+-cache do
+  #donate_container
+    %p.about_text
+      По правде говоря, мы бы сами не против свалить. Но мы - бедные студенты, поэтому нам приходится выживать в суровых российских реалиях. Понимаете нас? Помогите, чем можете!
+    #donate_btn_container
+      #donate_btn
+        =image_tag "about/heart.png", {class: "heart"}
+        =image_tag "about/arrow-right.png", {class: "arrow-right"}
+        %p
+          ДОНАТЕ
+      #donate_plugins
+        = render :partial => 'pages/about/ya_money'
+        = render :partial => 'pages/about/paypal'

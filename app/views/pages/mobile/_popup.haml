@@ -1,4 +1,5 @@
-#popup.visible-xs
-  .news_evac
-    =render @one_news
-  #tooltips.hidden
+-cache @one_news do
+  #popup.visible-xs
+    .news_evac
+      =render @one_news
+    #tooltips.hidden

@@ -1,4 +1,3 @@
--#-cache do
 #map-canvas
 #on_map
   = render :partial => 'about_btn'
@@ -25,4 +24,5 @@
 
 =modal("share_modal") {render :partial => 'pages/share/share_modal'}
 
-=audio_tag("hallelujah.mp3", "hallelujah.ogg", id: "hallelujah")
+-cache do
+  =audio_tag("hallelujah.mp3", "hallelujah.ogg", id: "hallelujah")
