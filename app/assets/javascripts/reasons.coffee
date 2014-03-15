@@ -46,4 +46,4 @@ reasons =
   copy_reason: (share_reason_button) ->
     text = $.trim(share_reason_button.parent().find(".text").text())
     $("#share_modal").modal()
-    $("#reason_field").val(text)
+    $("#reason_field").val(text).trigger("change")

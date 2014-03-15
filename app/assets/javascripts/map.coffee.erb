@@ -113,7 +113,6 @@ map =
     # При отдалении тоже закрывает
     google.maps.event.addListener app.google_map, "center_changed", ->
       cluster_infobox.close()
-      $("#tooltips, .news_evac").toggleClass("hidden")
 
 
   # Устанавливает контент у инфобокса кластерера маркеров
@@ -204,8 +203,6 @@ places =
     # При отдалении тоже закрывает
     google.maps.event.addListener app.google_map, "center_changed", ->
       place.infobox.close()
-      if !app.time_to_evac || app.places.closest != place
-        $("#tooltips, .news_evac").toggleClass("hidden")
 
 
   # Устанавливает контент у инфобокса места

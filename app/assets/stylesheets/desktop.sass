@@ -14,7 +14,6 @@
   #logo_container
     top: 10px
     height: 60px
-    border-left: 4px solid $dark_grey
     z-index: 10
 
   #reasons_container
@@ -28,6 +27,9 @@
       +opacity(.95)
     article
       padding: 6px 0
+
+  .block
+    width: 375px
 
   .evac_popup
     top: -62px
@@ -74,3 +76,11 @@
     &:hover .author
       +box-shadow(0px 2px 2px 1px rgba(0, 0, 0, 0.5))
       top: -2px
+
+  #share_modal
+    .modal-dialog
+      width: 600px
+
+  .share_button
+    .arrow-right
+      margin: 5px 0 0

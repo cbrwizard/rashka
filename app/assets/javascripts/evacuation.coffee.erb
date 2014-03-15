@@ -139,12 +139,11 @@ evacuation =
   # @param point [LatLng] точка в пути на определнном расстоянии
   # @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
   move_marker: (point, distance) ->
-    app.google_map.panTo point
     evacuation.escape_marker.setPosition point
     evacuation.poly_magic(distance)
 
     step = evacuation.path_length / 300
-    animationTimeout = window.setTimeout (->
+    window.setTimeout (->
       evacuation.animate(distance + step)
     ), 10
 
@@ -226,11 +225,20 @@ evacuation =
   # @return [String] текст эвакуации
   get_random_exit_text: ->
     texts_array = []
-    texts_array.push "Собирай манатки, ведь тебе до эвакуации всего #{app.time_to_evac}!"
-    texts_array.push "Нужно всего лишь #{app.time_to_evac} чтобы свалить из этой замечательной страны!"
-    texts_array.push "Чего ты ждешь? От свободы тебя отделяет всего лишь #{app.time_to_evac}!"
-    chosen_number = Math.floor(Math.random() * texts_array.length)
+    if app.time_to_evac.value < 10080
+      texts_array.push "Собирай манатки, тебе до эвакуации всего #{app.time_to_evac.text.slice(0, -1)}!"
+      texts_array.push "Чего ты ждешь? От свободы тебя отделяет всего лишь #{app.time_to_evac.text.slice(0, -1)}!"
+      texts_array.push "Обувайся и беги! Успеешь за #{app.time_to_evac.text.slice(0, -1)}!"
+    else if app.time_to_evac.value < 43200
+      texts_array.push "Ты еще тут? Собирайся! Тебе до эвакуации всего #{app.time_to_evac.text}!"
+      texts_array.push "Лови попутку! Тебе #{app.time_to_evac.text} до точки эвакуации!"
+      texts_array.push "Чего ты ждешь? От свободы тебя отделяет всего лишь #{app.time_to_evac.text}!"
+    else
+      texts_array.push "Чел! Тебе аж целых #{app.time_to_evac.text} до эвакуации !"
+      texts_array.push "Нужно всего лишь #{app.time_to_evac.text} чтобы свалить из этой замечательной страны!"
+      texts_array.push "Чего ты ждешь? От свободы тебя отделяет всего лишь #{app.time_to_evac.text}!"
 
+    chosen_number = Math.floor(Math.random() * texts_array.length)
     texts_array[chosen_number]
 
   # Настройки отображения маршрута
@@ -246,4 +254,4 @@ evacuation =
   # Запоминает время до маршрута
   # @param response [Маршрут] маршрут до места
   set_time_to_evac: (response) ->
-    app.time_to_evac = response.routes[0].legs[0].duration.text.slice(0, -1)
+    app.time_to_evac = response.routes[0].legs[0].duration

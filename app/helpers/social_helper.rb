@@ -16,7 +16,7 @@ module SocialHelper
 
     content_tag(:div, class: "share_button") do
       concat(image_tag image_link, {class: "social_icon"})
-      concat(image_tag "share/arrow-right-small.png", {class: "arrow-right"})
+      concat(image_tag "arrow-right.png", {class: "arrow-right"})
       concat(link_to btn_title, "#", {:class => "ok_share #{method_name}", :href => link, :target => "_blank", :data => {:method => method_name}})
     end
   end

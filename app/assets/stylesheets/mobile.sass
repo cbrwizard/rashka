@@ -11,7 +11,7 @@
     z-index: 10000
     +opacity(.9)
     &:hover
-      +opacity(.99)
+      +opacity(1)
     &.prev
       left: 5px
     &.next
@@ -28,19 +28,21 @@
     width: 100%
     >header
       height: 50px
-      background: #ECCF5D
+      background: $dark_grey
       position: relative
       z-index: 100
       padding: 0 35px
       text-align: center
+      overflow: hidden
       h1
         margin: 0
         font-family: 'Pancetta Pro'
         font-size: 24px
         line-height: 50px
+        color: $orange
 
   .block
-    +opacity(.99)
+    +opacity(1)
 
   #reasons_content
     left: -200%
@@ -61,7 +63,8 @@
   #logo_container
     top: 0
     img
-      height: 50px
+      height: 56px
+      margin-top: -3px
 
   #about_content
     left: 100%
@@ -124,6 +127,8 @@
 
   .share_button
     min-width: 50%
+    .arrow-right
+      margin: 7px 0 0
 
   #share_modal
     z-index: 20000
@@ -162,7 +167,7 @@
     width: 100%
     overflow-y: hidden
     margin: 0 auto
-    +opacity(.99)
+    +opacity(1)
     p
       font-size: 16px
     .modal-dialog
