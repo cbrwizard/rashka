@@ -90,9 +90,9 @@ class PagesController < ApplicationController
   # @see Place
   # @see PlaceType
   def get_places_info
-    #unless $redis.exists("places_array")
+    unless $redis.exists("places_array")
       update_places_cache
-    #end
+    end
     JSON.parse($redis.get('places_array'))
   end
 
