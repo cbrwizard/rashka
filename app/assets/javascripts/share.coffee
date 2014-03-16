@@ -53,7 +53,6 @@ share =
   change_tw_link: (reason) ->
     tw_like_button = $(".tw_post")
     tw_href = tw_like_button.attr("href")
-    console.log tw_href
     correct_tw_href = tw_href.slice( 0, tw_href.indexOf('&text') )
     tw_like_button.attr("href", correct_tw_href + "&text=#{share.text} #{reason}&source=webclient")
 
@@ -61,7 +60,7 @@ share =
   # Меняет текст мнения для брейнлука
   # @param reason [String] текст причины
   change_bl_link: (reason) ->
-    brainlook = $("#brainlook")
+    brainlook = $("#brainlook_container")
     link = brainlook.attr("data-link")
     correct_link = link.slice( 0, link.indexOf('?text') )
     brainlook.attr("data-link", correct_link + "?text=#{share.text} #{reason}")

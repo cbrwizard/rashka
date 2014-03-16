@@ -17,15 +17,15 @@ global.app =
     closest: undefined
     types:
       1:
-        icon: "<%= asset_path('places/plane.png') %>"
+        icon: "plane"
       2:
-        icon: "<%= asset_path('places/boat.png') %>"
+        icon: "boat"
       3:
-        icon: "<%= asset_path('places/train.png') %>"
+        icon: "train"
       4:
-        icon: "<%= asset_path('places/customs.png') %>"
+        icon: "customs"
       5:
-        icon: "<%= asset_path('places/bus.png') %>"
+        icon: "bus"
 
   # Параметры отображения окна инфы при ховере поместу
   infobox_options:

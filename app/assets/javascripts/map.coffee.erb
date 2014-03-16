@@ -121,8 +121,8 @@ map =
     infobox_content = "
       <div class='evac_popup'>
         <div class='left'>
-          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow hidden-xs'>
-          <img src='"+ "<%= asset_path('places/multy.png') %>" + "'class='evac_icon'>
+          <div class='arrow-left arrow hidden-xs'></div>
+          <div class='multy evac_icon'></div>
         </div>
         <div class='right'>
           <h5>Точки эвакуации</h5>
@@ -212,8 +212,8 @@ places =
     infobox_content = "
       <div class='evac_popup'>
         <div class='left'>
-          <img src=" + "<%= asset_path('arrow-left.png') %>" + " class='arrow hidden-xs'>
-          <img src='"+ app.places.types[place.type_id].icon + "'class='evac_icon'>
+          <div class='arrow-left arrow hidden-xs'></div>
+          <div class='" + app.places.types[place.type_id].icon + " evac_icon'></div>
         </div>
         <div class='right'>
           <h5>Точка эвакуации</h5>
