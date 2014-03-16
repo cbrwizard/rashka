@@ -228,6 +228,9 @@ evacuation =
     text = app.time_to_evac.text
     if text.substring(text.length-1) == "."
       text = text.slice(0, -1)
+    if app.time_to_evac.value < 2400 # меньше 40 мин - добавляем 15 мин для учета пробок
+      minutes_before = parseInt(text.substr(0, text.indexOf(' ')))
+      text = minutes_before + 15 + " мин"
     if app.time_to_evac.value < 10080 # 3 часа
       texts_array.push "Собирай манатки, тебе до эвакуации всего #{text}!"
       texts_array.push "Чего ты ждешь? От свободы тебя отделяет всего лишь #{text}!"
