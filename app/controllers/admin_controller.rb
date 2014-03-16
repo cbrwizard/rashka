@@ -8,6 +8,7 @@ class AdminController < ApplicationController
   # @note GET /admin
   # @see Admin
   def index
+    BREAKSHIT
 
     #session.delete(:admin)
     unless is_admin?
