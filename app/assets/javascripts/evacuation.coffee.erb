@@ -148,13 +148,14 @@ evacuation =
     ), 10
 
 
-  # Заканчивает анимацию сваливания
+  # Заканчивает анимацию сваливания, открывая окно поделиться
   # @note запускается из evacuation.animate
   finish_animation: ->
     end_point = new google.maps.LatLng(app.places.closest.lat, app.places.closest.lng)
 
     evacuation.escape_marker.setPosition end_point
     evacuation.escape_marker.setMap(null)
+    $("#share_modal").modal()
 
 
   # Начало анимации сваливания
@@ -248,6 +249,7 @@ evacuation =
     origin: start_point
     destination: end_point
     travelMode: google.maps.TravelMode.DRIVING
+    durationInTraffic: true
 
 
   # Запоминает время до маршрута

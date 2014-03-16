@@ -16,7 +16,7 @@ $ ->
     share.share_reason($(@).find("a"))
 
   # При нажатии по блоку брейнлука открывает страницу брейнлука
-  $("#brainlook").click ->
+  $("#brainlook_container").click ->
     unless $(this).hasClass("error_share")
       reason = $(reason_field).val()
       share.update_statistics("bl_post", reason)
