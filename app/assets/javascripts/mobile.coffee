@@ -96,11 +96,29 @@ mobile =
     mobile.change_mobile_block(-100)
 
 
+  # Переключает обратно блоки после изменения размера экрана когда перестает/начинает быть mobile
+  try_to_revert_screens: ->
+    before_resize = app.mobile
+    if app.mobile == false && app.mobile != before_resize
+      app.current_page = 2
+      $("#reasons_content").css({"left": ""})
+      $("#news_content").css({"left": ""})
+      $("#main_content").css({"left": ""})
+      $("#about_content").css({"left": ""})
+      mobile.display_map()
+    else if app.mobile == true && app.mobile != before_resize
+      app.current_page = 2
+      $(".screen_block").addClass("inactive_block")
+      $("#main_content").removeClass("inactive_block").addClass("active_block")
+
+
   # При изменении размеров экрана проверяет, не стал ли экран малым; включает кнопки перелистывания экранов
   # @note При свайпах проверяет, можно ли дальше перелистывать
   init: ->
     $(window).resize ->
       mobile.run_mobile_checks()
+      mobile.try_to_revert_screens()
+
 
     $(".screen_block > header, #authors_container, #donate_container .about_text, #explain_container, #news_pagination, #reasons_modal").hammer().on "dragend", (event) ->
       if event.gesture.direction == 'right'
