@@ -69,7 +69,7 @@ Reason.create([{text: "Президент ест детей", popularity: 0},
                {text: "я хочу", popularity: 0},
                {text: "там пиво лучше!", popularity: 0},
                {text: "климат плохой", popularity: 0},
-               {text: "Тут нет демократии", popularity: 0},])
+               {text: "Тут нет демократии", popularity: 0}])
 
 News.create([{title: "Блокировка сайтов без санкции суда", text: "В России вступил в силу закон, разрешающий блокировать сайты без санкции суда.", link: "http://www.forbes.ru/news/250388-v-rossii-vstupil-v-silu-zakon-o-blokirovke-saitov-bez-sanktsii-suda"},
              {title: "4 года лишения свободы за торренты", text: "Супруги были приговорены к 4 годам условно лишения свободы за размещение торрентов", link: "http://habrahabr.ru/post/197874/"},

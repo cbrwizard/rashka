@@ -53,8 +53,9 @@ share =
   change_tw_link: (reason) ->
     tw_like_button = $(".tw_post")
     tw_href = tw_like_button.attr("href")
+    console.log tw_href
     correct_tw_href = tw_href.slice( 0, tw_href.indexOf('&text') )
-    tw_like_button.attr("href", correct_tw_href + "&text=#{share.text} #{reason}")
+    tw_like_button.attr("href", correct_tw_href + "&text=#{share.text} #{reason}&source=webclient")
 
 
   # Меняет текст мнения для брейнлука
@@ -133,7 +134,7 @@ share =
   # Обрезает текст причины и открывает окно фейсбука
   # @param reason [String] текст причины
   post_to_fb: (reason) ->
-    shortened_reason = reason.substr(0, 80)
+    shortened_reason = reason.substr(0, 80).charAt(0).toLowerCase() + reason.slice(1)
     FB.ui({
       method: 'feed'
       link: 'valiizrashki.ru'
