@@ -101,7 +101,6 @@ class PagesController < ApplicationController
   # @note Вызывается в index когда нет никакой пагинации
   def set_meta_data
 
-
     image = "#{request.protocol}#{request.host_with_port}#{ActionController::Base.helpers.asset_path("logo.png")}"
 
     set_meta_tags :title => "Вали из рашки",
