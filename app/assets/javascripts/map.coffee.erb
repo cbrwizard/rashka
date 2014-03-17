@@ -34,15 +34,18 @@ map =
   # В случае успеха определения местоположения юзера, обновляет карту
   # @param location [LatLng] координаты местоположения юзера
   nav_geo_success: (location) ->
-    app.current_marker.setMap(null)
+    map.reset_location()
+    current_location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)
+    map.set_current_location(current_location)
 
-    #заново дает возможность нажать по свалить
+
+  # При определении местоположения сбрасывает предыдущее значение и кнопку валить
+  reset_location: ->
+    app.current_marker.setMap(null)
     unless app.path_to_evac == undefined
       app.path_to_evac.setMap(null)
       $("#evac_btn").removeClass("hidden")
       $("#share_btn").addClass("hidden")
-    current_location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude)
-    map.set_current_location(current_location)
 
 
   # В случае ошибки получения гео локации выводи лажу
@@ -50,12 +53,24 @@ map =
     console.log "Unable to retrieve your location"
 
 
+  # Определяет местоположение юзера по ip
+  get_location_by_ip: ->
+    $.get "http://ip-api.com/json",(data) ->
+      if data.status == "success"
+        map.reset_location()
+        current_location = new google.maps.LatLng(data.lat, data.lon)
+        map.set_current_location(current_location)
+      else
+        map.nav_geo_error()
+
+
   # Спрашивает у пользователя его местоположение
   get_current_location: ->
     if geo_position_js.init()
       geo_position_js.getCurrentPosition(map.nav_geo_success,map.nav_geo_error, {enableHighAccuracy:true})
     else
-      console.log "location not available :["
+      # Если не получается - то по ip
+    map.get_location_by_ip()
 
 
   # Добавляет маркер с определенными параметрами к текущему месту
