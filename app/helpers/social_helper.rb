@@ -3,8 +3,8 @@ module SocialHelper
 
   # Отображает кнопку соц сети
   # @note На вьюхе pages/share/social_container
-  # @example social_btn("share/vk.png", "Рассказать", "vk_post", "http://vkontakte.ru/share.php?url=http://valiizrashki.ru/")
-  #
+  # @example
+  #   social_btn("vk", "Рассказать", "http://vkontakte.ru/share.php?url=http://valiizrashki.ru/")
   # @param social_name [String] сокращенное название соц сети
   # @param btn_title [String] текст на кнопке
   # @param link [String] адрес соц сети

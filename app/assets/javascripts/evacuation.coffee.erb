@@ -15,7 +15,7 @@ evacuation =
 
   # Запуск слушателя при нажатии
   init: ->
-    # При нажатии строит маршрут до ближайшего места от текущего, отображает кнопку рассказать и увеличивает статистику
+    # При нажатии строит маршрут до ближайшего места от текущего, отображает кнопку рассказать, играет звук и увеличивает статистику
     $(evacuation.dom_element).click ->
       evacuation.get_directions(app.current_location, app.places.closest)
       evacuation.share_mode_on()
@@ -31,7 +31,7 @@ evacuation =
     $("#share_btn").removeClass("hidden")
 
 
-  # Запускает метод увеличения статистики
+  # Запускает метод увеличения статистики эвакуации
   evac_stat_increase: ->
     $.ajax "../stats/evacuate",
       type: "POST"
@@ -41,6 +41,7 @@ evacuation =
   # Строит маршрут до ближайшего места
   # @param start_point [google.maps.LatLng] место начала
   # @param end_place [Object] место конца
+  # @todo Написать код на случай ошибки маршрута
   get_directions: (start_point, end_place) ->
     end_point = new google.maps.LatLng(end_place.lat, end_place.lng)
 
@@ -57,7 +58,7 @@ evacuation =
     )
 
     
-  # Запускает анимацию сваливания из рашки, создавая невидимый маршрут и расставляя на нем временные точки для маркера
+  # Запускает анимацию сваливания из рашки, создавая маршрут и расставляя на нем временные точки для маркера
   # @note запускается из evacuation.get_directions
   # @param response [Маршрут] маршрут до места
   escape: (response) ->
@@ -87,7 +88,7 @@ evacuation =
       i++
 
 
-  # Создает невидимый маршрут, на котором будут расставлены маркеры для анимации
+  # Создает маршрут, на котором будут расставлены маркеры для анимации
   # @note запускается из evacuation.escape
   # @param legs [route.legs] уточненный путь маршрута
   prepare_escape_polyline: (legs) ->
@@ -136,7 +137,7 @@ evacuation =
 
   # Передвигает маркер
   # @note запускается из evacuation.animate
-  # @param point [LatLng] точка в пути на определнном расстоянии
+  # @param point [LatLng] точка в пути на определенном расстоянии
   # @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
   move_marker: (point, distance) ->
     evacuation.escape_marker.setPosition point
@@ -145,15 +146,12 @@ evacuation =
     step = evacuation.path_length / 300
     window.setTimeout (->
       evacuation.animate(distance + step)
-    ), 10
+    ), 15
 
 
   # Заканчивает анимацию сваливания, открывая окно поделиться
   # @note запускается из evacuation.animate
   finish_animation: ->
-    end_point = new google.maps.LatLng(app.places.closest.lat, app.places.closest.lng)
-
-    evacuation.escape_marker.setPosition end_point
     evacuation.escape_marker.setMap(null)
     $("#share_modal").modal()
 
@@ -162,7 +160,6 @@ evacuation =
   # @note запускается из evacuation.escape
   start_animation: ->
     app.path_to_evac.setMap app.google_map
-    eol = app.path_to_evac.Distance()
     app.google_map.setCenter app.path_to_evac.getPath().getAt(0)
     evacuation.hidden_polyline = new google.maps.Polyline(
       path: [app.path_to_evac.getPath().getAt(0)]
@@ -185,7 +182,7 @@ evacuation =
     ,200)
 
 
-  # Отображение инфобокса/(тултипа на мобиле) у места
+  # Отображение инфобокса/(попапа на мобиле) у итоговой точки
   # @param end_point [google.maps.Lang] место конца маршрута
   create_end_place_infobox: (end_place) ->
     place_infobox = new InfoBox(app.infobox_options)
@@ -228,7 +225,7 @@ evacuation =
     text = app.time_to_evac.text
     if text.substring(text.length-1) == "."
       text = text.slice(0, -1)
-    if app.time_to_evac.value < 2400 # меньше 40 мин - добавляем 15 мин для учета пробок
+    if app.time_to_evac.value < 2400 # меньше 40 мин - добавляем 15 мин для 'учета' пробок
       minutes_before = parseInt(text.substr(0, text.indexOf(' ')))
       text = minutes_before + 15 + " мин"
     if app.time_to_evac.value < 10080 # 3 часа
@@ -244,7 +241,8 @@ evacuation =
     chosen_number = Math.floor(Math.random() * texts_array.length)
     texts_array[chosen_number]
 
-  # Настройки отображения маршрута
+
+  # Настройки маршрута
   # @param start_point [google.maps.LatLng] место начала
   # @param end_point [google.maps.LatLng] место конца маршрута
   # @return [Object] настройки маршрута
@@ -252,7 +250,6 @@ evacuation =
     origin: start_point
     destination: end_point
     travelMode: google.maps.TravelMode.DRIVING
-    durationInTraffic: true
 
 
   # Запоминает время до маршрута

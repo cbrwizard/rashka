@@ -3,7 +3,8 @@ module AuthorHelper
 
   # Отображает данные о создателе
   # @note На вьюхе about/authors_container
-  # @example author("authors/fyodor.jpg", "Фёдор Иванищев", "http://vk.com/cbrwizard", "Разработка и борода")
+  # @example
+  #   author("authors/fyodor.jpg", "Фёдор Иванищев", "http://vk.com/cbrwizard", "Разработка и борода")
   #
   # @param image [String] ссылка на изображение
   # @param name [String] имя человека

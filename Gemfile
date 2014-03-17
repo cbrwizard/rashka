@@ -15,6 +15,7 @@ gem 'bootstrap-sass'
 
 gem 'haml'
 
+# Русская локализация методов
 gem 'russian', '~> 0.6.0'
 
 # Use Uglifier as compressor for JavaScript assets
@@ -28,12 +29,15 @@ gem 'therubyracer', :platforms => :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+
+# Передача переменных Ruby в JS
 gem 'gon'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'jquery-turbolinks'
 gem 'turbolinks'
 
+# Пагинация
 gem 'will_paginate'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -45,12 +49,18 @@ group :doc do
 end
 
 group :development do
+  # Лучше отображает ошибки
   gem "better_errors"
   gem "binding_of_caller"
+
+  # Ловит почту
   gem 'mailcatcher'
+
+  # Находит косяки в запросах к базе
   gem "bullet"
+
+  # Для хрома панель
   gem 'meta_request'
-  #gem 'rack-mini-profiler'
 end
 
 gem 'capistrano'

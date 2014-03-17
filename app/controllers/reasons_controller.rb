@@ -1,4 +1,4 @@
-#Админские методы причин
+#Методы причин
 class ReasonsController < ApplicationController
   include Admin
 
@@ -22,7 +22,7 @@ class ReasonsController < ApplicationController
 
   # Выводит текст трех случайных причин
   # @note GET /reasons/get_three_random
-  # @note Вызывается при нажатии по кнопке "больше" в блоке причин на главной
+  # @note Вызывается каждые 10 сек в блоке причин на главной
   # @see Reason
   def get_three_random
     @reasons = Reason.random_three

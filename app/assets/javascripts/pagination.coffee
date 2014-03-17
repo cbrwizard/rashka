@@ -11,7 +11,7 @@ pagination =
     @.reasons_pagination()
 
 
-  # При определенной высоте скролла внутри блока пытается вызвать пагинацию
+  # При определенной высоте скролла внутри блока новостей пытается вызвать пагинацию
   # @param container [Jquery DOM] контейнер, за которым надо следить
   # @param scrollData [Object] объект с данными о текущем скролле
   check_news_for_pagination: (container, scrollData)->
@@ -52,21 +52,21 @@ pagination =
         @.paginate(body, next)
 
 
-  # При скролле блока новостей идет пагинация
+  # При скролле блока новостей идет проверка на пагинацию
   news_pagination: ->
-    # Проверяет скролл только на экране новостей, ибо только там он и происходит
+    # Проверяет скролл на экране новостей на мобилах
     $(window).on "scroll touchmove", ->
       if app.current_page == 1
         pagination.check_news_for_pagination($(this))
 
-  # В случае кастомного скролла тоже пагинация
+  # Проверяет скролл в кастомном скролле на десктопах
     $("#news_pagination").on "customScroll", (event, scrollData) ->
       pagination.check_news_for_pagination($(this), scrollData)
 
 
   # При скролле блока причин идет пагинация
   reasons_pagination: ->
-    # Проверяет скролл только на экране причин, ибо только там он и происходит
+    # Проверяет скролл на экране причин на мобилах
     $(window).on "scroll touchmove", ->
       if app.current_page == 0
         pagination.check_reasons_for_pagination($(this))

@@ -57,11 +57,61 @@
   },
 
   &#47;*
-  При скролле блока новостей идет пагинация
+  При определенной высоте скролла внутри блока новостей пытается вызвать пагинацию
+  @param container [Jquery DOM] контейнер, за которым надо следить
+  @param scrollData [Object] объект с данными о текущем скролле
+   *&#47;
+  check_news_for_pagination: function(container, scrollData) {
+    var body, next;
+    body = $(&quot;body&quot;);
+    next = $(&quot;#news_pagination&quot;).find(&quot;.pagination .next_page&quot;);
+    if (scrollData) {
+      if (scrollData.scrollPercent &gt;= 75 &amp;&amp; !body.hasClass(&quot;paginating&quot;) &amp;&amp; !next.hasClass(&quot;disabled&quot;)) {
+        return this.paginate(body, next);
+      }
+    } else {
+      if ($(window).scrollTop() + $(window).height() &gt; $(document).height() &#47; 1.3 &amp;&amp; !body.hasClass(&quot;paginating&quot;) &amp;&amp; !next.hasClass(&quot;disabled&quot;)) {
+        $(&quot;#news_pagination&quot;).addClass(&quot;loading_pagination&quot;);
+        return this.paginate(body, next);
+      }
+    }
+  },
+
+  &#47;*
+  При определенной высоте скролла внутри блока пытается вызвать пагинацию
+  @param container [Jquery DOM] контейнер, за которым надо следить
+   *&#47;
+  check_reasons_for_pagination: function(container) {
+    var body, container_height, next, pagination_height, scrolled_already;
+    body = $(&quot;body&quot;);
+    next = $(&quot;#reasons_pagination&quot;).find(&quot;.pagination .next_page&quot;);
+    if (container[0].self === window) {
+      if ($(window).scrollTop() + $(window).height() &gt; $(document).height() &#47; 1.3 &amp;&amp; !body.hasClass(&quot;paginating&quot;) &amp;&amp; !next.hasClass(&quot;disabled&quot;)) {
+        $(&quot;#reasons_pagination&quot;).addClass(&quot;loading_pagination&quot;);
+        return this.paginate(body, next);
+      }
+    } else {
+      scrolled_already = container.scrollTop();
+      container_height = container.innerHeight();
+      pagination_height = container[0].scrollHeight - 250;
+      if (scrolled_already + container_height &gt;= pagination_height &amp;&amp; !body.hasClass(&quot;paginating&quot;) &amp;&amp; !next.hasClass(&quot;disabled&quot;)) {
+        $(&quot;#reasons_pagination&quot;).addClass(&quot;loading_pagination&quot;);
+        return this.paginate(body, next);
+      }
+    }
+  },
+
+  &#47;*
+  При скролле блока новостей идет проверка на пагинацию
    *&#47;
   news_pagination: function() {
-    return $(&quot;#news_container&quot;).on(&quot;scroll&quot;, function() {
-      return pagination.check_for_pagination($(this));
+    $(window).on(&quot;scroll touchmove&quot;, function() {
+      if (app.current_page === 1) {
+        return pagination.check_news_for_pagination($(this));
+      }
+    });
+    return $(&quot;#news_pagination&quot;).on(&quot;customScroll&quot;, function(event, scrollData) {
+      return pagination.check_news_for_pagination($(this), scrollData);
     });
   },
 
@@ -69,25 +119,14 @@
   При скролле блока причин идет пагинация
    *&#47;
   reasons_pagination: function() {
-    return $(&quot;#reasons_container&quot;).on(&quot;scroll&quot;, function() {
-      return pagination.check_for_pagination($(this));
+    $(window).on(&quot;scroll touchmove&quot;, function() {
+      if (app.current_page === 0) {
+        return pagination.check_reasons_for_pagination($(this));
+      }
     });
-  },
-
-  &#47;*
-  При определенной высоте скролла внутри блока пытается вызвать пагинацию
-  @param container [Jquery DOM] контейнер, за которым надо следить
-   *&#47;
-  check_for_pagination: function(container) {
-    var body, container_height, next, pagination_height, scrolled_already;
-    body = $(&quot;body&quot;);
-    next = container.find(&quot;.pagination .next_page&quot;);
-    scrolled_already = container.scrollTop();
-    container_height = container.innerHeight();
-    pagination_height = container[0].scrollHeight - 250;
-    if (scrolled_already + container_height &gt;= pagination_height &amp;&amp; !body.hasClass(&quot;paginating&quot;) &amp;&amp; !next.hasClass(&quot;disabled&quot;)) {
-      return this.paginate(body, next);
-    }
+    return $(&quot;#reasons_modal&quot;).on(&quot;scroll&quot;, function() {
+      return pagination.check_reasons_for_pagination($(this));
+    });
   },
 
   &#47;*
@@ -103,7 +142,8 @@
       url: next_link.attr(&#39;href&#39;),
       dataType: &#39;script&#39;,
       success: function() {
-        return body.removeClass(&quot;paginating&quot;);
+        body.removeClass(&quot;paginating&quot;);
+        return $(&quot;.loading_pagination&quot;).removeClass(&quot;loading_pagination&quot;);
       }
     });
   }
@@ -117,7 +157,7 @@
 </dl>
     </div>
     <div id='footer'>
-  February 18, 14 19:34:41 by
+  March 17, 14 17:35:44 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

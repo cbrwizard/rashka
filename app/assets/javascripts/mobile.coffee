@@ -6,9 +6,17 @@ $ ->
 # Функции, связанные с мобильниками
 mobile =
 
+  # Проверяет, мобила ли это
+  is_mobile: ->
+    if $('#popup').css('display') == 'block'
+      app.mobile = true
+     else
+      app.mobile = false
+
+
   # Проверяет, мобила ли это и пробует поставить новую высоту основных контейнеров
   run_mobile_checks: ->
-    app.is_mobile()
+    mobile.is_mobile()
     mobile.try_resize_containers()
 
 

@@ -25,13 +25,13 @@
     &raquo;
     <span class='title'>javascripts</span>
     &raquo;
-    <span class='title'>app.coffee.erb</span>
+    <span class='title'>app.coffee</span>
   </div>
 </div>
     <div id='content'>
       <h1>
         File:
-        app.coffee.erb
+        app.coffee
       </h1>
       <table class='box'>
         <tr>
@@ -49,26 +49,40 @@
     <pre><code class='coffeescript'>{
   current_location: new google.maps.LatLng(55.751667, 37.617778),
   google_map: void 0,
-  directions_renderer: void 0,
+  time_to_evac: void 0,
+  current_marker: void 0,
+  path_to_evac: void 0,
+  mobile: false,
+  current_page: 2,
 
   &#47;*
   Точки эвакуации
    *&#47;
   places: {
-    objects: gon.places,
-    closest: void 0
+    closest: void 0,
+    types: {
+      1: {
+        icon: &quot;plane&quot;
+      },
+      2: {
+        icon: &quot;boat&quot;
+      },
+      3: {
+        icon: &quot;train&quot;
+      },
+      4: {
+        icon: &quot;customs&quot;
+      },
+      5: {
+        icon: &quot;bus&quot;
+      }
+    }
   },
 
   &#47;*
   Параметры отображения окна инфы при ховере поместу
    *&#47;
   infobox_options: {
-    boxStyle: {
-      background: &quot;#fff&quot;,
-      padding: &quot;20px&quot;,
-      width: &quot;280px&quot;,
-      fontSize: &quot;18px&quot;
-    },
     closeBoxURL: &quot;&quot;
   }
 }</code></pre>
@@ -81,7 +95,7 @@
 </dl>
     </div>
     <div id='footer'>
-  February 18, 14 19:34:41 by
+  March 17, 14 17:35:44 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>

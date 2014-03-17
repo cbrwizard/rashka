@@ -1,5 +1,6 @@
 # Причины
-# @example #<Reason id: 2, text: "Страной правят геи", popularity: 12313, created_at: "2014-02-15 11:03:31", updated_at: "2014-02-17 07:32:35">
+# @example
+#   #<Reason id: 2, text: "Страной правят геи", popularity: 12313, created_at: "2014-02-15 11:03:31", updated_at: "2014-02-17 07:32:35">
 class Reason < ActiveRecord::Base
   include Paginated
 
@@ -17,7 +18,8 @@ class Reason < ActiveRecord::Base
 
   # Либо сохраняет новую причину, либо увеличивает статистику популярности у существующей
   # @note Вызывается при нажатии по соц кнопке
-  # @example Reason.first.try_to_save
+  # @example
+  #   Reason.first.try_to_save
   #
   # @see StatsController#update_reason
   def try_to_save
@@ -29,7 +31,8 @@ class Reason < ActiveRecord::Base
 
   # Увеличивает статистику популярности у причины
   # @note Вызывается при нажатии по соц кнопке
-  # @example Reason.increase_popularity
+  # @example
+  #   Reason.increase_popularity
   #
   # @see Reason#try_to_save
   def increase_popularity

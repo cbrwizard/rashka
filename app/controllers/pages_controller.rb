@@ -104,8 +104,8 @@ class PagesController < ApplicationController
     image = "#{request.protocol}#{request.host_with_port}#{ActionController::Base.helpers.asset_path("logo.png")}"
 
     set_meta_tags :title => "Вали из рашки",
-                  :description => "Верный помощник по эвакуации из этой замечательной страны",
-                  :keywords => "Vali iz rashki, ValiIzRashki, Вали из рашки, ВалиИзРашки, сатира, эвакуация, баттхёрт, поросенок, Пётр",
+                  :description => "Незаменимый помощник в эвакуации из этой замечательной страны",
+                  :keywords => "Vali iz rashki, ValiIzRashki, Вали из рашки, ВалиИзРашки, сатира, эвакуация, баттхёрт, поросенок, Пётр, vali is rashki, valiisrashki, россия, политика, новости, батхёрт, милонов, путин, цензура, патриотизм",
                   :image => image
 
     set_meta_tags :og => {
@@ -113,8 +113,7 @@ class PagesController < ApplicationController
         :site_name => "Вали из рашки",
         :image => image,
         :title => "Вали из рашки",
-        :description => "Верный помощник по эвакуации из этой замечательной страны",
-        :type => "article"
+        :description => "Незаменимый помощник в эвакуации из этой замечательной страны"
     }
 
     set_meta_tags :twitter => {
@@ -123,7 +122,7 @@ class PagesController < ApplicationController
         :url => request.original_url,
         :image => image,
         :title => "Вали из рашки",
-        :description => "Верный помощник по эвакуации из этой замечательной страны"
+        :description => "Незаменимый помощник в эвакуации из этой замечательной страны"
     }
   end
 end

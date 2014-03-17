@@ -50,7 +50,7 @@ map =
 
   # В случае ошибки получения гео локации выводи лажу
   nav_geo_error: ->
-    console.log "Unable to retrieve your location"
+    console.log "ти где??? :["
 
 
   # Определяет местоположение юзера по ip
@@ -67,7 +67,7 @@ map =
   # Спрашивает у пользователя его местоположение
   get_current_location: ->
     if geo_position_js.init()
-      geo_position_js.getCurrentPosition(map.nav_geo_success,map.get_location_by_ip, {enableHighAccuracy:true})
+      geo_position_js.getCurrentPosition(map.nav_geo_success,map.get_location_by_ip, {enableHighAccuracy: true, timeout: 3000})
     else
       # Если не получается - то по ip
       map.get_location_by_ip()
@@ -84,14 +84,14 @@ map =
 
   # Получает расстояние до каждой точки эвакуации и рисует их на карте
   show_places: ->
-    app.places.objects.forEach(places.get_distance)
-    app.places.objects.forEach(places.render)
+    places.objects.forEach(places.get_distance)
+    places.objects.forEach(places.render)
 
 
   # Обновляет маркеры для подготовки к новому текущему местоположению
   reset_markers: ->
-    app.places.objects.forEach(places.get_distance)
-    app.places.objects.forEach(places.update_infobox)
+    places.objects.forEach(places.get_distance)
+    places.objects.forEach(places.update_infobox)
 
                        
   # Проверяет, вышел ли пользователь за пределы границ карты. Передвигает в предыдущий "чистый" центер, если да, или записывает новый "чистый" центр
@@ -178,7 +178,9 @@ map =
 
 
 # Параметры и функции мест
-places =
+places =      
+  objects:
+    gon.places
 
   # Отображает место на карте: создает маркер для него
   # @param place [Object] место

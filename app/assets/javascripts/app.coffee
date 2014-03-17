@@ -12,8 +12,6 @@ global.app =
 
   # Точки эвакуации
   places:
-    objects:
-      gon.places
     closest: undefined
     types:
       1:
@@ -30,11 +28,3 @@ global.app =
   # Параметры отображения окна инфы при ховере поместу
   infobox_options:
     closeBoxURL: ""
-
-
-  # Проверяет, мобила ли это
-  is_mobile: ->
-    if $('#popup').css('display') == 'block'
-      app.mobile = true
-     else
-      app.mobile = false

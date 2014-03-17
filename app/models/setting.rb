@@ -4,7 +4,8 @@ class Setting < ActiveRecord::Base
 
   # Проверяет, правильные ли данные введены в админку
   # @note Вызывается при логине на админку
-  # @example Reason.try_to_save
+  # @example
+  #   if setting.correct_admin?(login, try_hash)
   # @param login [String] логин
   # @param try_hash [String] результат действия BCrypt::Engine.hash_secret(password, salt) к введенному паролю и к соли из бд
   # @return [Boolean]

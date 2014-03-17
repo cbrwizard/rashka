@@ -1,9 +1,10 @@
 # Обработка нажатий по соц кнопкам, а также поля ввода причины
 $ ->
-  # Включает обновление поля причины для учета кол-ва символов
+  # Включает обновление поля причины для учета кол-ва символов у причины при запуске сайта
   reason_field = $("#reason_field")
   reason_field.trigger("change")
   share.update_share_buttons(reason_field)
+
 
   # При нажатии по кнопке подсказать причину включает лоадер
   $("#get_random_container").click ->
@@ -11,9 +12,11 @@ $ ->
     $(this).addClass("loading")
     $(this).find("img").removeClass("hidden")
 
-  # При нажатии по соц кнопке открывай окошко соц сети
+
+  # При нажатии по соц кнопке открывает окошко соц сети
   $(".share_button").click ->
     share.share_reason($(@).find("a"))
+
 
   # При нажатии по блоку брейнлука открывает страницу брейнлука
   $("#brainlook_container").click ->
@@ -22,19 +25,22 @@ $ ->
       share.update_statistics("bl_post", reason)
       window.open($(this).attr("data-link"), '_blank')
 
+
   # При изменении текста поля ввода причины меняет текст у соц кнопок
   $(reason_field).on "input propertychange change", ->
     share.update_share_buttons($(this))
 
-  # Очищает поле причины при нажатии по нему
+
+  # Выделяет поле причины при нажатии по нему
   $(reason_field).on "click", ->
     unless share.is_user_input
       reason_field.select()
       share.is_user_input = true
 
+
 # Параметры и функции, связанные с соц кнопками и полем ввода причины
 share =
-  title: "Симулятор эвакуации из Рашки"
+  title: "Незаменимый помощник по эвакуации из этой замечательной страны"
   text: "Я решил валить из рашки, потому что"
   is_user_input: false
 

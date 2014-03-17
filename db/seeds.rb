@@ -51,7 +51,6 @@ Reason.create([{text: "Президент ест детей", popularity: 0},
                {text: "МЫ ВЕРНУЛИСЬ В СОВОК", popularity: 0},
                {text: "железный занавес поднимается", popularity: 0},
                {text: "пирожок", popularity: 0},
-               {text: "В. музыку играет, Д. пляшет трепака, развалили всю Р. 2 веселых м.", popularity: 0},
                {text: "коррупция процветает", popularity: 0},
                {text: "ментам пофиг на граждан", popularity: 0},
                {text: "всё бабло у илиты", popularity: 0},
@@ -63,12 +62,14 @@ Reason.create([{text: "Президент ест детей", popularity: 0},
                {text: "есть Дом2 и самый лучший фильм", popularity: 0},
                {text: "понаехали тут!!!", popularity: 0},
                {text: "НЕ НАДО ВАЛИТЬ! надо как хохлы!!", popularity: 0},
-               {text: "Слава Україні! Героям слава!", popularity: 0},
                {text: "надо спасаться с тонущего корабля!!", popularity: 0},
                {text: "я не одобряю действия властей", popularity: 0},
                {text: "я хочу", popularity: 0},
                {text: "там пиво лучше!", popularity: 0},
                {text: "климат плохой", popularity: 0},
+               {text: "сломал машину на дорогах", popularity: 0},
+               {text: "слишком много денег", popularity: 0},
+               {text: "аллергия на снег", popularity: 0},
                {text: "Тут нет демократии", popularity: 0}])
 
 News.create([{title: "Блокировка сайтов без санкции суда", text: "В России вступил в силу закон, разрешающий блокировать сайты без санкции суда", link: "http://www.forbes.ru/news/250388-v-rossii-vstupil-v-silu-zakon-o-blokirovke-saitov-bez-sanktsii-suda"},
@@ -86,7 +87,8 @@ News.create([{title: "Блокировка сайтов без санкции с
              {title: "Москва - самый грустный город", text: "Москвичи реже жителей других крупнейших городов мира выкладывают в Instagram селфи с улыбкой.", link: "http://tjournal.ru/paper/moscow-selfies"},
              {title: "Биткоины = финансовые пирамиды", text: "Центральный банк России считает биткоины такими же средствами, как и облигации МММ.", link: "http://tjournal.ru/paper/bitcoin-mavrodi"},
              {title: "Штраф за комментарий", text: "Пользователь соцсети «ВКонтакте» был оштрафован на 3 тысячи рублей за «нарушение норм этики и морали».", link: "http://tjournal.ru/paper/rediska-nehoroshiy-chelovek"},
-             {title: "Кинотеатры закроют за фильм", text: "Нашли пропаганду наркотиков в фильме  «Волк с Уолл-стрит», десяти кинотеатрам грозит закрытие.", link: "http://sib.fm/news/2014/03/13/fskn-volk-s-uoll-strit"}])
+             {title: "Кинотеатры закроют за фильм", text: "Нашли пропаганду наркотиков в фильме  «Волк с Уолл-стрит», десяти кинотеатрам грозит закрытие.", link: "http://sib.fm/news/2014/03/13/fskn-volk-s-uoll-strit"},
+             {title: "Гос.канал угрожает США ядерной бомбежкой", text: "В передаче «Вести недели» ведущий Дмитрий Киселев пригрозил США ядерным взрывом.", link: "http://slon.ru/fast/russia/rossiya-1-prigrozila-prevratit-ssha-v-radioaktivnyy-pepel-1071235.xhtml"}])
 
 Place.create([{ name: 'Абакан', type_id: 1, lat: 53.74, lng: 91.385 },
               { name: 'Угольный', type_id: 1, lat: 64.734722, lng: 177.741389 },

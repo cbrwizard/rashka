@@ -1,10 +1,12 @@
 # Статистика сайта (1 шт)
-# @example #<Stat id: 1, people_left: 100519, shares_vk: 31628, shares_tw: 12357, shares_fb: 15438, shares_bl: 8657, created_at: "2014-02-15 11:03:30", updated_at: "2014-02-17 07:32:36">
+# @example
+#   #<Stat id: 1, people_left: 100519, shares_vk: 31628, shares_tw: 12357, shares_fb: 15438, shares_bl: 8657, created_at: "2014-02-15 11:03:30", updated_at: "2014-02-17 07:32:36">
 class Stat < ActiveRecord::Base
 
   # Увеличивает статистику эвакуировавшихся пользователей
   # @note Включается при нажатии по кнопке ВАЛИТЬ
-  # @example Stat.first.try_to_save
+  # @example
+  #   Stat.first.try_to_save
   #
   # @see StatsController#evacuate
   def increase_people_left
@@ -14,7 +16,8 @@ class Stat < ActiveRecord::Base
 
   # Увеличивает статистику нажавших по соц сети вк
   # @note Включается при нажатии по кнопке соц сети вк
-  # @example Stat.first.increase_shares_vk
+  # @example
+  #   Stat.first.increase_shares_vk
   #
   # @see StatsController#vk_post
   def increase_shares_vk
@@ -24,7 +27,8 @@ class Stat < ActiveRecord::Base
 
   # Увеличивает статистику нажавших по соц сети тв
   # @note Включается при нажатии по кнопке соц сети тв
-  # @example Stat.first.increase_shares_tw
+  # @example
+  #   Stat.first.increase_shares_tw
   #
   # @see StatsController#tw_post
   def increase_shares_tw
@@ -34,7 +38,8 @@ class Stat < ActiveRecord::Base
 
   # Увеличивает статистику нажавших по соц сети фб
   # @note Включается при нажатии по кнопке соц сети фб
-  # @example Stat.first.increase_shares_fb
+  # @example
+  #   Stat.first.increase_shares_fb
   #
   # @see StatsController#fb_post
   def increase_shares_fb
@@ -44,7 +49,8 @@ class Stat < ActiveRecord::Base
 
   # Увеличивает статистику нажавших по кнопке брейнлука
   # @note Включается при нажатии по кнопке брейнлука
-  # @example Stat.first.increase_shares_bl
+  # @example
+  #   Stat.first.increase_shares_bl
   #
   # @see StatsController#bl_post
   def increase_shares_bl

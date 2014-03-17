@@ -23,10 +23,10 @@ class StatsController < ApplicationController
   # @see Stat
   def evacuate
     @stats.increase_people_left
-    result = ""
+    result = "yay"
 
     respond_to do |format|
-      format.json { render :json => result.to_json }
+      format.json { render :json => result }
     end
   end
 
@@ -36,11 +36,11 @@ class StatsController < ApplicationController
   # @param reason [String] Текст отправленной в пост причины
   # @return shares_vk [Integer] количество текущей статистики соц кнопки
   # @example
-  # $.ajax "../stats/vk_post",
-  #   type: "POST"
-  #   dataType: "json"
-  #   data:
-  #     reason: reason
+  #   $.ajax "../stats/vk_post",
+  #     type: "POST"
+  #     dataType: "json"
+  #     data:
+  #       reason: reason
   #
   # @see Stat
   # @see Reason#try_to_save
@@ -58,11 +58,11 @@ class StatsController < ApplicationController
   # @param reason [String] Текст отправленной в пост причины
   # @return shares_fb [Integer] количество текущей статистики соц кнопки
   # @example
-  # $.ajax "../stats/fb_post",
-  #   type: "POST"
-  #   dataType: "json"
-  #   data:
-  #     reason: reason
+  #   $.ajax "../stats/fb_post",
+  #     type: "POST"
+  #     dataType: "json"
+  #     data:
+  #       reason: reason
   #
   # @see Stat
   # @see Reason#try_to_save
@@ -80,11 +80,11 @@ class StatsController < ApplicationController
   # @param reason [String] Текст отправленной в пост причины
   # @return shares_tw [Integer] количество текущей статистики соц кнопки
   # @example
-  # $.ajax "../stats/tw_post",
-  #   type: "POST"
-  #   dataType: "json"
-  #   data:
-  #     reason: reason
+  #   $.ajax "../stats/tw_post",
+  #     type: "POST"
+  #     dataType: "json"
+  #     data:
+  #       reason: reason
   #
   # @see Stat
   # @see Reason#try_to_save
@@ -102,11 +102,11 @@ class StatsController < ApplicationController
   # @param reason [String] Текст отправленной в пост причины
   # @return shares_bl [Integer] количество текущей статистики соц кнопки
   # @example
-  # $.ajax "../stats/bl_post",
-  #   type: "POST"
-  #   dataType: "json"
-  #   data:
-  #     reason: reason
+  #   $.ajax "../stats/bl_post",
+  #     type: "POST"
+  #     dataType: "json"
+  #     data:
+  #       reason: reason
   #
   # @see Stat
   # @see Reason#try_to_save

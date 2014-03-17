@@ -3,7 +3,8 @@ module ModalHelper
 
   # Отображает модульное окошко
   # @note На вьюхе pages/modals
-  # @example modal("about_modal") {render :partial => 'pages/about/about_modal'}
+  # @example
+  #   modal("about_modal") {render :partial => 'pages/about/about_modal'}
   #
   # @param id [String] html id контейнера окошка
   # @param block [HTML] содержимое модульного окошка

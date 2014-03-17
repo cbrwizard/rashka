@@ -17,6 +17,7 @@ reasons =
   init: ->
     @.get_three()
 
+    # Каждые 10 сек подгружает новые причины на десктопах
     setInterval (->
       unless app.mobile
         reasons.get_three()
@@ -38,10 +39,10 @@ reasons =
           $("body").removeClass("loading_three")
           $("#more_reasons").toggleClass("loading")
           $("#more_reasons img").toggleClass("hidden")
-          console.log("yay")
+#          console.log("yay")
 
 
-  # Берет текст причины и вставляет его в поле рассказать
+  # Берет текст причины и вставляет его в поле рассказать у модульного окошка
   # @param share_reason_button [DOM element] кнопка рассказать у причины
   copy_reason: (share_reason_button) ->
     text = $.trim(share_reason_button.parent().find(".text").text())

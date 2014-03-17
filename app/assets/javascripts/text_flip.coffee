@@ -5,7 +5,8 @@ $ ->
 
 
 # Разбирает заголовок по кусочкам и у каждого из них запускает анимацию перелистывания
-# @example $("#reasons_container h3").flipper()
+# @example
+#   $("#reasons_container h3").flipper()
 $.fn.flipper = () ->
   $this = $(this)
   target = display_flipper($this)
@@ -16,7 +17,6 @@ $.fn.flipper = () ->
 
 
 # Разбирает заголовок по кусочкам, превращая их в отдельные спаны
-# @note берет значение из data-flip, чтобы корректно считывать только настоящие символы
 # @note length определяет, сколько будет спанов
 # @param heading [DOM element] заголовок, который нужно разобрать
 # @return [DOM element] переделанный заголовок

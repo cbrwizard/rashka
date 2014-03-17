@@ -1,6 +1,6 @@
 require 'active_support/concern'
 
-# Для пагинации объектов
+# Для пагинации объектов (новостей и причин)
 # @note На главной странице
 # @param page_params [Integer] номер страницы в пролистывании
 # @see News

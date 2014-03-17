@@ -53,20 +53,22 @@
     center: app.current_location,
     disableDefaultUI: true,
     zoom: 13,
-    minZoom: 4
+    minZoom: 4,
+    styles: [
+      {
+        stylers: [
+          {
+            gamma: 0.79
+          }, {
+            saturation: -30
+          }
+        ]
+      }
+    ]
   },
-  current_marker: void 0,
   last_valid_center: void 0,
   bounds: void 0,
   markers: [],
-
-  &#47;*
-  Получает расстояние до каждой точки эвакуации и рисует их на карте
-   *&#47;
-  show_places: function() {
-    app.places.objects.forEach(places.get_distance);
-    return app.places.objects.forEach(places.render);
-  },
 
   &#47;*
   Ставит маркер на координаты
@@ -75,7 +77,8 @@
   set_current_location: function(location) {
     app.google_map.setCenter(location);
     app.current_location = location;
-    return map.put_marker_on_current();
+    map.put_marker_on_current();
+    return map.reset_markers();
   },
 
   &#47;*
@@ -84,34 +87,57 @@
    *&#47;
   nav_geo_success: function(location) {
     var current_location;
-    map.current_marker.setMap(null);
-    if (app.directions_renderer !== void 0) {
-      app.directions_renderer.setMap(null);
-
-      &#47;*
-      TODO: ресетить кнопку валить, раз уж мы на всякий стираем маршрут
-       *&#47;
-    }
+    map.reset_location();
     current_location = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
-    map.set_current_location(current_location);
-    return map.reset_markers();
+    return map.set_current_location(current_location);
+  },
+
+  &#47;*
+  При определении местоположения сбрасывает предыдущее значение и кнопку валить
+   *&#47;
+  reset_location: function() {
+    app.current_marker.setMap(null);
+    if (app.path_to_evac !== void 0) {
+      app.path_to_evac.setMap(null);
+      $(&quot;#evac_btn&quot;).removeClass(&quot;hidden&quot;);
+      return $(&quot;#share_btn&quot;).addClass(&quot;hidden&quot;);
+    }
   },
 
   &#47;*
   В случае ошибки получения гео локации выводи лажу
    *&#47;
   nav_geo_error: function() {
-    return console.log(&quot;Unable to retrieve your location&quot;);
+    return console.log(&quot;ти где??? :[&quot;);
+  },
+
+  &#47;*
+  Определяет местоположение юзера по ip
+   *&#47;
+  get_location_by_ip: function() {
+    return $.get(&quot;http:&#47;&#47;ip-api.com&#47;json&quot;, function(data) {
+      var current_location;
+      if (data.status === &quot;success&quot;) {
+        map.reset_location();
+        current_location = new google.maps.LatLng(data.lat, data.lon);
+        return map.set_current_location(current_location);
+      } else {
+        return map.nav_geo_error();
+      }
+    });
   },
 
   &#47;*
   Спрашивает у пользователя его местоположение
    *&#47;
   get_current_location: function() {
-    if (navigator.geolocation) {
-      return navigator.geolocation.getCurrentPosition(map.nav_geo_success, map.nav_geo_error, {
-        enableHighAccuracy: true
+    if (geo_position_js.init()) {
+      return geo_position_js.getCurrentPosition(map.nav_geo_success, map.get_location_by_ip, {
+        enableHighAccuracy: true,
+        timeout: 3000
       });
+    } else {
+      return map.get_location_by_ip();
     }
   },
 
@@ -122,18 +148,26 @@
     var current_loc_marker_options;
     current_loc_marker_options = {
       position: app.current_location,
-      icon: &quot;&lt;%= asset_path(&#39;current.jpg&#39;) %&gt;&quot;,
+      icon: &quot;&lt;%= asset_path(&#39;map&#47;current.png&#39;) %&gt;&quot;,
       map: app.google_map
     };
-    return map.current_marker = new google.maps.Marker(current_loc_marker_options);
+    return app.current_marker = new google.maps.Marker(current_loc_marker_options);
+  },
+
+  &#47;*
+  Получает расстояние до каждой точки эвакуации и рисует их на карте
+   *&#47;
+  show_places: function() {
+    places.objects.forEach(places.get_distance);
+    return places.objects.forEach(places.render);
   },
 
   &#47;*
   Обновляет маркеры для подготовки к новому текущему местоположению
    *&#47;
   reset_markers: function() {
-    app.places.objects.forEach(places.get_distance);
-    return app.places.objects.forEach(places.update_infobox);
+    places.objects.forEach(places.get_distance);
+    return places.objects.forEach(places.update_infobox);
   },
 
   &#47;*
@@ -150,18 +184,69 @@
   Группирует маркеры вместе в один, если они рядом
    *&#47;
   cluster_markers: function() {
-    var markerCluster_styles;
+    var cluster, cluster_infobox, markerCluster_styles;
     markerCluster_styles = [
       {
-        url: &quot;&lt;%= asset_path(&#39;current.jpg&#39;) %&gt;&quot;,
+        url: &quot;&lt;%= asset_path(&#39;map&#47;evac.png&#39;) %&gt;&quot;,
         height: 35,
         width: 35,
         textSize: 1
       }
     ];
-    return new MarkerClusterer(app.google_map, map.markers, {
+    cluster = new MarkerClusterer(app.google_map, map.markers, {
       styles: markerCluster_styles
     });
+    cluster_infobox = new InfoBox(app.infobox_options);
+    google.maps.event.addListener(cluster, &#39;mouseover&#39;, function(this_clusterer) {
+      var fake_marker;
+      fake_marker = map.get_fake_marker(this_clusterer);
+      cluster_infobox.setContent(map.clusterer_infobox());
+      cluster_infobox.open(app.google_map, fake_marker);
+      fake_marker.setMap(null);
+      return map.update_tooltip(map.clusterer_infobox());
+    });
+    google.maps.event.addListener(cluster, &#39;mouseout&#39;, function() {
+      cluster_infobox.close();
+      return $(&quot;#tooltips, .news_evac&quot;).toggleClass(&quot;hidden&quot;);
+    });
+    return google.maps.event.addListener(app.google_map, &quot;center_changed&quot;, function() {
+      return cluster_infobox.close();
+    });
+  },
+
+  &#47;*
+  Устанавливает контент у инфобокса кластерера маркеров
+  @return [DOM] содержимое инфобокса
+   *&#47;
+  clusterer_infobox: function() {
+    var infobox_content;
+    return infobox_content = &quot;&lt;div class=&#39;evac_popup&#39;&gt; &lt;div class=&#39;left&#39;&gt; &lt;div class=&#39;arrow-left arrow hidden-xs&#39;&gt;&lt;&#47;div&gt; &lt;div class=&#39;multy evac_icon&#39;&gt;&lt;&#47;div&gt; &lt;&#47;div&gt; &lt;div class=&#39;right&#39;&gt; &lt;h5&gt;Точки эвакуации&lt;&#47;h5&gt; &lt;h4&gt;Сразу несколько!&lt;&#47;h4&gt; &lt;&#47;div&gt; &lt;&#47;div&gt;&quot;;
+  },
+
+  &#47;*
+  Создает фейковый маркер для размещения там иконки кластерера
+  @param clusterer [MarkerClusterer] кластерер точек на карте
+  @return [google.maps.Marker] фейковый маркер
+   *&#47;
+  get_fake_marker: function(clusterer) {
+    var fake_marker_options;
+    fake_marker_options = {
+      position: clusterer.getCenter(),
+      map: app.google_map
+    };
+    return new google.maps.Marker(fake_marker_options);
+  },
+
+  &#47;*
+  Отображает тултип и обновляет контент попапа на мобилах
+  @param infobox_content [DOM] содержимое инфобокса
+   *&#47;
+  update_tooltip: function(infobox_content) {
+    setTimeout((function() {
+      return $(&quot;.evac_popup&quot;).fadeIn(200);
+    }), 100);
+    $(&quot;#tooltips&quot;).toggleClass(&quot;hidden&quot;).html(infobox_content);
+    return $(&quot;.news_evac&quot;).toggleClass(&quot;hidden&quot;);
   },
 
   &#47;*
@@ -187,23 +272,7 @@
   </dt>
   <dd>
     <pre><code class='coffeescript'>{
-  types: {
-    1: {
-      icon: &quot;&lt;%= asset_path(&#39;places&#47;airplane.png&#39;) %&gt;&quot;
-    },
-    2: {
-      icon: &quot;&lt;%= asset_path(&#39;places&#47;seaport.png&#39;) %&gt;&quot;
-    },
-    3: {
-      icon: &quot;&lt;%= asset_path(&#39;places&#47;railway.png&#39;) %&gt;&quot;
-    },
-    4: {
-      icon: &quot;&lt;%= asset_path(&#39;places&#47;border.png&#39;) %&gt;&quot;
-    },
-    5: {
-      icon: &quot;&lt;%= asset_path(&#39;places&#47;car.png&#39;) %&gt;&quot;
-    }
-  },
+  objects: gon.places,
 
   &#47;*
   Отображает место на карте: создает маркер для него
@@ -215,9 +284,10 @@
     place_marker_options = {
       position: place_position,
       map: app.google_map,
-      icon: places.types[place.type_id].icon
+      icon: &quot;&lt;%= asset_path(&#39;map&#47;evac.png&#39;) %&gt;&quot;
     };
     place_marker = new google.maps.Marker(place_marker_options);
+    place.marker = place_marker;
     map.markers.push(place_marker);
     return places.create_infobox(place, place_marker);
   },
@@ -229,11 +299,20 @@
    *&#47;
   create_infobox: function(place, place_marker) {
     place.infobox = new InfoBox(app.infobox_options);
-    places.update_infobox(place);
+    place.infobox.setContent(places.get_infobox(place));
     google.maps.event.addListener(place_marker, &#39;mouseover&#39;, function() {
-      return place.infobox.open(app.google_map, this);
+      if (!app.time_to_evac || app.places.closest !== place) {
+        place.infobox.open(app.google_map, this);
+        return map.update_tooltip(place.infobox.getContent());
+      }
     });
-    return google.maps.event.addListener(place_marker, &#39;mouseout&#39;, function() {
+    google.maps.event.addListener(place_marker, &#39;mouseout&#39;, function() {
+      place.infobox.close();
+      if (!app.time_to_evac || app.places.closest !== place) {
+        return $(&quot;#tooltips, .news_evac&quot;).toggleClass(&quot;hidden&quot;);
+      }
+    });
+    return google.maps.event.addListener(app.google_map, &quot;center_changed&quot;, function() {
       return place.infobox.close();
     });
   },
@@ -241,11 +320,21 @@
   &#47;*
   Устанавливает контент у инфобокса места
   @param place [Object] место
+  @return [DOM] содержимое инфобокса
+   *&#47;
+  get_infobox: function(place) {
+    var infobox_content;
+    return infobox_content = &quot;&lt;div class=&#39;evac_popup&#39;&gt; &lt;div class=&#39;left&#39;&gt; &lt;div class=&#39;arrow-left arrow hidden-xs&#39;&gt;&lt;&#47;div&gt; &lt;div class=&#39;&quot; + app.places.types[place.type_id].icon + (&quot; evac_icon&#39;&gt;&lt;&#47;div&gt; &lt;&#47;div&gt; &lt;div class=&#39;right&#39;&gt; &lt;h5&gt;Точка эвакуации&lt;&#47;h5&gt; &lt;h4&gt;&quot; + place.name + &quot;&lt;&#47;h4&gt; &lt;p class=&#39;distance&#39;&gt;&quot; + (place.distance.toFixed(1)) + &quot; км&lt;&#47;p&gt; &lt;&#47;div&gt; &lt;&#47;div&gt;&quot;);
+  },
+
+  &#47;*
+  Обновляет контент у инфобокса места
+  @param place [Object] место
+  @return [DOM] содержимое инфобокса
    *&#47;
   update_infobox: function(place) {
-    var infobox_content;
-    infobox_content = &quot;&lt;p&gt;&lt;b&gt;&quot; + place.type + &quot; :&lt;&#47;b&gt; &quot; + place.name + &quot; &lt;&#47;p&gt; &lt;p&gt;&lt;b&gt;Расстояние:&lt;&#47;b&gt; &quot; + (place.distance.toFixed(1)) + &quot; км&lt;&#47;p&gt;&quot;;
-    return place.infobox.setContent(infobox_content);
+    place.infobox = new InfoBox(app.infobox_options);
+    return place.infobox.setContent(places.get_infobox(place));
   },
 
   &#47;*
@@ -295,7 +384,7 @@
 </dl>
     </div>
     <div id='footer'>
-  February 18, 14 19:34:41 by
+  March 17, 14 17:35:44 by
   <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
     Codo
   </a>
