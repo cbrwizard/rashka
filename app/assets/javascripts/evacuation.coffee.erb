@@ -177,8 +177,11 @@ evacuation =
     bounds = response.routes[0].bounds
     app.google_map.fitBounds(bounds);
     app.google_map.setCenter(bounds.getCenter())
+
+    # На десктопах отдаляет
     setTimeout(->
-      app.google_map.setZoom(app.google_map.getZoom() - 1)
+      unless app.mobile == true
+        app.google_map.setZoom(app.google_map.getZoom() - 1)
     ,200)
 
 
