@@ -25,13 +25,13 @@
     &raquo;
     <span class='title'>javascripts</span>
     &raquo;
-    <span class='title'>app.coffee</span>
+    <span class='title'>news.coffee</span>
   </div>
 </div>
     <div id='content'>
       <h1>
         File:
-        app.coffee
+        news.coffee
       </h1>
       <table class='box'>
         <tr>
@@ -41,53 +41,37 @@
       </table>
       <h2>Variables Summary</h2>
       <dl class='constants'>
-  <dt id='global.app-variable'>
-    global.app
+  <dt id='news-variable'>
+    news
     =
   </dt>
   <dd>
     <pre><code class='coffeescript'>{
-  current_location: new google.maps.LatLng(55.751667, 37.617778),
-  google_map: void 0,
-  time_to_evac: void 0,
-  current_marker: void 0,
-  path_to_evac: void 0,
-  mobile: false,
-  current_page: 2,
 
   &#47;*
-  Точки эвакуации
+  Добавляет кастомный скролл для блока новостей и включает переход по новости
    *&#47;
-  places: {
-    closest: void 0,
-    types: {
-      1: {
-        icon: &quot;plane&quot;
-      },
-      2: {
-        icon: &quot;boat&quot;
-      },
-      3: {
-        icon: &quot;train&quot;
-      },
-      4: {
-        icon: &quot;customs&quot;
-      },
-      5: {
-        icon: &quot;bus&quot;
-      }
-    }
+  init: function() {
+    news.try_to_custom_pagination();
+    $(window).resize(function() {
+      return news.try_to_custom_pagination();
+    });
+    return $(document).on(&quot;click&quot;, &quot;.news_article&quot;, function() {
+      return window.open($(this).attr(&quot;data-link&quot;), &#39;_blank&#39;);
+    });
   },
 
   &#47;*
-  Параметры отображения окна инфы при ховере поместу
+  На десктопах пытается включить кастомную пагинацию
    *&#47;
-  infobox_options: {
-    closeBoxURL: &quot;&quot;
+  try_to_custom_pagination: function() {
+    if (!app.mobile) {
+      return $(&quot;#news_pagination&quot;).customScrollbar();
+    }
   }
 }</code></pre>
     <div class='docstring'>
-  <p>Параметры приложения, использующиеся в нескольких js файлах</p>
+  <p>Параметры и функции, связанные с блоком новостей</p>
 </div>
 <div class='tags'>
 </div>

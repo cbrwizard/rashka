@@ -243,7 +243,6 @@ places =
 
   # Обновляет контент у инфобокса места
   # @param place [Object] место
-  # @return [DOM] содержимое инфобокса
   update_infobox: (place) ->
     place.infobox = new InfoBox(app.infobox_options)
     place.infobox.setContent places.get_infobox(place)

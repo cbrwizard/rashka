@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <title>CoffeeScript API Documentation</title>
+  <script src='../../../../javascript/application.js'></script>
+  <script src='../../../../javascript/search.js'></script>
+  <link rel='stylesheet' href='../../../../stylesheets/application.css' type='text/css'>
+</head>
+  <body>
+    <div id='base' data-path='../../../../'></div>
+<div id='header'>
+  <div id='menu'>
+    <a href='../../../../extra/README.md.html' title='Rashka'>
+      Rashka
+    </a>
+    &raquo;
+    <a href='../../../../alphabetical_index.html' title='Index'>
+      Index
+    </a>
+    &raquo;
+    <span class='title'>app</span>
+    &raquo;
+    <span class='title'>assets</span>
+    &raquo;
+    <span class='title'>javascripts</span>
+    &raquo;
+    <span class='title'>evacuation.coffee.erb</span>
+  </div>
+</div>
+    <div id='content'>
+      <h1>
+        File:
+        evacuation.coffee.erb
+      </h1>
+      <table class='box'>
+        <tr>
+          <td>Defined in:</td>
+          <td>app&#47;assets&#47;javascripts</td>
+        </tr>
+      </table>
+      <h2>Variables Summary</h2>
+      <dl class='constants'>
+  <dt id='evacuation-variable'>
+    evacuation
+    =
+  </dt>
+  <dd>
+    <pre><code class='coffeescript'>{
+  dom_element: $(&quot;#evac_btn&quot;),
+  polyline: void 0,
+  hidden_polyline: void 0,
+  escape_marker: void 0,
+  path_length: void 0,
+  audio: document.getElementById(&#39;hallelujah&#39;),
+
+  &#47;*
+  Запуск слушателя при нажатии
+   *&#47;
+  init: function() {
+    return $(evacuation.dom_element).click(function() {
+      evacuation.get_directions(app.current_location, app.places.closest);
+      evacuation.share_mode_on();
+      evacuation.evac_stat_increase();
+      return setTimeout(function() {
+        return evacuation.audio.play();
+      }, 1000);
+    });
+  },
+
+  &#47;*
+  Скрывает кнопку валить и показывает кнопку рассказать
+   *&#47;
+  share_mode_on: function() {
+    this.dom_element.addClass(&quot;hidden&quot;);
+    return $(&quot;#share_btn&quot;).removeClass(&quot;hidden&quot;);
+  },
+
+  &#47;*
+  Запускает метод увеличения статистики эвакуации
+   *&#47;
+  evac_stat_increase: function() {
+    return $.ajax(&quot;..&#47;stats&#47;evacuate&quot;, {
+      type: &quot;POST&quot;,
+      dataType: &quot;json&quot;
+    });
+  },
+
+  &#47;*
+  Строит маршрут до ближайшего места
+  @param start_point [google.maps.LatLng] место начала
+  @param end_place [Object] место конца
+  @todo Написать код на случай ошибки маршрута
+   *&#47;
+  get_directions: function(start_point, end_place) {
+    var directions_service, directions_service_options, end_point;
+    end_point = new google.maps.LatLng(end_place.lat, end_place.lng);
+    directions_service = new google.maps.DirectionsService();
+    directions_service_options = evacuation.get_directions_service_options(start_point, end_point);
+    return directions_service.route(directions_service_options, function(response, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        evacuation.set_time_to_evac(response);
+        evacuation.create_end_place_infobox(end_place);
+        evacuation.adjust_center(response);
+        return evacuation.escape(response);
+      }
+    });
+  },
+
+  &#47;*
+  Запускает анимацию сваливания из рашки, создавая маршрут и расставляя на нем временные точки для маркера
+  @note запускается из evacuation.get_directions
+  @param response [Маршрут] маршрут до места
+   *&#47;
+  escape: function(response) {
+    var legs, route;
+    route = response.routes[0];
+    legs = route.legs;
+    evacuation.prepare_escape_polyline(legs);
+    evacuation.add_evac_segments(legs);
+    return evacuation.start_animation();
+  },
+
+  &#47;*
+  Расставляет на маршруте сваливания временные точки для анимации маркера
+  @note запускается из evacuation.escape
+  @param legs [route.legs] уточненный путь маршрута
+   *&#47;
+  add_evac_segments: function(legs) {
+    var i, j, k, nextSegment, steps, _results;
+    i = 0;
+    _results = [];
+    while (i &lt; legs.length) {
+      steps = legs[i].steps;
+      j = 0;
+      while (j &lt; steps.length) {
+        nextSegment = steps[j].path;
+        k = 0;
+        while (k &lt; nextSegment.length) {
+          app.path_to_evac.getPath().push(nextSegment[k]);
+          k++;
+        }
+        j++;
+      }
+      _results.push(i++);
+    }
+    return _results;
+  },
+
+  &#47;*
+  Создает маршрут, на котором будут расставлены маркеры для анимации
+  @note запускается из evacuation.escape
+  @param legs [route.legs] уточненный путь маршрута
+   *&#47;
+  prepare_escape_polyline: function(legs) {
+    app.path_to_evac = new google.maps.Polyline({
+      path: [],
+      strokeColor: &#39;#24c94b&#39;,
+      strokeWeight: &quot;6&quot;
+    });
+    return evacuation.escape_marker = new google.maps.Marker({
+      position: legs[0].start_location,
+      map: app.google_map,
+      icon: &quot;&lt;%= asset_path(&#39;map&#47;mover.png&#39;) %&gt;&quot;
+    });
+  },
+
+  &#47;*
+  Какая-то лютая магия с махинациями с маркерами для того, чтобы анимация сваливания работала ок
+  @note запускается из evacuation.animate
+  @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
+   *&#47;
+  poly_magic: function(distance) {
+    var end_point, lastVertex;
+    lastVertex = 1;
+    if (evacuation.hidden_polyline.getPath().getLength() &gt; 20) {
+      evacuation.hidden_polyline = new google.maps.Polyline([app.path_to_evac.getPath().getAt(lastVertex - 1)]);
+    }
+    if (app.path_to_evac.GetIndexAtDistance(distance) &lt; lastVertex + 2) {
+      if (evacuation.hidden_polyline.getPath().getLength() &gt; 1) {
+        evacuation.hidden_polyline.getPath().removeAt(evacuation.hidden_polyline.getPath().getLength() - 1);
+      }
+      return evacuation.hidden_polyline.getPath().insertAt(evacuation.hidden_polyline.getPath().getLength(), app.path_to_evac.GetPointAtDistance(distance));
+    } else {
+      end_point = new google.maps.LatLng(app.places.closest.lat, app.places.closest.lng);
+      return evacuation.hidden_polyline.getPath().insertAt(evacuation.hidden_polyline.getPath().getLength(), end_point);
+    }
+  },
+
+  &#47;*
+  Узнает, куда нужно передвинуть маркер во время анимации и пытается это сделать
+  @note запускается из evacuation.start_animation
+  @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
+   *&#47;
+  animate: function(distance) {
+    var point;
+    point = app.path_to_evac.GetPointAtDistance(distance);
+    if (point != null) {
+      return evacuation.move_marker(point, distance);
+    } else {
+      return evacuation.finish_animation();
+    }
+  },
+
+  &#47;*
+  Передвигает маркер
+  @note запускается из evacuation.animate
+  @param point [LatLng] точка в пути на определенном расстоянии
+  @param distance [Number] расстояние, на который нужно передвинуть маркер сваливания
+   *&#47;
+  move_marker: function(point, distance) {
+    var step;
+    evacuation.escape_marker.setPosition(point);
+    evacuation.poly_magic(distance);
+    step = evacuation.path_length &#47; 300;
+    return window.setTimeout((function() {
+      return evacuation.animate(distance + step);
+    }), 15);
+  },
+
+  &#47;*
+  Заканчивает анимацию сваливания, открывая окно поделиться
+  @note запускается из evacuation.animate
+   *&#47;
+  finish_animation: function() {
+    evacuation.escape_marker.setMap(null);
+    return $(&quot;#share_modal&quot;).modal();
+  },
+
+  &#47;*
+  Начало анимации сваливания
+  @note запускается из evacuation.escape
+   *&#47;
+  start_animation: function() {
+    app.path_to_evac.setMap(app.google_map);
+    app.google_map.setCenter(app.path_to_evac.getPath().getAt(0));
+    evacuation.hidden_polyline = new google.maps.Polyline({
+      path: [app.path_to_evac.getPath().getAt(0)]
+    });
+    evacuation.path_length = app.path_to_evac.Distance();
+    return setTimeout((function() {
+      return evacuation.animate(500);
+    }), 20);
+  },
+
+  &#47;*
+  Адаптирует центр карты, чтобы правильно отображался весь маршрут
+  @param response [Маршрут] маршрут до места
+   *&#47;
+  adjust_center: function(response) {
+    var bounds;
+    bounds = response.routes[0].bounds;
+    app.google_map.fitBounds(bounds);
+    app.google_map.setCenter(bounds.getCenter());
+    return setTimeout(function() {
+      if (app.mobile !== true) {
+        return app.google_map.setZoom(app.google_map.getZoom() - 1);
+      }
+    }, 200);
+  },
+
+  &#47;*
+  Отображение инфобокса&#47;(попапа на мобиле) у итоговой точки
+  @param end_point [google.maps.Lang] место конца маршрута
+   *&#47;
+  create_end_place_infobox: function(end_place) {
+    var infobox_content, place_infobox;
+    place_infobox = new InfoBox(app.infobox_options);
+    infobox_content = evacuation.get_evac_infobox(end_place);
+    place_infobox.setContent(infobox_content);
+    setTimeout((function() {
+      return $(&quot;.evac_popup&quot;).fadeIn(200);
+    }), 100);
+    place_infobox.open(app.google_map, end_place.marker);
+    $(&quot;#tooltips&quot;).addClass(&quot;hidden&quot;);
+    return $(&quot;.news_evac&quot;).removeClass(&quot;hidden&quot;).html(infobox_content);
+  },
+
+  &#47;*
+  Устанавливает контент у инфобокса места, к которому будет идти эвакуация
+  @param place [Object] место
+  @return [DOM] содержимое инфобокса
+   *&#47;
+  get_evac_infobox: function(place) {
+    var escape_text, infobox_content;
+    escape_text = evacuation.get_random_exit_text();
+    return infobox_content = &quot;&lt;div class=&#39;evac_popup escape&#39;&gt; &lt;div class=&#39;left&#39;&gt; &lt;div class=&#39;arrow-left arrow hidden-xs&#39;&gt;&lt;&#47;div&gt; &lt;div class=&#39;&quot; + app.places.types[place.type_id].icon + (&quot; evac_icon&#39;&gt;&lt;&#47;div&gt; &lt;&#47;div&gt; &lt;div class=&#39;right&#39;&gt; &lt;h5&gt;Точка эвакуации&lt;&#47;h5&gt; &lt;h4&gt;&quot; + place.name + &quot;&lt;&#47;h4&gt; &lt;p class=&#39;time_to_evac&#39;&gt;&quot; + escape_text + &quot;&lt;&#47;p&gt; &lt;&#47;div&gt; &lt;&#47;div&gt;&quot;);
+  },
+
+  &#47;*
+  Достает случайный текст при эвакуации в зависимости от длины пути, обрезая у него точку в конце.
+  @return [String] текст эвакуации
+   *&#47;
+  get_random_exit_text: function() {
+    var chosen_number, minutes_before, text, texts_array;
+    texts_array = [];
+    text = app.time_to_evac.text;
+    if (text.substring(text.length - 1) === &quot;.&quot;) {
+      text = text.slice(0, -1);
+    }
+    if (app.time_to_evac.value &lt; 2400) {
+      minutes_before = parseInt(text.substr(0, text.indexOf(&#39; &#39;)));
+      text = minutes_before + 15 + &quot; мин&quot;;
+    }
+    if (app.time_to_evac.value &lt; 10080) {
+      texts_array.push(&quot;Собирай манатки, тебе до эвакуации всего &quot; + text + &quot;!&quot;);
+      texts_array.push(&quot;Чего ты ждешь? От свободы тебя отделяет всего лишь &quot; + text + &quot;!&quot;);
+      texts_array.push(&quot;Обувайся и беги! Успеешь за &quot; + text + &quot;!&quot;);
+    } else if (app.time_to_evac.value &lt; 43200) {
+      texts_array.push(&quot;Ты еще тут? Собирайся! Тебе до эвакуации всего &quot; + text + &quot;!&quot;);
+      texts_array.push(&quot;Лови попутку! Тебе &quot; + text + &quot; до точки эвакуации!&quot;);
+    } else {
+      texts_array.push(&quot;Тебе аж целых &quot; + text + &quot; до эвакуации!&quot;);
+    }
+    chosen_number = Math.floor(Math.random() * texts_array.length);
+    return texts_array[chosen_number];
+  },
+
+  &#47;*
+  Настройки маршрута
+  @param start_point [google.maps.LatLng] место начала
+  @param end_point [google.maps.LatLng] место конца маршрута
+  @return [Object] настройки маршрута
+   *&#47;
+  get_directions_service_options: function(start_point, end_point) {
+    return {
+      origin: start_point,
+      destination: end_point,
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+  },
+
+  &#47;*
+  Запоминает время до маршрута
+  @param response [Маршрут] маршрут до места
+   *&#47;
+  set_time_to_evac: function(response) {
+    return app.time_to_evac = response.routes[0].legs[0].duration;
+  }
+}</code></pre>
+    <div class='docstring'>
+  <p>Параметры и функции, связанные с эвакуацией</p>
+</div>
+<div class='tags'>
+</div>
+  </dd>
+</dl>
+    </div>
+    <div id='footer'>
+  March 17, 14 23:17:16 by
+  <a href='https://github.com/coffeedoc/codo' title='CoffeeScript API documentation generator'>
+    Codo
+  </a>
+  2.0.6
+  &#10034;
+  Press H to see the keyboard shortcuts
+  &#10034;
+  <a href='http://twitter.com/netzpirat' target='_parent'>@netzpirat</a>
+  &#10034;
+  <a href='http://twitter.com/_inossidabile' target='_parent'>@_inossidabile</a>
+</div>
+<iframe id='search_frame'></iframe>
+<div id='fuzzySearch'>
+  <input type='text'>
+  <ol></ol>
+</div>
+<div id='help'>
+  <p>
+    Quickly fuzzy find classes, mixins, methods, file:
+  </p>
+  <ul>
+    <li>
+      <span>T</span>
+      Open fuzzy finder dialog
+    </li>
+  </ul>
+  <p>
+    Control the navigation frame:
+  </p>
+  <ul>
+    <li>
+      <span>L</span>
+      Toggle list view
+    </li>
+    <li>
+      <span>C</span>
+      Show class list
+    </li>
+    <li>
+      <span>I</span>
+      Show mixin list
+    </li>
+    <li>
+      <span>F</span>
+      Show file list
+    </li>
+    <li>
+      <span>M</span>
+      Show method list
+    </li>
+    <li>
+      <span>E</span>
+      Show extras list
+    </li>
+  </ul>
+  <p>
+    You can focus and blur the search input:
+  </p>
+  <ul>
+    <li>
+      <span>S</span>
+      Focus search input
+    </li>
+    <li>
+      <span>Esc</span>
+      Blur search input
+    </li>
+  </ul>
+</div>
+  </body>
+</html>

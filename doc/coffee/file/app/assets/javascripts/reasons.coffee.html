@@ -25,13 +25,13 @@
     &raquo;
     <span class='title'>javascripts</span>
     &raquo;
-    <span class='title'>app.coffee</span>
+    <span class='title'>reasons.coffee</span>
   </div>
 </div>
     <div id='content'>
       <h1>
         File:
-        app.coffee
+        reasons.coffee
       </h1>
       <table class='box'>
         <tr>
@@ -41,53 +41,61 @@
       </table>
       <h2>Variables Summary</h2>
       <dl class='constants'>
-  <dt id='global.app-variable'>
-    global.app
+  <dt id='reasons-variable'>
+    reasons
     =
   </dt>
   <dd>
     <pre><code class='coffeescript'>{
-  current_location: new google.maps.LatLng(55.751667, 37.617778),
-  google_map: void 0,
-  time_to_evac: void 0,
-  current_marker: void 0,
-  path_to_evac: void 0,
-  mobile: false,
-  current_page: 2,
 
   &#47;*
-  Точки эвакуации
+  Отображение трех причин на главной
    *&#47;
-  places: {
-    closest: void 0,
-    types: {
-      1: {
-        icon: &quot;plane&quot;
-      },
-      2: {
-        icon: &quot;boat&quot;
-      },
-      3: {
-        icon: &quot;train&quot;
-      },
-      4: {
-        icon: &quot;customs&quot;
-      },
-      5: {
-        icon: &quot;bus&quot;
+  init: function() {
+    this.get_three();
+    return setInterval((function() {
+      if (!app.mobile) {
+        return reasons.get_three();
       }
+    }), 10000);
+  },
+
+  &#47;*
+  Грузит три случайные причины в блок причин
+   *&#47;
+  get_three: function() {
+    if (!$(&quot;body&quot;).hasClass(&quot;loading_three&quot;)) {
+      return $.ajax({
+        type: &#39;GET&#39;,
+        url: &quot;..&#47;reasons&#47;get_three_random&quot;,
+        dataType: &#39;script&#39;,
+        beforeSend: function() {
+          $(&quot;body&quot;).addClass(&quot;loading_three&quot;);
+          $(&quot;#more_reasons&quot;).toggleClass(&quot;loading&quot;);
+          return $(&quot;#more_reasons img&quot;).toggleClass(&quot;hidden&quot;);
+        },
+        success: function() {
+          $(&quot;body&quot;).removeClass(&quot;loading_three&quot;);
+          $(&quot;#more_reasons&quot;).toggleClass(&quot;loading&quot;);
+          return $(&quot;#more_reasons img&quot;).toggleClass(&quot;hidden&quot;);
+        }
+      });
     }
   },
 
   &#47;*
-  Параметры отображения окна инфы при ховере поместу
+  Берет текст причины и вставляет его в поле рассказать у модульного окошка
+  @param share_reason_button [DOM element] кнопка рассказать у причины
    *&#47;
-  infobox_options: {
-    closeBoxURL: &quot;&quot;
+  copy_reason: function(share_reason_button) {
+    var text;
+    text = $.trim(share_reason_button.parent().find(&quot;.text&quot;).text());
+    $(&quot;#share_modal&quot;).modal();
+    return $(&quot;#reason_field&quot;).val(text).trigger(&quot;change&quot;);
   }
 }</code></pre>
     <div class='docstring'>
-  <p>Параметры приложения, использующиеся в нескольких js файлах</p>
+  <p>Параметры и функции, связанные с блоком причин</p>
 </div>
 <div class='tags'>
 </div>
