@@ -5,6 +5,7 @@ $ ->
 
 # Функции, связанные с мобильниками
 mobile =
+  enabled_swipes: false
 
   # Проверяет, мобила ли это
   is_mobile: ->
@@ -18,6 +19,7 @@ mobile =
   run_mobile_checks: ->
     mobile.is_mobile()
     mobile.try_resize_containers()
+    mobile.try_enable_swipe()
 
 
   # Перелистывание экранов на мобиле
@@ -92,6 +94,21 @@ mobile =
       $(".screen_block").css({"height": total_height})
 
 
+  # Если это мобильник, то добавляет возможность свайп навигации по экранам
+  # @note При свайпах проверяет, можно ли дальше перелистывать
+  try_enable_swipe: ->
+    if app.mobile == true && mobile.enabled_swipes == false
+      mobile.enabled_swipes = true
+      $(".screen_block > header, #authors_container, #donate_container .about_text, #explain_container, #news_pagination, #reasons_modal").hammer().on "dragend", (event) ->
+        if event.gesture.direction == 'right'
+          if app.current_page != 0 && app.mobile == true
+            mobile.go_left()
+
+        if event.gesture.direction == 'left'
+          if app.current_page != 3 && app.mobile == true
+            mobile.go_right()
+
+
   # Перелистывает экраны влево
   go_left: ->
     app.current_page -= 1
@@ -121,21 +138,10 @@ mobile =
 
 
   # При изменении размеров экрана проверяет, не стал ли экран малым; включает кнопки перелистывания экранов
-  # @note При свайпах проверяет, можно ли дальше перелистывать
   init: ->
     $(window).resize ->
       mobile.run_mobile_checks()
       mobile.try_to_revert_screens()
-
-
-    $(".screen_block > header, #authors_container, #donate_container .about_text, #explain_container, #news_pagination, #reasons_modal").hammer().on "dragend", (event) ->
-      if event.gesture.direction == 'right'
-        if app.current_page != 0 && app.mobile == true
-          mobile.go_left()
-
-      if event.gesture.direction == 'left'
-        if app.current_page != 3 && app.mobile == true
-          mobile.go_right()
 
     $(".prev, .news_evac .news_article").click ->
       mobile.go_left()
