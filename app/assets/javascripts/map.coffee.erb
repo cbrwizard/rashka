@@ -67,10 +67,10 @@ map =
   # Спрашивает у пользователя его местоположение
   get_current_location: ->
     if geo_position_js.init()
-      geo_position_js.getCurrentPosition(map.nav_geo_success,map.nav_geo_error, {enableHighAccuracy:true})
+      geo_position_js.getCurrentPosition(map.nav_geo_success,map.get_location_by_ip, {enableHighAccuracy:true})
     else
       # Если не получается - то по ip
-    map.get_location_by_ip()
+      map.get_location_by_ip()
 
 
   # Добавляет маркер с определенными параметрами к текущему месту
