@@ -67,7 +67,7 @@ map =
   # Спрашивает у пользователя его местоположение
   get_current_location: ->
     if geo_position_js.init()
-      geo_position_js.getCurrentPosition(map.nav_geo_success,map.get_location_by_ip, {enableHighAccuracy: true, timeout: 3000})
+      geo_position_js.getCurrentPosition(map.nav_geo_success,map.get_location_by_ip, {enableHighAccuracy: true, timeout: 10000})
     else
       # Если не получается - то по ip
       map.get_location_by_ip()
