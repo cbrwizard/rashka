@@ -1,5 +1,7 @@
 #Методы статистики
 class StatsController < ApplicationController
+  include Admin
+
   before_action :get_stat
   before_action :update_reason, only: [:vk_post, :tw_post, :fb_post, :bl_post]
   before_action :allow_access?, only: [:index]
@@ -24,10 +26,9 @@ class StatsController < ApplicationController
   # @see Stat
   def evacuate
     @stats.increase_people_left
-    result = "yay"
 
     respond_to do |format|
-      format.json { render :json => result }
+      format.json { render :json => "yay" }
     end
   end
 
