@@ -2,6 +2,7 @@
 class StatsController < ApplicationController
   before_action :get_stat
   before_action :update_reason, only: [:vk_post, :tw_post, :fb_post, :bl_post]
+  before_action :allow_access?, only: [:index]
 
   layout 'admin', only: [:index]
 
