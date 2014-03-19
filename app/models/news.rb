@@ -9,5 +9,6 @@ class News < ActiveRecord::Base
 
   validates_presence_of :title, :text, :link, message: "нужно чем-то заполнить"
   validates_uniqueness_of :text, :title, :link, :message => "не должно повторяться в другой новости"
-  validates_length_of :text, :title, :link, :minimum => 2, :maximum => 150, :message => "должен быть длиной от 2 до 150 символов"
+  validates_length_of :text, :title, :minimum => 2, :maximum => 150, :message => "должен быть длиной от 2 до 150 символов"
+  validates_length_of :link, :minimum => 2, :maximum => 255, :message => "должен быть длиной до 255 символов, иначе придется менять тип поля"
 end
