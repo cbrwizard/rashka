@@ -8,7 +8,7 @@ class Reason < ActiveRecord::Base
   scope :view_info, -> {select(:text, :popularity, :updated_at)}
   scope :random_one, -> {unscoped.order("RANDOM()").select(:text).first}
   scope :random_three, -> {unscoped.order("RANDOM()").view_info.limit(3)}
-  scope :popular, -> {unscoped.order(:popularity, updated_at: :desc).view_info}
+  scope :popular, -> {unscoped.order(:popularity, :updated_at).reverse_order}
 
   scope :find_downcase, -> (downcase_text) {where('lower(text) like ?', "%#{downcase_text}%")}
 

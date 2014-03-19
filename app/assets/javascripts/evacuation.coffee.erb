@@ -41,7 +41,6 @@ evacuation =
   # Строит маршрут до ближайшего места
   # @param start_point [google.maps.LatLng] место начала
   # @param end_place [Object] место конца
-  # @todo Написать код на случай ошибки маршрута
   get_directions: (start_point, end_place) ->
     end_point = new google.maps.LatLng(end_place.lat, end_place.lng)
 
@@ -49,21 +48,25 @@ evacuation =
     directions_service_options = evacuation.get_directions_service_options(start_point, end_point)
 
     directions_service.route(directions_service_options, (response, status) ->
-      # В случае успеха запроса выводит маршрут и гонит по нему петра
-      if status == google.maps.DirectionsStatus.OK
-        evacuation.set_time_to_evac(response)
-        evacuation.create_end_place_infobox(end_place)
-        evacuation.adjust_center(response)
-        evacuation.escape(response)
+      # Выводит маршрут и гонит по нему петра
+      evacuation.set_time_to_evac(response)
+      evacuation.create_end_place_infobox(end_place)
+      evacuation.adjust_center(response, start_point, end_point)
+      evacuation.escape(response, start_point, end_point)
     )
 
     
   # Запускает анимацию сваливания из рашки, создавая маршрут и расставляя на нем временные точки для маркера
   # @note запускается из evacuation.get_directions
   # @param response [Маршрут] маршрут до места
-  escape: (response) ->
-    route = response.routes[0]
-    legs = route.legs
+  # @param start_point [google.maps.LatLng] место начала маршрута
+  # @param end_point [google.maps.LatLng] место конца
+  escape: (response, start_point, end_point) ->
+    # Если нет маршрута, то имитируем его
+    if response.status == "ZERO_RESULTS"
+      legs = [{steps: [{path: [start_point, end_point]}]}]
+    else
+      legs = response.routes[0].legs
 
     evacuation.prepare_escape_polyline(legs)
     evacuation.add_evac_segments(legs)
@@ -99,7 +102,7 @@ evacuation =
     )
 
     evacuation.escape_marker = new google.maps.Marker(
-      position: legs[0].start_location
+      position: legs[0].steps[0].start_location
       map: app.google_map
       icon: "<%= asset_path('map/mover.png') %>"
     )
@@ -172,9 +175,21 @@ evacuation =
 
 
   # Адаптирует центр карты, чтобы правильно отображался весь маршрут
+  # @param start_point [google.maps.LatLng] место начала маршрута
+  # @param end_point [google.maps.LatLng] место конца
   # @param response [Маршрут] маршрут до места
-  adjust_center: (response) ->
-    bounds = response.routes[0].bounds
+  adjust_center: (response, start_point, end_point) ->
+    # Если нет пути между точками
+    if response.status == "ZERO_RESULTS"
+      coordinates = [start_point, end_point]
+      bounds = new google.maps.LatLngBounds()
+      i = 0
+      while i < coordinates.length
+        bounds.extend coordinates[i]
+        i++
+    else
+      bounds = response.routes[0].bounds
+
     app.google_map.fitBounds(bounds);
     app.google_map.setCenter(bounds.getCenter())
 
@@ -238,8 +253,8 @@ evacuation =
     else if app.time_to_evac.value < 43200 # 12 часов
       texts_array.push "Ты еще тут? Собирайся! Тебе до эвакуации всего #{text}!"
       texts_array.push "Лови попутку! Тебе #{text} до точки эвакуации!"
-    else # больше
-      texts_array.push "Тебе аж целых #{text} до эвакуации!"
+    else if app.time_to_evac.value < 100001 # больше
+      texts_array.push "Тебе долго ехать, но не сдавайся!"
 
     chosen_number = Math.floor(Math.random() * texts_array.length)
     texts_array[chosen_number]
@@ -255,7 +270,10 @@ evacuation =
     travelMode: google.maps.TravelMode.DRIVING
 
 
-  # Запоминает время до маршрута
+  # Запоминает продолжительность маршрута, либо придумывает его
   # @param response [Маршрут] маршрут до места
   set_time_to_evac: (response) ->
-    app.time_to_evac = response.routes[0].legs[0].duration
+    if response.status == "ZERO_RESULTS"
+      app.time_to_evac = {value: 100000, text: ""}
+    else
+      app.time_to_evac = response.routes[0].legs[0].duration

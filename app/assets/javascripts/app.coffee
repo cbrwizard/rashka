@@ -2,7 +2,7 @@ global = exports ? this #для глобального обращения меж
 
 # Параметры приложения, использующиеся в нескольких js файлах
 global.app =
-  current_location: new google.maps.LatLng(55.751667, 37.617778)
+  current_location: new google.maps.LatLng(72.398059, 72.398059)
   google_map: undefined
   time_to_evac: undefined
   current_marker: undefined

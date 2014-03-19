@@ -57,7 +57,7 @@ class PagesController < ApplicationController
   def initial_index
     gon.places = get_places_info
     @news = News.view_info.paginated(1, 10)
-    @reasons = Reason.popular.paginated(1, 25)
+    @reasons = Reason.popular.view_info.paginated(1, 25)
     @one_news = News.view_info.first
     @one_reason = Reason.random_one.text
     set_meta_data
@@ -78,7 +78,7 @@ class PagesController < ApplicationController
   # @see Reason
   # @see Paginated
   def paginate_reasons
-    @reasons = Reason.popular.paginated(params[:reasons_page], 25)
+    @reasons = Reason.popular.view_info.paginated(params[:reasons_page], 25)
     'pages/pagination/reasons'
   end
 
