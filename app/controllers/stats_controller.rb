@@ -28,6 +28,7 @@ class StatsController < ApplicationController
     @stats.increase_people_left
 
     respond_to do |format|
+      format.html { redirect_to root_path }
       format.json { render :json => "yay" }
     end
   end
@@ -50,6 +51,7 @@ class StatsController < ApplicationController
     @stats.increase_shares_vk
 
     respond_to do |format|
+      format.html { redirect_to root_path }
       format.json { render :json => @stats.shares_vk }
     end
   end
@@ -72,6 +74,7 @@ class StatsController < ApplicationController
     @stats.increase_shares_fb
 
     respond_to do |format|
+      format.html { redirect_to root_path }
       format.json { render :json => @stats.shares_fb }
     end
   end
@@ -94,6 +97,7 @@ class StatsController < ApplicationController
     @stats.increase_shares_tw
 
     respond_to do |format|
+      format.html { redirect_to root_path }
       format.json { render :json => @stats.shares_tw }
     end
   end
@@ -116,6 +120,7 @@ class StatsController < ApplicationController
     @stats.increase_shares_bl
 
     respond_to do |format|
+      format.html { redirect_to root_path }
       format.json { render :json => @stats.shares_bl }
     end
   end
@@ -136,7 +141,7 @@ class StatsController < ApplicationController
   # @see Reason#try_to_save
   def update_reason
     reason_text = params[:reason]
-    reason = Reason.new(text: reason_text)
+    reason = Reason.new(text: reason_text.squish)
     reason.try_to_save
   end
 end

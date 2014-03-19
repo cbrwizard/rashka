@@ -15,6 +15,7 @@ class ReasonsController < ApplicationController
     @reason = Reason.random_one.text
 
     respond_to do |format|
+      format.html { redirect_to root_path }
       format.js { render :layout => false }
     end
   end
@@ -28,6 +29,7 @@ class ReasonsController < ApplicationController
     @reasons = Reason.random_three
 
     respond_to do |format|
+      format.html { redirect_to root_path }
       format.js { render :layout => false }
     end
   end
