@@ -35,7 +35,7 @@ class ReasonsController < ApplicationController
   end
 
   def index
-    @reasons = Reason.popular.paginated(params[:page], 25)
+    @reasons = Reason.popular.paginated(params[:page], 50)
   end
 
   def show
