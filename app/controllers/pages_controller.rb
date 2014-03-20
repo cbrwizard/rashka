@@ -14,11 +14,11 @@ class PagesController < ApplicationController
   # @see Place
   def index
     if params[:news_page].present?
-      render_file = paginate_news
+      render_file = _paginate_news
     elsif params[:reasons_page].present?
-      render_file = paginate_reasons
+      render_file = _paginate_reasons
     else
-      render_file = initial_index
+      render_file = _initial_index
     end
 
     respond_to do |format|
@@ -40,7 +40,7 @@ class PagesController < ApplicationController
   # @return [String] ссылка на файл для рендера новостей
   # @see News
   # @see Paginated
-  def paginate_news
+  def _paginate_news
     @news = News.view_info.paginated(params[:news_page], 10)
     'pages/pagination/news'
   end
@@ -54,13 +54,13 @@ class PagesController < ApplicationController
   # @see News
   # @see Reason
   # @see Paginated
-  def initial_index
-    gon.places = get_places_info
+  def _initial_index
+    gon.places = _get_places_info
     @news = News.view_info.paginated(1, 10)
     @reasons = Reason.popular.view_info.paginated(1, 25)
     @one_news = News.view_info.first
     @one_reason = Reason.random_one.text
-    set_meta_data
+    _set_meta_data
     "лолка штоли"
   end
 
@@ -77,7 +77,7 @@ class PagesController < ApplicationController
   # @return [String] ссылка на файл для рендера причин
   # @see Reason
   # @see Paginated
-  def paginate_reasons
+  def _paginate_reasons
     @reasons = Reason.popular.view_info.paginated(params[:reasons_page], 25)
     'pages/pagination/reasons'
   end
@@ -89,7 +89,7 @@ class PagesController < ApplicationController
   # @return [JSON] инфа о каждом месте
   # @see Place
   # @see PlaceType
-  def get_places_info
+  def _get_places_info
     unless $redis.exists("places_array")
       update_places_cache
     end
@@ -99,7 +99,7 @@ class PagesController < ApplicationController
 
   # Устанавливает мета данные для главной страницы
   # @note Вызывается в index когда нет никакой пагинации
-  def set_meta_data
+  def _set_meta_data
 
     image = "#{request.protocol}#{request.host_with_port}#{ActionController::Base.helpers.asset_path("logo.png")}"
 

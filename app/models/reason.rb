@@ -3,12 +3,10 @@
 #   #<Reason id: 2, text: "Страной правят геи", popularity: 12313, created_at: "2014-02-15 11:03:31", updated_at: "2014-02-17 07:32:35">
 class Reason < ActiveRecord::Base
   include Paginated
-
-  default_scope -> {order(updated_at: :desc)}
   scope :view_info, -> {select(:text, :popularity, :updated_at)}
-  scope :random_one, -> {unscoped.order("RANDOM()").select(:text).first}
-  scope :random_three, -> {unscoped.order("RANDOM()").view_info.limit(3)}
-  scope :popular, -> {unscoped.order(:popularity, :updated_at).reverse_order}
+  scope :random_one, -> {order("RANDOM()").select(:text).first}
+  scope :random_three, -> {order("RANDOM()").view_info.limit(3)}
+  scope :popular, -> {order(:popularity, :updated_at).reverse_order}
 
   scope :find_downcase, -> (downcase_text) {where('lower(text) like ?', "%#{downcase_text}%")}
 

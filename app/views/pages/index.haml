@@ -1,28 +1,28 @@
 #map-canvas
 #on_map
-  = render :partial => 'about_btn'
-  = render :partial => 'evac_btn'
-  = render :partial => 'pages/mobile/popup'
+  = render 'about_btn'
+  = render 'evac_btn'
+  = render 'pages/mobile/popup'
 
-= render :partial => 'pages/mobile/mobile_nav'
+= render 'pages/mobile/mobile_nav'
 
 #reasons_content.screen_block.inactive_block{data: {left: -200}}
-  = render :partial => 'pages/mobile/reasons_header'
-  =modal("reasons_modal") {render :partial => 'reasons/reasons_modal'}
+  = render 'pages/mobile/reasons_header'
+  =modal("reasons_modal") {render 'reasons/reasons_modal'}
 
 #news_content.screen_block.inactive_block{data: {left: -100}}
-  = render :partial => 'pages/mobile/news_header'
-  = render :partial => 'news_container'
+  = render 'pages/mobile/news_header'
+  = render 'news_container'
 
 #main_content.screen_block.active_block{data: {left: 0}}
-  = render :partial => 'pages/mobile/main_header'
-  = render :partial => 'three_reasons_container'
+  = render 'pages/mobile/main_header'
+  = render 'three_reasons_container'
 
 #about_content.screen_block.inactive_block{data: {left: 100}}
-  = render :partial => 'pages/mobile/about_header'
-  =modal("about_modal") {render :partial => 'pages/about/about_modal'}
+  = render 'pages/mobile/about_header'
+  =modal("about_modal") {render 'pages/about/about_modal'}
 
-=modal("share_modal") {render :partial => 'pages/share/share_modal'}
+=modal("share_modal") {render 'pages/share/share_modal'}
 
 -cache do
   =audio_tag("hallelujah.mp3", "hallelujah.ogg", id: "hallelujah")

@@ -51,7 +51,7 @@ map =
 
   # В случае ошибки получения гео локации выводи лажу
   nav_geo_error: ->
-    console.log "ти где??? :["
+    console.log "ти где? :["
 
 
   # Определяет местоположение юзера по ip
@@ -94,7 +94,7 @@ map =
     places.objects.forEach(places.get_distance)
     places.objects.forEach(places.update_infobox)
 
-                       
+
   # Проверяет, вышел ли пользователь за пределы границ карты. Передвигает в предыдущий "чистый" центер, если да, или записывает новый "чистый" центр
   checkBounds: ->
     map.last_valid_center = app.google_map.getCenter() if map.bounds.contains(app.google_map.getCenter())
@@ -170,7 +170,7 @@ map =
 
   # Инициализация карты и обозначение границ
   init: ->
-    app.google_map = new google.maps.Map(@.dom, @.options)    
+    app.google_map = new google.maps.Map(@.dom, @.options)
     map.bounds = new google.maps.LatLngBounds(new google.maps.LatLng(41.2, 19.8), new google.maps.LatLng(77.792, 179.9999))
 
     # При передвижении по карте проверяет, находимся ли мы еще в пределах границы
@@ -179,7 +179,7 @@ map =
 
 
 # Параметры и функции мест
-places =      
+places =
   objects:
     gon.places
 

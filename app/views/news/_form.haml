@@ -1,11 +1,11 @@
-= form_for(@one_news) do |f|
-  - if @one_news.errors.any?
+= form_for(one_news) do |f|
+  - if one_news.errors.any?
     #error_explanation.alert.alert-danger
       %h2
-        = @one_news.errors.count
-        = Russian.p(@one_news.errors.count, "ошибка", "ошибки", "ошибок")
+        = one_news.errors.count
+        = Russian.p(one_news.errors.count, "ошибка", "ошибки", "ошибок")
       %ul
-        - @one_news.errors.full_messages.each do |msg|
+        - one_news.errors.full_messages.each do |msg|
           %li= msg
   .form-group
     = f.label :title, "Заголовок"

@@ -2,9 +2,9 @@
 class StatsController < ApplicationController
   include Admin
 
-  before_action :get_stat
-  before_action :update_reason, only: [:vk_post, :tw_post, :fb_post, :bl_post]
-  before_action :allow_access?, only: [:index]
+  before_action :_get_stat
+  before_action :_update_reason, only: [:vk_post, :tw_post, :fb_post, :bl_post]
+  before_action :_allow_access?, only: [:index]
 
   layout 'admin', only: [:index]
 
@@ -129,7 +129,7 @@ class StatsController < ApplicationController
   private
 
   # Передает в переменную единственную запись статистики
-  def get_stat
+  def _get_stat
     @stats = Stat.first
   end
 
@@ -139,7 +139,7 @@ class StatsController < ApplicationController
   # @param reason [String] Текст отправленной в пост причины
   # @see Stat
   # @see Reason#try_to_save
-  def update_reason
+  def _update_reason
     reason_text = params[:reason]
     reason = Reason.new(text: reason_text.squish)
     reason.try_to_save

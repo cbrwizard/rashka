@@ -6,8 +6,8 @@ $ ->
 # Параметры и функции, связанные с эвакуацией
 evacuation =
   dom_element: $("#evac_btn")
-  polyline: undefined 
-  hidden_polyline: undefined 
+  polyline: undefined
+  hidden_polyline: undefined
   escape_marker: undefined
   path_length: undefined
   audio: document.getElementById('hallelujah')
@@ -55,7 +55,7 @@ evacuation =
       evacuation.escape(response, start_point, end_point)
     )
 
-    
+
   # Запускает анимацию сваливания из рашки, создавая маршрут и расставляя на нем временные точки для маркера
   # @note запускается из evacuation.get_directions
   # @param response [Маршрут] маршрут до места
@@ -177,7 +177,7 @@ evacuation =
   # Адаптирует центр карты, чтобы правильно отображался весь маршрут
   # @param start_point [google.maps.LatLng] место начала маршрута
   # @param end_point [google.maps.LatLng] место конца
-  # @param response [Маршрут] маршрут до места
+  # @param response [Маршрут] маршрут
   adjust_center: (response, start_point, end_point) ->
     # Если нет пути между точками
     if response.status == "ZERO_RESULTS"

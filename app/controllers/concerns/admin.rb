@@ -8,8 +8,8 @@ module Admin
   #   before_action :allow_access?
   #
   # @see AdminController
-  def allow_access?
-    unless is_admin?
+  def _allow_access?
+    unless _is_admin?
       notice = {class: "alert-danger", value: 'Сюда нельзя' }
       redirect_to root_path, notice: notice
     end
@@ -22,7 +22,7 @@ module Admin
   #   unless is_admin?
   #
   # @see Admin#allow_access?
-  def is_admin?
+  def _is_admin?
     session[:admin].try(:[], :value)
   end
 end

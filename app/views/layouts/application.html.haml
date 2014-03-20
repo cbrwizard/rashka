@@ -13,10 +13,10 @@
       %script{src: "http://html5shiv.googlecode.com/svn/trunk/html5.js"}
     %script{src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyC6oenJqwqgf3ovvE37o0mk8i2SdjT1egg&sensor=true"}
 
-    = render :partial => 'notifications/notice'
+    = render 'notifications/notice'
     = yield
     = javascript_include_tag "application", "data-turbolinks-track" => true
 
-    = render :partial => 'vendor/facebook'
-    = render :partial => 'vendor/yandex'
-    = render :partial => 'vendor/google'
+    = render 'vendor/facebook'
+    = render 'vendor/yandex'
+    = render 'vendor/google'

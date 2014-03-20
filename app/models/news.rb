@@ -4,8 +4,7 @@
 class News < ActiveRecord::Base
   include Paginated
 
-  default_scope -> { order(updated_at: :desc) }
-  scope :view_info, -> {select(:title, :text, :link, :updated_at)}
+  scope :view_info, -> {order(updated_at: :desc).select(:title, :text, :link, :updated_at)}
 
   validates_presence_of :title, :text, :link, message: "нужно чем-то заполнить"
   validates_uniqueness_of :text, :title, :link, :message => "не должно повторяться в другой новости"
