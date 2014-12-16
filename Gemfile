@@ -1,15 +1,15 @@
 source 'http://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.1.8'
 
-ruby '2.1.1'
+ruby '2.1.5'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'
 gem 'compass-rails'
 gem 'bootstrap-sass'
 
@@ -33,10 +33,6 @@ gem 'jquery-rails'
 # Передача переменных Ruby в JS
 gem 'gon'
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'jquery-turbolinks'
-gem 'turbolinks'
-
 # Пагинация
 gem 'will_paginate'
 
@@ -59,8 +55,7 @@ group :development do
   # Находит косяки в запросах к базе
   gem "bullet"
 
-  # Для хрома панель
-  gem 'meta_request'
+  gem 'spring'
 end
 
 gem 'capistrano'

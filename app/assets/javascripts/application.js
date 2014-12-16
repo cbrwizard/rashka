@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.turbolinks
 //= require bootstrap/transition
 //= require bootstrap/modal
 //= require bootstrap/dropdown
@@ -25,6 +24,4 @@
 //= require jquery.hammer.min
 
 //= require mobile
-
-//= require turbolinks
 //= require_tree .

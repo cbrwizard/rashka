@@ -3,7 +3,7 @@ $ ->
   reasons.init()
 
   # При нажатии по кнопке рассказать у причины открывает окно рассказать с текстом причины
-  $(document).on "click", ".share_reason", ->
+  $(document).on "click", ".reason", ->
     reasons.copy_reason($(this))
 
   $(document).on "mouseenter", ".reason, .news_article", ->
@@ -39,12 +39,11 @@ reasons =
           $("body").removeClass("loading_three")
           $("#more_reasons").toggleClass("loading")
           $("#more_reasons img").toggleClass("hidden")
-#          console.log("yay")
 
 
   # Берет текст причины и вставляет его в поле рассказать у модульного окошка
   # @param share_reason_button [DOM element] кнопка рассказать у причины
-  copy_reason: (share_reason_button) ->
-    text = $.trim(share_reason_button.parent().find(".text").text())
+  copy_reason: ($reason_block) ->
+    text = $.trim($reason_block.find(".text").text())
     $("#share_modal").modal()
     $("#reason_field").val(text).trigger("change")

@@ -5,7 +5,7 @@
     %meta{content: "width=device-width, initial-scale=1, user-scalable=no", name: "viewport"}/
     = display_meta_tags
     = favicon_link_tag 'favicon.ico'
-    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = stylesheet_link_tag "application", media: "all"
     = csrf_meta_tags
     = include_gon
   %body
@@ -15,7 +15,7 @@
 
     = render 'notifications/notice'
     = yield
-    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = javascript_include_tag "application"
 
     = render 'vendor/facebook'
     = render 'vendor/yandex'
