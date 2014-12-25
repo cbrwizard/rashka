@@ -62,7 +62,7 @@ gem 'capistrano', '~> 3.3.0'
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'capistrano-passenger'
-# gem 'rvm-capistrano'
+gem 'capistrano-rvm'
 # gem 'capistrano-ec2group'
 
 group :development, :test do

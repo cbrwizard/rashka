@@ -1,5 +1,7 @@
 # Методы страниц для пользователей
 class PagesController < ApplicationController
+  include PlacesCache
+
   # Главная страница. Готовит новости, причины и места к отображению.
   # @note GET /
   # @note Также вызывается в случае пагинации. Тогда выдает либо пагинацию новостей, либо пагинацию причин.
@@ -36,7 +38,7 @@ class PagesController < ApplicationController
   # @see News
   # @see Paginated
   def _paginate_news
-    @news = News.view_info.paginated(params[:news_page], 10)
+    @news = News.paginated(params[:news_page], 10)
     'pages/pagination/news'
   end
 
