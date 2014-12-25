@@ -1,8 +1,8 @@
 # Админка
 class AdminController < ApplicationController
   require 'bcrypt'
-  include Admin
   layout 'admin'
+  include Admin
 
   # Главная админки. Если админ, то отображает админку, иначе - рендерит форму логина
   # @note GET /admin

@@ -58,9 +58,12 @@ group :development do
   gem 'spring'
 end
 
-gem 'capistrano'
-gem 'rvm-capistrano'
-gem 'capistrano-ec2group'
+gem 'capistrano', '~> 3.3.0'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano-passenger'
+# gem 'rvm-capistrano'
+# gem 'capistrano-ec2group'
 
 group :development, :test do
   gem 'rspec-rails'
@@ -79,7 +82,6 @@ gem "figaro"
 gem 'redis-rails'
 
 gem 'meta-tags', :require => 'meta_tags'
-#gem 'sitemap_generator'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', :require => 'bcrypt'

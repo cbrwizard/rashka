@@ -2,7 +2,7 @@
 class NewsController < ApplicationController
   include Admin
 
-  before_action :_allow_access?, only: [:index, :show, :edit, :new, :create, :update, :destroy]
+  before_action :allow_access?, only: [:index, :show, :edit, :new, :create, :update, :destroy]
 
   layout 'admin'
 

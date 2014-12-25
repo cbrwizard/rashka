@@ -1,10 +1,5 @@
 # Методы страниц для пользователей
 class PagesController < ApplicationController
-  include AuthorHelper
-  include ModalHelper
-  include SocialHelper
-  include PlacesCache
-
   # Главная страница. Готовит новости, причины и места к отображению.
   # @note GET /
   # @note Также вызывается в случае пагинации. Тогда выдает либо пагинацию новостей, либо пагинацию причин.
