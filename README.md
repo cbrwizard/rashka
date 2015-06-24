@@ -16,6 +16,6 @@ rashka
 
 Из кода вырезано три файла: config/database.yml; condig/deploy.rb и config/application.yml. Если с первыми двумя понятно, то в application.yml хранятся константы для гмейл аккаунта GMAIL_USERNAME и GMAIL_PASSWORD. Создайте эти файлы самостоятельно для работы с прокетом!
 
-Если вы нашли баг или у вас есть идеи по улучшению кода - я открыт к любым предложениям! Делайте pull request или пишите на cbrwizard@gmail.com.
+Если вы нашли баг - делайте pull request или пишите на cbrwizard@gmail.com.
 
 Спасибо и хорошего дня!

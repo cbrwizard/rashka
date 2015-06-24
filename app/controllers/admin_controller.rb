@@ -28,7 +28,7 @@ class AdminController < ApplicationController
     setting = Setting.first
 
     try_hash = BCrypt::Engine.hash_secret(password, setting.password_salt)
-    notice = _get_login_result(login, try_hash)
+    notice = _get_login_result(login, password, try_hash)
     respond_to do |format|
       format.html {redirect_to admin_path, notice: notice}
     end
@@ -37,6 +37,7 @@ class AdminController < ApplicationController
 
   # Проверяет, правильные ли данные логина и возвращает сообщение
   # @param login [String] логин
+  # @param password [String] пароль
   # @param try_hash [String] хэш пароля
   # @note вызывается при аутентификации в login
   # @example
@@ -44,7 +45,7 @@ class AdminController < ApplicationController
   # @see Setting
   # @see Admin
   # @return [Hash] notice для отображения сообщения сверху экрана
-  def _get_login_result(login, try_hash)
+  def _get_login_result(login, password, try_hash)
     setting = Setting.first
     if setting.correct_admin?(login, try_hash)
       session[:admin] = {:value => true, :updated_at => Time.current}
