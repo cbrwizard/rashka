@@ -18,7 +18,7 @@ rashka
 
 Если вы нашли баг - делайте pull request или пишите на cbrwizard@gmail.com.
 
-[Demo](https://i.imgur.com/bjI7RPI.gifv)
+[Demo](https://i.imgur.com/bjI7RPI.mp4)
 ![ValiizRashki](https://i.imgur.com/0dG373D.png)
 ![ValiizRashki](https://i.imgur.com/l9qCy00.png)
 ![ValiizRashki](https://i.imgur.com/82gZeof.png)
