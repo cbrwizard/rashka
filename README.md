@@ -3,7 +3,7 @@ rashka
 
 Симулятор побега из рашки.
 
-Расположен на http://valiizrashki.ru/
+Располагался на http://valiizrashki.ru/
 
 Представляет из себя Ruby on Rails 4 проект с использованием twitter bootstrap и google maps v3. Документация сгенерирована yard и codo, находится в папке doc.
 
@@ -17,5 +17,13 @@ rashka
 Из кода вырезано три файла: config/database.yml; condig/deploy.rb и config/application.yml. Если с первыми двумя понятно, то в application.yml хранятся константы для гмейл аккаунта GMAIL_USERNAME и GMAIL_PASSWORD. Создайте эти файлы самостоятельно для работы с прокетом!
 
 Если вы нашли баг - делайте pull request или пишите на cbrwizard@gmail.com.
+
+[Demo](https://i.imgur.com/bjI7RPI.gifv)
+![ValiizRashki](https://i.imgur.com/0dG373D.png)
+![ValiizRashki](https://i.imgur.com/l9qCy00.png)
+![ValiizRashki](https://i.imgur.com/82gZeof.png)
+![ValiizRashki](https://i.imgur.com/IvkoZ47.png)
+![ValiizRashki](https://i.imgur.com/ZuYOLNp.png)
+
 
 Спасибо и хорошего дня!
